@@ -20,7 +20,7 @@ class PhoneTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 7),
       height: 50,
       child: TextField(
         keyboardType: TextInputType.number,

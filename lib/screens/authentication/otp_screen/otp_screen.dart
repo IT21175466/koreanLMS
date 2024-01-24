@@ -18,15 +18,6 @@ class _OTPScreenState extends State<OTPScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
         title: Text(
           'Phone Verification',
           style: TextStyle(
@@ -91,11 +82,16 @@ class _OTPScreenState extends State<OTPScreen> {
             SizedBox(
               height: 40,
             ),
-            CustomButton(
-              text: 'Verify',
-              height: 50,
-              width: screenWidth,
-              backgroundColor: Colors.green,
+            GestureDetector(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, '/signup');
+              },
+              child: CustomButton(
+                text: 'Verify',
+                height: 50,
+                width: screenWidth,
+                backgroundColor: Colors.green,
+              ),
             ),
             Spacer(),
             Spacer(),

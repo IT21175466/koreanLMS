@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/primary_colors.dart';
+import 'package:koreanlms/providers/authentication/signup_provider.dart';
 import 'package:koreanlms/providers/mobile_validation/phone_validation_provider.dart';
 import 'package:koreanlms/routes/app_routes.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => PhoneValidationProvider()),
+        ChangeNotifierProvider(create: (context) => SignUPProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
