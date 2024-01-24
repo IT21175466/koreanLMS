@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 
@@ -9,6 +11,15 @@ class InitialSplash extends StatefulWidget {
 }
 
 class _InitialSplashState extends State<InitialSplash> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+      Duration(seconds: 3),
+      () => Navigator.pushReplacementNamed(context, '/login'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
