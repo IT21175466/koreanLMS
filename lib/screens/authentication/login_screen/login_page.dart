@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:koreanlms/providers/mobile_validation/phone_validation_provider.dart';
+import 'package:koreanlms/screens/authentication/otp_screen/otp_screen.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/phone_textfiled.dart';
 import 'package:provider/provider.dart';
@@ -46,26 +47,29 @@ class _LoginScreenState extends State<LoginScreen> {
               Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CarouselSlider(
-                items: images
-                    .map(
-                      (image) => Container(
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 241, 240, 240),
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: NetworkImage(image),
-                            fit: BoxFit.cover,
+              Expanded(
+                flex: 2,
+                child: CarouselSlider(
+                  items: images
+                      .map(
+                        (image) => Container(
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 241, 240, 240),
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              image: NetworkImage(image),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                    .toList(),
-                options: CarouselOptions(
-                  height: 200,
-                  autoPlay: true,
-                  aspectRatio: 2.0,
-                  enlargeCenterPage: true,
+                      )
+                      .toList(),
+                  options: CarouselOptions(
+                    height: 200,
+                    autoPlay: true,
+                    aspectRatio: 2.0,
+                    enlargeCenterPage: true,
+                  ),
                 ),
               ),
               Spacer(),
@@ -129,11 +133,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 25,
                     ),
-                    CustomButton(
-                      text: 'Next',
-                      height: 50,
-                      width: screenWidth,
-                      backgroundColor: Colors.green,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OTPScreen(
+                              mobileNumber:
+                                  (phoneProvider.countryCode?.dialCode ?? '') +
+                                      (' ') +
+                                      phoneController.text,
+                            ),
+                          ),
+                        );
+                      },
+                      child: CustomButton(
+                        text: 'Next',
+                        height: 50,
+                        width: screenWidth,
+                        backgroundColor: Colors.green,
+                      ),
                     ),
                   ],
                 ),
