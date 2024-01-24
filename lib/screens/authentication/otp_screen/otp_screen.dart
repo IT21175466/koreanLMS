@@ -18,12 +18,22 @@ class _OTPScreenState extends State<OTPScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
         title: Text(
           'Phone Verification',
           style: TextStyle(
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w600,
             color: Colors.white,
+            fontSize: 20,
           ),
         ),
         centerTitle: true,
@@ -58,7 +68,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w600,
-                  fontSize: 16,
+                  fontSize: 15,
                 ),
               ),
             ),

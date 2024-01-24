@@ -33,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w600,
             color: Colors.white,
+            fontSize: 20,
           ),
         ),
         centerTitle: true,
