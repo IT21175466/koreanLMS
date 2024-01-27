@@ -39,7 +39,6 @@ class CustomOutlineButton extends StatelessWidget {
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w500,
             fontSize: 17,
-            color: Colors.white,
           ),
         ),
       ),

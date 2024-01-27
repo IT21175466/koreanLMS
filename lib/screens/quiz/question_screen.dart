@@ -104,11 +104,16 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     SizedBox(
                       height: 30,
                     ),
-                    CustomButton(
-                      text: 'Next',
-                      height: 45,
-                      width: screenWidth,
-                      backgroundColor: Colors.green,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, '/quizend');
+                      },
+                      child: CustomButton(
+                        text: 'Next',
+                        height: 45,
+                        width: screenWidth,
+                        backgroundColor: Colors.green,
+                      ),
                     ),
                   ],
                 ),
