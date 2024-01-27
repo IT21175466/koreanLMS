@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: primary,
         ),
-        initialRoute: '/home',
+        initialRoute: '/initsplash',
         routes: AppRoutes.getRoutes(),
       ),
     );
