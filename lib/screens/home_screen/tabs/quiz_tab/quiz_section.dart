@@ -22,7 +22,12 @@ class _QuizSectionState extends State<QuizSection> {
               SizedBox(
                 height: 15,
               ),
-              QuizCard(),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/quiz');
+                },
+                child: QuizCard(),
+              ),
               QuizCard(),
               QuizCard(),
               QuizCard(),

@@ -72,6 +72,7 @@ class _HomeTabState extends State<HomeTab> {
           Container(
             width: screenWidth,
             height: screenHeight / 5 * 4 - (AppBar().preferredSize.height + 60),
+            //padding: EdgeInsets.symmetric(horizontal: 10),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
