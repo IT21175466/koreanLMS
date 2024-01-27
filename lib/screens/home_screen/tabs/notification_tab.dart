@@ -46,6 +46,9 @@ class _NotificationTabState extends State<NotificationTab> {
                   NotificationCard(),
                   NotificationCard(),
                   NotificationCard(),
+                  SizedBox(
+                    height: 30,
+                  ),
                 ],
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:koreanlms/providers/home/bottomnavbar_provider.dart';
 import 'package:koreanlms/screens/home_screen/tabs/home_tab.dart';
 import 'package:koreanlms/screens/home_screen/tabs/notification_tab.dart';
 import 'package:koreanlms/screens/home_screen/tabs/quiz_tab/quizes_tab.dart';
+import 'package:koreanlms/screens/home_screen/tabs/settings_tab.dart';
 import 'package:koreanlms/widgets/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -19,9 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeTab(),
     QuizTab(),
     NotificationTab(),
-    Center(
-      child: Text("Settings"),
-    ),
+    SettingsTab(),
   ];
 
   @override

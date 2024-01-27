@@ -24,6 +24,9 @@ class _HistorySectionState extends State<HistorySection> {
               ),
               QuizHistoryCard(),
               QuizHistoryCard(),
+              SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),

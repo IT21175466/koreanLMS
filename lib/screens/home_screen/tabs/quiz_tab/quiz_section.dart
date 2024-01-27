@@ -27,6 +27,9 @@ class _QuizSectionState extends State<QuizSection> {
               QuizCard(),
               QuizCard(),
               QuizCard(),
+              SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),
