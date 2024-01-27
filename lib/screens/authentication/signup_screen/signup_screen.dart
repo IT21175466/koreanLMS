@@ -121,11 +121,16 @@ class _SignUPScreenState extends State<SignUPScreen> {
                 SizedBox(
                   height: 35,
                 ),
-                CustomButton(
-                  text: 'Continue',
-                  height: 50,
-                  width: screenWidth,
-                  backgroundColor: Colors.green,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/home');
+                  },
+                  child: CustomButton(
+                    text: 'Continue',
+                    height: 50,
+                    width: screenWidth,
+                    backgroundColor: Colors.green,
+                  ),
                 ),
               ],
             ),
