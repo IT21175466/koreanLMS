@@ -1,4 +1,4 @@
-package com.example.koreanlms
+package com.koreanlmsflutter.koreanlmsapp
 
 import io.flutter.embedding.android.FlutterActivity
 

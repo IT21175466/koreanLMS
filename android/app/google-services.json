@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "436107110517",
+    "project_id": "koreanlms-f3ced",
+    "storage_bucket": "koreanlms-f3ced.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436107110517:android:2f7c6c543c1b9e3714b03c",
+        "android_client_info": {
+          "package_name": "com.koreanlmsflutter.koreanlmsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApbgruFaGuzRYi0Q2v7Js2_8nLMdSeAUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
