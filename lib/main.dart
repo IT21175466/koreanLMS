@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/primary_colors.dart';
 import 'package:koreanlms/firebase_options.dart';
+import 'package:koreanlms/providers/authentication/login_provider.dart';
+import 'package:koreanlms/providers/authentication/otp_provider.dart';
 import 'package:koreanlms/providers/authentication/signup_provider.dart';
 import 'package:koreanlms/providers/home/bottomnavbar_provider.dart';
 import 'package:koreanlms/providers/mobile_validation/phone_validation_provider.dart';
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => PhoneValidationProvider()),
         ChangeNotifierProvider(create: (context) => SignUPProvider()),
         ChangeNotifierProvider(create: (context) => BottomNavBarProvider()),
+        ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context) => OTPProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

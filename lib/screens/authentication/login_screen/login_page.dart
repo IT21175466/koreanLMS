@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:koreanlms/providers/mobile_validation/phone_validation_provider.dart';
-import 'package:koreanlms/screens/authentication/otp_screen/otp_screen.dart';
+import 'package:koreanlms/providers/authentication/signup_provider.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/phone_textfiled.dart';
 import 'package:provider/provider.dart';
@@ -14,8 +13,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController phoneController = TextEditingController();
-
   final images = [
     'https://firebasestorage.googleapis.com/v0/b/koreanlms-f3ced.appspot.com/o/feature-what-is-ppc.png?alt=media&token=dd8197e0-26c1-49bc-bc03-2fe6b45f7edb',
     'https://firebasestorage.googleapis.com/v0/b/koreanlms-f3ced.appspot.com/o/cocacola-ads-example-with-orange-background-slogan.png?alt=media&token=16a3a6b0-a434-4e87-b224-f6fb08ae655b',
@@ -43,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: EdgeInsets.symmetric(vertical: 10),
         width: screenWidth,
         child: Consumer(
-          builder: (BuildContext context, PhoneValidationProvider phoneProvider,
+          builder: (BuildContext context, SignUPProvider signUPProvider,
                   Widget? child) =>
               Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,12 +98,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 20,
                     ),
                     PhoneTextField(
-                      controller: phoneController,
+                      controller: signUPProvider.phoneController,
                       labelText: 'Phone Number',
                       hintText: "71XXXXXXX",
                       prefix: GestureDetector(
                         onTap: () async {
-                          phoneProvider.selectCountry(context);
+                          signUPProvider.selectCountry(context);
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -120,9 +117,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           child: Text(
-                            phoneProvider.countryCode == null
+                            signUPProvider.countryCode == null
                                 ? '+1'
-                                : '${phoneProvider.countryCode?.dialCode ?? '+1'}',
+                                : '${signUPProvider.countryCode?.dialCode ?? '+1'}',
                             style: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -136,24 +133,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OTPScreen(
-                              mobileNumber:
-                                  (phoneProvider.countryCode?.dialCode ?? '') +
-                                      (' ') +
-                                      phoneController.text,
+                        if (signUPProvider.phoneController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Please enter your Phone Number"),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          signUPProvider.loading = true;
+                          signUPProvider.verifyPhoneNumber(
+                              signUPProvider.phoneController.text, context);
+                        }
                       },
-                      child: CustomButton(
-                        text: 'Next',
-                        height: 50,
-                        width: screenWidth,
-                        backgroundColor: Colors.green,
-                      ),
+                      child: signUPProvider.loading
+                          ? Container(
+                              height: 50,
+                              width: screenWidth,
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : CustomButton(
+                              text: 'Next',
+                              height: 50,
+                              width: screenWidth,
+                              backgroundColor: Colors.green,
+                            ),
                     ),
                   ],
                 ),
