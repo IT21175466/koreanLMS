@@ -9,6 +9,7 @@ import 'package:koreanlms/providers/home/bottomnavbar_provider.dart';
 import 'package:koreanlms/providers/mobile_validation/phone_validation_provider.dart';
 import 'package:koreanlms/routes/app_routes.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,11 +17,15 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp());
+  final prefs = await SharedPreferences.getInstance();
+  final loginStatus = prefs.getBool('logedIn') ?? false;
+
+  runApp(MyApp(loginStatus: loginStatus));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool loginStatus;
+  const MyApp({super.key, required this.loginStatus});
 
   @override
   Widget build(BuildContext context) {
