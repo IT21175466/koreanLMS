@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/user_info_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsTab extends StatefulWidget {
   const SettingsTab({super.key});
@@ -65,11 +66,20 @@ class _SettingsTabState extends State<SettingsTab> {
                   SizedBox(
                     height: 50,
                   ),
-                  CustomButton(
-                    text: 'Logout',
-                    height: 50,
-                    width: screenWidth,
-                    backgroundColor: Colors.green,
+                  GestureDetector(
+                    onTap: () async {
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setBool('logedIn', false);
+
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/login', (route) => false);
+                    },
+                    child: CustomButton(
+                      text: 'Logout',
+                      height: 50,
+                      width: screenWidth,
+                      backgroundColor: Colors.green,
+                    ),
                   ),
                   SizedBox(
                     height: 30,

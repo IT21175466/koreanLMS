@@ -1,10 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:koreanlms/models/student.dart';
 import 'package:koreanlms/screens/authentication/otp_screen/otp_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUPProvider extends ChangeNotifier {
+  final db = FirebaseFirestore.instance;
+
   TextEditingController brithdayController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
@@ -70,6 +75,37 @@ class SignUPProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  addStudentToFirebase(
+      Student student, BuildContext context, String uID) async {
+    try {
+      db
+          .collection("Students")
+          .doc(uID)
+          .set(student.toJson())
+          .then((value) async {
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setBool('logedIn', true);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("User Registration Success!"),
+          ),
+        );
+
+        loading = false;
+        Navigator.pushReplacementNamed(context, '/home');
+        notifyListeners();
+      });
+      notifyListeners();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+        ),
+      );
+      notifyListeners();
     }
   }
 }

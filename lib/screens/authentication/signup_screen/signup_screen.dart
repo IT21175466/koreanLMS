@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
+import 'package:koreanlms/models/student.dart';
 import 'package:koreanlms/providers/authentication/signup_provider.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/phone_textfiled.dart';
 import 'package:koreanlms/widgets/textfiled_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUPScreen extends StatefulWidget {
   const SignUPScreen({super.key});
@@ -14,8 +16,27 @@ class SignUPScreen extends StatefulWidget {
 }
 
 class _SignUPScreenState extends State<SignUPScreen> {
-  final TextEditingController sampleController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController nicController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+
+  String? userID = '';
+
+  getUserID() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userID = prefs.getString('userID');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserID();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -52,12 +73,12 @@ class _SignUPScreenState extends State<SignUPScreen> {
                   ),
                 ),
                 CustomTextField(
-                    controller: sampleController, labelText: 'First Name'),
+                    controller: firstNameController, labelText: 'First Name'),
                 CustomTextField(
-                    controller: sampleController, labelText: 'Last Name'),
+                    controller: lastNameController, labelText: 'Last Name'),
                 CustomTextField(
-                    controller: sampleController, labelText: 'Email'),
-                CustomTextField(controller: sampleController, labelText: 'NIC'),
+                    controller: emailController, labelText: 'Email'),
+                CustomTextField(controller: nicController, labelText: 'NIC'),
                 PhoneTextField(
                   controller: phoneController,
                   labelText: 'Phone Number',
@@ -122,8 +143,60 @@ class _SignUPScreenState extends State<SignUPScreen> {
                   height: 35,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/home');
+                  onTap: () async {
+                    if (firstNameController.text.isEmpty ||
+                        lastNameController.text.isEmpty ||
+                        emailController.text.isEmpty ||
+                        nicController.text.isEmpty ||
+                        phoneController.text.isEmpty ||
+                        signUPProvider.brithdayController.text.isEmpty ||
+                        signUPProvider.countryCode?.name == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(
+                            "Please enter all required details correctly!",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      // userProvider.userID =
+                      //     userProvider.generateRandomId().toString();
+
+                      String phoneNo =
+                          "${signUPProvider.countryCode?.dialCode}" +
+                              phoneController.text;
+                      signUPProvider.loading = true;
+
+                      final addStudent = Student(
+                        userID: userID!,
+                        firstName: firstNameController.text,
+                        lastName: lastNameController.text,
+                        email: emailController.text,
+                        nic: nicController.text,
+                        phoneNum: phoneNo,
+                        date: DateTime.now(),
+                        dateOfBirth: signUPProvider.brithdayController.text,
+                        batch: 'batch',
+                        studentClass: 'studentClass',
+                      );
+                      // User(
+                      //   userID: userID!,
+                      //   firstName: firstNameController.text,
+                      //   lastName: lastNameController.text,
+                      //   email: emailController.text,
+                      //   province: provinceController.text,
+                      //   district: districtController.text,
+                      //   phoneNum: phoneNo,
+                      //   date: DateTime.now(),
+                      // );
+
+                      signUPProvider.addStudentToFirebase(
+                          addStudent, context, userID!);
+                    }
                   },
                   child: CustomButton(
                     text: 'Continue',

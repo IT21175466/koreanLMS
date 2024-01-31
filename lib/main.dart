@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: primary,
         ),
-        initialRoute: '/initsplash',
+        initialRoute: loginStatus ? '/home' : '/initsplash',
         routes: AppRoutes.getRoutes(),
       ),
     );

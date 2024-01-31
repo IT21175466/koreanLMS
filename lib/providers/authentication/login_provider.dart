@@ -10,7 +10,7 @@ class LoginProvider extends ChangeNotifier {
 
       //Users
       DocumentReference documentRefUsers =
-          firestore.collection("Users").doc(userID);
+          firestore.collection("Students").doc(userID);
 
       DocumentSnapshot docSnapshotUsers = await documentRefUsers.get();
 
