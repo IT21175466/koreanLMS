@@ -9,6 +9,7 @@ import 'package:koreanlms/providers/home/bottomnavbar_provider.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/mobile_validation/phone_validation_provider.dart';
 import 'package:koreanlms/providers/student_provider/student_provider.dart';
+import 'package:koreanlms/providers/video/video_provider.dart';
 import 'package:koreanlms/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => OTPProvider()),
         ChangeNotifierProvider(create: (context) => AppDataProvider()),
         ChangeNotifierProvider(create: (context) => StudentProvider()),
+        ChangeNotifierProvider(create: (context) => VideoProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

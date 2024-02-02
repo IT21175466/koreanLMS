@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
+import 'package:koreanlms/providers/video/video_provider.dart';
 import 'package:koreanlms/widgets/search_textfiled.dart';
 import 'package:koreanlms/widgets/single_video_card.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -15,13 +17,30 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   final TextEditingController sampleController = TextEditingController();
 
+  String? studentID = '';
+
+  var videoProvider = VideoProvider();
+
   @override
   void initState() {
     super.initState();
+    getStudentID();
     final appDataProvider =
         Provider.of<AppDataProvider>(context, listen: false);
     appDataProvider.isLoading = true;
     appDataProvider.getImageData();
+
+    videoProvider = Provider.of<VideoProvider>(context, listen: false);
+  }
+
+  getStudentID() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      studentID = prefs.getString('userID');
+    });
+
+    videoProvider.checkUserInBatch(studentID!);
   }
 
   @override
@@ -31,91 +50,118 @@ class _HomeTabState extends State<HomeTab> {
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        children: [
-          SizedBox(
-            height: AppBar().preferredSize.height,
-          ),
-          Container(
-            width: screenWidth,
-            height: screenHeight / 5,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Hi, User',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 22,
-                          ),
-                        ),
-                        Text(
-                          'Unlock Your Learning Potential Today!',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: AppColors.grayColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.person,
-                      size: 30,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SearchTextField(
-                    controller: sampleController, labelText: "Search"),
-              ],
+      child: Consumer(
+        builder: (BuildContext context, VideoProvider videoProvider,
+                Widget? child) =>
+            Column(
+          children: [
+            SizedBox(
+              height: AppBar().preferredSize.height,
             ),
-          ),
-          Container(
-            width: screenWidth,
-            height: screenHeight / 5 * 4 - (AppBar().preferredSize.height + 60),
-            //padding: EdgeInsets.symmetric(horizontal: 10),
-            child: SingleChildScrollView(
+            Container(
+              width: screenWidth,
+              height: screenHeight / 5,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '1st Payment',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
-                  ),
-                  VideoCard(
-                    isAccepted: false,
-                    isWatched: false,
-                    title: 'Language Basics',
-                    teacher: 'Mr.Frenando',
-                  ),
-                  VideoCard(
-                    isAccepted: false,
-                    isWatched: false,
-                    title: 'Language Basics II',
-                    teacher: 'Mr.Frenando',
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hi, User',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 22,
+                            ),
+                          ),
+                          Text(
+                            'Unlock Your Learning Potential Today!',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: AppColors.grayColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.person,
+                        size: 30,
+                      ),
+                    ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
+                  SearchTextField(
+                      controller: sampleController, labelText: "Search"),
                 ],
               ),
             ),
-          ),
-        ],
+            Container(
+              width: screenWidth,
+              height:
+                  screenHeight / 5 * 4 - (AppBar().preferredSize.height + 60),
+              //padding: EdgeInsets.symmetric(horizontal: 10),
+              child: videoProvider.noBatch
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Spacer(),
+                        SizedBox(
+                          height: 150,
+                          width: 150,
+                          child: Image.asset('assets/images/admin.png'),
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          'Please Contact Admin',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Spacer(),
+                      ],
+                    )
+                  : videoProvider.paymentDone
+                      ? ListView.builder(
+                          itemCount: videoProvider.videoDocumentIDs.length,
+                          itemBuilder: (context, index) {
+                            return VideoCard(
+                              isAccepted: true,
+                              isWatched: false,
+                              title: 'Language Basics',
+                              teacher: videoProvider.videoDocumentIDs[index],
+                            );
+                          },
+                        )
+                      : Column(
+                          children: [
+                            VideoCard(
+                              isAccepted: false,
+                              isWatched: false,
+                              title: 'Language Basics',
+                              teacher: 'Mr.Frenando',
+                            ),
+                            VideoCard(
+                              isAccepted: false,
+                              isWatched: false,
+                              title: 'Language Basics II',
+                              teacher: 'Mr.Frenando',
+                            ),
+                          ],
+                        ),
+            ),
+          ],
+        ),
       ),
     );
   }
