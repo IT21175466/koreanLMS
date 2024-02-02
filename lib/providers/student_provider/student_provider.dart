@@ -15,6 +15,7 @@ class StudentProvider extends ChangeNotifier {
   String? dateOfBirth = '...';
   String? batch = '...';
   String? studentClass = '...';
+  String? payment = '...';
   String? registedDate = '...';
 
   getStudentID() async {
@@ -41,6 +42,7 @@ class StudentProvider extends ChangeNotifier {
       dateOfBirth = studentDoc.get('DateOfBirth');
       batch = studentDoc.get('Batch');
       studentClass = studentDoc.get('Student_Class');
+      payment = studentDoc.get('Payment');
       registedDate = studentDoc.get('Registed_Date');
 
       notifyListeners();

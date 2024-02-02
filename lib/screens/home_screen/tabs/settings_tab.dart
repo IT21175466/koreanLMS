@@ -86,6 +86,8 @@ class _SettingsTabState extends State<SettingsTab> {
                     UserInfoCard(
                         hint: 'Class',
                         detail: '${studentProvider.studentClass}'),
+                    UserInfoCard(
+                        hint: 'Payment', detail: '${studentProvider.payment}'),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 5),

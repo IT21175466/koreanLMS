@@ -185,6 +185,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                         dateOfBirth: signUPProvider.brithdayController.text,
                         batch: 'no_batch',
                         studentClass: 'no_class',
+                        payment: 'not_yet',
                       );
                       // User(
                       //   userID: userID!,
