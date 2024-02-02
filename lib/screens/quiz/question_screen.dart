@@ -56,6 +56,17 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      'What is the mean of this image What is the mean of this image What is the mean of this image?',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Container(
                       height: 200,
                       width: screenWidth,
@@ -73,17 +84,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
                             color: AppColors.grayColor,
                           ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'What is the mean of this image?',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
                       ),
                     ),
                     SizedBox(

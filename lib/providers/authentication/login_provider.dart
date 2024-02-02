@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class LoginProvider extends ChangeNotifier {
-  String vehicleType = '';
-
   checkUserIsSignUp(String userID, BuildContext context) async {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;

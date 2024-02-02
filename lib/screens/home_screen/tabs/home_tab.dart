@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
+import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/widgets/search_textfiled.dart';
 import 'package:koreanlms/widgets/single_video_card.dart';
+import 'package:provider/provider.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -12,6 +14,15 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   final TextEditingController sampleController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final appDataProvider =
+        Provider.of<AppDataProvider>(context, listen: false);
+    appDataProvider.isLoading = true;
+    appDataProvider.getImageData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +96,18 @@ class _HomeTabState extends State<HomeTab> {
                       fontSize: 14,
                     ),
                   ),
-                  VideoCard(),
-                  VideoCard(),
-                  VideoCard(),
+                  VideoCard(
+                    isAccepted: false,
+                    isWatched: false,
+                    title: 'Language Basics',
+                    teacher: 'Mr.Frenando',
+                  ),
+                  VideoCard(
+                    isAccepted: false,
+                    isWatched: false,
+                    title: 'Language Basics II',
+                    teacher: 'Mr.Frenando',
+                  ),
                   SizedBox(
                     height: 10,
                   ),

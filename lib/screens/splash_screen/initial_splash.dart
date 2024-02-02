@@ -1,7 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
+import 'package:koreanlms/providers/app_data/app_data_provider.dart';
+import 'package:provider/provider.dart';
 
 class InitialSplash extends StatefulWidget {
   const InitialSplash({super.key});
@@ -14,10 +14,10 @@ class _InitialSplashState extends State<InitialSplash> {
   @override
   void initState() {
     super.initState();
-    Timer(
-      Duration(seconds: 3),
-      () => Navigator.pushReplacementNamed(context, '/login'),
-    );
+    final appDataProvider =
+        Provider.of<AppDataProvider>(context, listen: false);
+    appDataProvider.isLoading = true;
+    appDataProvider.getStudentID(context);
   }
 
   @override

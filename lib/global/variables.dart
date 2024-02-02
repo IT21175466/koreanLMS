@@ -9,3 +9,5 @@ getAppBarHeight(BuildContext context) {
     bottomNavBardHeight = 60;
   }
 }
+
+///final loginProvider = Provider.of<LoginProvider>(context, listen: false);

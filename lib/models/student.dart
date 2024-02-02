@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Student {
   final String userID;
   final String firstName;
@@ -10,7 +8,7 @@ class Student {
   final String dateOfBirth;
   final String batch;
   final String studentClass;
-  final DateTime date;
+  final String date;
 
   Student({
     required this.userID,
@@ -36,7 +34,7 @@ class Student {
       dateOfBirth: json['DateOfBirth'].toString(),
       batch: json['Batch'].toString(),
       studentClass: json['Student_Class'].toString(),
-      date: (json['Registed_Date'] as Timestamp).toDate(),
+      date: json['Registed_Date'],
     );
   }
 
@@ -51,7 +49,7 @@ class Student {
       'DateOfBirth': dateOfBirth,
       'Batch': batch,
       'Student_Class': studentClass,
-      'Registed_Date': date,
+      'Registed_Date': DateTime.now().toString(),
     };
   }
 }

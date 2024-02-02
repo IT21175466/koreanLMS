@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:koreanlms/providers/home/bottomnavbar_provider.dart';
+import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/screens/home_screen/tabs/home_tab.dart';
 import 'package:koreanlms/screens/home_screen/tabs/notification_tab.dart';
 import 'package:koreanlms/screens/home_screen/tabs/quiz_tab/quizes_tab.dart';
@@ -28,26 +29,31 @@ class _HomeScreenState extends State<HomeScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Container(
-        height: screenHeight,
-        width: screenWidth,
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 241, 240, 240),
-          //borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(
-            opacity: 0.2,
-            image: NetworkImage(
-                'https://firebasestorage.googleapis.com/v0/b/koreanlms-f3ced.appspot.com/o/app_background%2Fbackground.jpg?alt=media&token=dd221373-4155-4233-83d9-27f4fcb9c47c'),
-            fit: BoxFit.cover,
+      body: Consumer(
+        builder: (BuildContext context, AppDataProvider appDataProvider,
+                Widget? child) =>
+            Container(
+          height: screenHeight,
+          width: screenWidth,
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 241, 240, 240),
+            //borderRadius: BorderRadius.circular(10),
+            image: DecorationImage(
+              opacity: 0.2,
+              image: NetworkImage(
+                '${appDataProvider.appBackgroudImage}',
+              ),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Consumer(
-          builder: (BuildContext context,
-                  BottomNavBarProvider bottomNavigationProvider,
-                  Widget? child) =>
-              IndexedStack(
-            index: bottomNavigationProvider.currentIndex,
-            children: pages,
+          child: Consumer(
+            builder: (BuildContext context,
+                    BottomNavBarProvider bottomNavigationProvider,
+                    Widget? child) =>
+                IndexedStack(
+              index: bottomNavigationProvider.currentIndex,
+              children: pages,
+            ),
           ),
         ),
       ),
