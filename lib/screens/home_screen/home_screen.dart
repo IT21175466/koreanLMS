@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Color.fromARGB(255, 241, 240, 240),
             //borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
-              opacity: 0.2,
+              opacity: 0.5,
               image: NetworkImage(
                 '${appDataProvider.appBackgroudImage}',
               ),
