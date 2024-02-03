@@ -135,150 +135,189 @@ class _HomeTabState extends State<HomeTab> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Consumer2(
-        builder: (BuildContext context, VideoProvider videoProvider,
-                LoginProvider loginProvider, Widget? child) =>
-            Column(
-          children: [
-            SizedBox(
-              height: AppBar().preferredSize.height,
-            ),
-            Container(
-              width: screenWidth,
-              height: screenHeight / 6,
-              child: Column(
-                children: [
-                  Row(
+    return Stack(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Consumer2(
+            builder: (BuildContext context, VideoProvider videoProvider,
+                    LoginProvider loginProvider, Widget? child) =>
+                Column(
+              children: [
+                SizedBox(
+                  height: AppBar().preferredSize.height,
+                ),
+                Container(
+                  width: screenWidth,
+                  height: screenHeight / 6,
+                  child: Column(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
                         children: [
-                          Text(
-                            'Hi, ${loginProvider.userName}',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 22,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Hi, ${loginProvider.userName}',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 22,
+                                ),
+                              ),
+                              Text(
+                                'Unlock Your Learning Potential Today!',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  color: AppColors.grayColor,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            'Unlock Your Learning Potential Today!',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: AppColors.grayColor,
-                            ),
+                          Spacer(),
+                          Icon(
+                            Icons.person,
+                            size: 30,
                           ),
                         ],
                       ),
                       Spacer(),
-                      Icon(
-                        Icons.person,
-                        size: 30,
-                      ),
+                      SearchTextField(
+                          controller: sampleController, labelText: "Search"),
                     ],
                   ),
-                  Spacer(),
-                  SearchTextField(
-                      controller: sampleController, labelText: "Search"),
-                ],
-              ),
-            ),
-            Container(
-              width: screenWidth,
-              height:
-                  screenHeight / 6 * 5 - (AppBar().preferredSize.height + 60),
-              //padding: EdgeInsets.symmetric(horizontal: 10),
-              child: videoProvider.noBatch
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Spacer(),
-                        SizedBox(
-                          height: 150,
-                          width: 150,
-                          child: Image.asset('assets/images/admin.png'),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Text(
-                          'Please Contact Admin',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                          ),
-                        ),
-                        Spacer(),
-                      ],
-                    )
-                  : videoProvider.paymentDone
-                      ? ListView.builder(
-                          itemCount: videoProvider.videos.length,
-                          itemBuilder: (context, index) {
-                            Video video = videoProvider.videos[index];
-                            return GestureDetector(
-                              onTap: () async {
-                                String verificationCode =
-                                    await generateRandomCode();
-
-                                await sendVerificationCode(
-                                  phone: loginProvider.phoneNumber,
-                                  code: verificationCode,
-                                );
-
-                                if (isSucess = true) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          VideoVerificationScreen(
-                                        msgCode: verificationCode,
-                                        link: video.link,
-                                        title: video.title,
-                                        teacher: video.teacher,
-                                        zoomLink: video.zoomLink,
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: VideoCard(
-                                isAccepted: true,
-                                isWatched: false,
-                                isLoading: isLoading,
-                                teacher: video.teacher,
-                                title: video.title,
-                              ),
-                            );
-                          },
-                        )
-                      : Column(
+                ),
+                Container(
+                  width: screenWidth,
+                  height: screenHeight / 6 * 5 -
+                      (AppBar().preferredSize.height + 60),
+                  //padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: videoProvider.noBatch
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            VideoCard(
-                              isAccepted: false,
-                              isWatched: false,
-                              title: 'Language Basics',
-                              teacher: 'Mr.Frenando',
-                              isLoading: false,
+                            Spacer(),
+                            SizedBox(
+                              height: 150,
+                              width: 150,
+                              child: Image.asset('assets/images/admin.png'),
                             ),
-                            VideoCard(
-                              isAccepted: false,
-                              isWatched: false,
-                              isLoading: false,
-                              title: 'Language Basics II',
-                              teacher: 'Mr.Frenando',
+                            SizedBox(
+                              height: 30,
                             ),
+                            Text(
+                              'Please Contact Admin',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Spacer(),
                           ],
-                        ),
+                        )
+                      : videoProvider.paymentDone
+                          ? ListView.builder(
+                              itemCount: videoProvider.videos.length,
+                              itemBuilder: (context, index) {
+                                Video video = videoProvider.videos[index];
+                                return GestureDetector(
+                                  onTap: () async {
+                                    String verificationCode =
+                                        await generateRandomCode();
+
+                                    await sendVerificationCode(
+                                      phone: loginProvider.phoneNumber,
+                                      code: verificationCode,
+                                    );
+
+                                    if (isSucess = true) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              VideoVerificationScreen(
+                                            msgCode: verificationCode,
+                                            link: video.link,
+                                            title: video.title,
+                                            teacher: video.teacher,
+                                            zoomLink: video.zoomLink,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: VideoCard(
+                                    isAccepted: true,
+                                    isWatched: false,
+                                    teacher: video.teacher,
+                                    title: video.title,
+                                  ),
+                                );
+                              },
+                            )
+                          : Column(
+                              children: [
+                                VideoCard(
+                                  isAccepted: false,
+                                  isWatched: false,
+                                  title: 'Language Basics',
+                                  teacher: 'Mr.Frenando',
+                                ),
+                                VideoCard(
+                                  isAccepted: false,
+                                  isWatched: false,
+                                  title: 'Language Basics II',
+                                  teacher: 'Mr.Frenando',
+                                ),
+                              ],
+                            ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+        isLoading
+            ? Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.75),
+                    //borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+              )
+            : SizedBox(),
+        isLoading
+            ? Positioned(
+                top: screenHeight / 2 - 60,
+                left: 20,
+                right: 20,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Please Wait...."),
+                    ],
+                  ),
+                ),
+              )
+            : SizedBox(),
+      ],
     );
   }
 }

@@ -12,7 +12,6 @@ class VideoCard extends StatelessWidget {
     super.key,
     required this.isAccepted,
     required this.isWatched,
-    required this.isLoading,
     required this.title,
     required this.teacher,
   });
@@ -62,11 +61,9 @@ class VideoCard extends StatelessWidget {
                         height: 50,
                         width: 50,
                         child: Center(
-                          child: isLoading
-                              ? CircularProgressIndicator()
-                              : Icon(
-                                  Icons.play_arrow,
-                                ),
+                          child: Icon(
+                            Icons.play_arrow,
+                          ),
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white,
