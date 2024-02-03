@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
+import 'package:koreanlms/models/video.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
+import 'package:koreanlms/screens/video/play_video.dart';
 import 'package:koreanlms/widgets/search_textfiled.dart';
 import 'package:koreanlms/widgets/single_video_card.dart';
 import 'package:provider/provider.dart';
@@ -133,13 +135,29 @@ class _HomeTabState extends State<HomeTab> {
                     )
                   : videoProvider.paymentDone
                       ? ListView.builder(
-                          itemCount: videoProvider.videoDocumentIDs.length,
+                          itemCount: videoProvider.videos.length,
                           itemBuilder: (context, index) {
-                            return VideoCard(
-                              isAccepted: true,
-                              isWatched: false,
-                              title: 'Language Basics',
-                              teacher: videoProvider.videoDocumentIDs[index],
+                            Video video = videoProvider.videos[index];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PlayVideoScreen(
+                                      link: video.link,
+                                      title: video.title,
+                                      teacher: video.teacher,
+                                      zoomLink: video.zoomLink,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: VideoCard(
+                                isAccepted: true,
+                                isWatched: false,
+                                teacher: video.teacher,
+                                title: video.title,
+                              ),
                             );
                           },
                         )

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:koreanlms/models/video.dart';
 
 class VideoProvider extends ChangeNotifier {
   bool noBatch = false;
@@ -9,7 +10,12 @@ class VideoProvider extends ChangeNotifier {
   String payment = '';
   bool isLoading = false;
 
-  List<String> videoDocumentIDs = [];
+  String teacherName = '';
+  String title = '';
+
+  //List<String> videoDocumentIDs = [];
+
+  List<Video> videos = [];
 
   checkUserInBatch(String sID) async {
     try {
@@ -56,9 +62,8 @@ class VideoProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<String>> getVideos() async {
+  Future<void> getVideos() async {
     try {
-      print('Want to get video document IDs');
       final QuerySnapshot videoQuerySnapshot = await FirebaseFirestore.instance
           .collection("Batches")
           .doc(batch)
@@ -70,15 +75,26 @@ class VideoProvider extends ChangeNotifier {
           .get();
 
       for (QueryDocumentSnapshot videoDoc in videoQuerySnapshot.docs) {
-        String videoDocumentID = videoDoc.id;
-        videoDocumentIDs.add(videoDocumentID);
-        notifyListeners();
+        String title = videoDoc['Title'];
+        String teacher = videoDoc['Teacher_Name'];
+        String paymentTerm = videoDoc['Payment_term'];
+        String link = videoDoc['Video_link'];
+        String zoomLink = videoDoc['zoomLink'];
+
+        Video video = Video(
+          paymentTerm: paymentTerm,
+          link: link,
+          title: title,
+          teacher: teacher,
+          zoomLink: zoomLink,
+        );
+
+        videos.add(video);
       }
-      print(videoDocumentIDs);
+
+      notifyListeners();
     } catch (e) {
       print(e);
     }
-
-    return videoDocumentIDs;
   }
 }
