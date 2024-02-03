@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:koreanlms/providers/student_provider/student_provider.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
@@ -54,7 +56,9 @@ class _SettingsTabState extends State<SettingsTab> {
               ),
             ),
             Container(
-              height: screenHeight - (AppBar().preferredSize.height * 2) - 60,
+              height: screenHeight -
+                  (AppBar().preferredSize.height * 2) -
+                  (Platform.isIOS ? 92 : 60),
               width: screenWidth,
               child: SingleChildScrollView(
                 child: Column(

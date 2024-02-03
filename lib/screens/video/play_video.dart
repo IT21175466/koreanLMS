@@ -1,7 +1,6 @@
-//import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
-import 'package:vimeo_player_flutter/vimeo_player_flutter.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayVideoScreen extends StatefulWidget {
   final String link;
@@ -22,29 +21,50 @@ class PlayVideoScreen extends StatefulWidget {
 }
 
 class _PlayVideoScreenState extends State<PlayVideoScreen> {
+  late YoutubePlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final videoID = YoutubePlayer.convertUrlToId(widget.link);
+
+    _controller = YoutubePlayerController(
+      initialVideoId: videoID!,
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: true,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        toolbarHeight: 0,
+        automaticallyImplyLeading: false,
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: AppBar().preferredSize.height,
-          ),
           AspectRatio(
             aspectRatio: 16 / 9,
-            child: VimeoPlayer(
-              videoId: widget.link,
+            child: YoutubePlayer(
+              controller: _controller,
+              showVideoProgressIndicator: true,
             ),
-            // BetterPlayer.network(
-            //   widget.link,
-            //   betterPlayerConfiguration: BetterPlayerConfiguration(
-            //     aspectRatio: 16 / 9,
-            //   ),
-            // ),
           ),
+
+          // AspectRatio(
+          //   aspectRatio: 16 / 9,
+          //   child: VimeoPlayer(
+          //     videoId: widget.link,
+          //   ),
+          // ),
+
           Container(
             padding: EdgeInsets.all(15),
             child: Column(

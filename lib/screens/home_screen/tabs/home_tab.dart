@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -192,7 +193,8 @@ class _HomeTabState extends State<HomeTab> {
                 Container(
                   width: screenWidth,
                   height: screenHeight / 6 * 5 -
-                      (AppBar().preferredSize.height + 60),
+                      (AppBar().preferredSize.height +
+                          (Platform.isIOS ? 92 : 60)),
                   //padding: EdgeInsets.symmetric(horizontal: 10),
                   child: videoProvider.noBatch
                       ? Column(
