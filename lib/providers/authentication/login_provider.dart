@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class LoginProvider extends ChangeNotifier {
   String? userName = 'User';
+  String? phoneNumber = '';
 
   checkUserIsSignUp(String userID, BuildContext context) async {
     try {
@@ -36,6 +37,7 @@ class LoginProvider extends ChangeNotifier {
           .get();
 
       userName = studentDoc.get('FirstName');
+      phoneNumber = studentDoc.get('PhoneNumber');
       notifyListeners();
     } catch (e) {
       print(e);

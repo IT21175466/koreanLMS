@@ -5,12 +5,14 @@ import 'package:koreanlms/constants/app_colors.dart';
 class VideoCard extends StatelessWidget {
   bool isAccepted = false;
   bool isWatched = false;
+  bool isLoading = false;
   String title;
   String teacher;
   VideoCard({
     super.key,
     required this.isAccepted,
     required this.isWatched,
+    required this.isLoading,
     required this.title,
     required this.teacher,
   });
@@ -60,9 +62,11 @@ class VideoCard extends StatelessWidget {
                         height: 50,
                         width: 50,
                         child: Center(
-                          child: Icon(
-                            Icons.play_arrow,
-                          ),
+                          child: isLoading
+                              ? CircularProgressIndicator()
+                              : Icon(
+                                  Icons.play_arrow,
+                                ),
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white,

@@ -1,10 +1,12 @@
+import 'dart:math';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/models/video.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/login_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
-import 'package:koreanlms/screens/video/play_video.dart';
+import 'package:koreanlms/screens/video/video_verification.dart';
 import 'package:koreanlms/widgets/search_textfiled.dart';
 import 'package:koreanlms/widgets/single_video_card.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,11 @@ class _HomeTabState extends State<HomeTab> {
   String? studentID = '';
 
   var videoProvider = VideoProvider();
+
+  String phone = '';
+
+  bool isLoading = false;
+  bool isSucess = false;
 
   @override
   void initState() {
@@ -44,6 +51,83 @@ class _HomeTabState extends State<HomeTab> {
     });
 
     videoProvider.checkUserInBatch(studentID!);
+  }
+
+  String generateRandomCode() {
+    Random random = Random();
+    int code = random.nextInt(900000) + 100000;
+    return code.toString();
+  }
+
+  Future<void> sendVerificationCode({
+    String? phone,
+    String? code,
+  }) async {
+    String Url =
+        'http://send.ozonedesk.com/api/v2/send.php?user_id=105281&api_key=evj05adndinxxahxh&sender_id=ozoneDEMO&to=${phone}&message=Your video verification code is ${code}';
+
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      var response = await http.get(
+        Uri.parse(Url),
+      );
+      if (response.statusCode == 200) {
+        setState(() {
+          isLoading = false;
+          isSucess = true;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Verification Code Sent',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Please try again later!',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            e.toString(),
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
@@ -138,22 +222,35 @@ class _HomeTabState extends State<HomeTab> {
                           itemBuilder: (context, index) {
                             Video video = videoProvider.videos[index];
                             return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PlayVideoScreen(
-                                      link: video.link,
-                                      title: video.title,
-                                      teacher: video.teacher,
-                                      zoomLink: video.zoomLink,
-                                    ),
-                                  ),
+                              onTap: () async {
+                                String verificationCode =
+                                    await generateRandomCode();
+
+                                await sendVerificationCode(
+                                  phone: loginProvider.phoneNumber,
+                                  code: verificationCode,
                                 );
+
+                                if (isSucess = true) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          VideoVerificationScreen(
+                                        msgCode: verificationCode,
+                                        link: video.link,
+                                        title: video.title,
+                                        teacher: video.teacher,
+                                        zoomLink: video.zoomLink,
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
                               child: VideoCard(
                                 isAccepted: true,
                                 isWatched: false,
+                                isLoading: isLoading,
                                 teacher: video.teacher,
                                 title: video.title,
                               ),
@@ -167,10 +264,12 @@ class _HomeTabState extends State<HomeTab> {
                               isWatched: false,
                               title: 'Language Basics',
                               teacher: 'Mr.Frenando',
+                              isLoading: false,
                             ),
                             VideoCard(
                               isAccepted: false,
                               isWatched: false,
+                              isLoading: false,
                               title: 'Language Basics II',
                               teacher: 'Mr.Frenando',
                             ),

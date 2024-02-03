@@ -1,6 +1,7 @@
-import 'package:better_player/better_player.dart';
+//import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
+import 'package:vimeo_player_flutter/vimeo_player_flutter.dart';
 
 class PlayVideoScreen extends StatefulWidget {
   final String link;
@@ -34,12 +35,15 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
           ),
           AspectRatio(
             aspectRatio: 16 / 9,
-            child: BetterPlayer.network(
-              widget.link,
-              betterPlayerConfiguration: BetterPlayerConfiguration(
-                aspectRatio: 16 / 9,
-              ),
+            child: VimeoPlayer(
+              videoId: widget.link,
             ),
+            // BetterPlayer.network(
+            //   widget.link,
+            //   betterPlayerConfiguration: BetterPlayerConfiguration(
+            //     aspectRatio: 16 / 9,
+            //   ),
+            // ),
           ),
           Container(
             padding: EdgeInsets.all(15),
@@ -67,8 +71,8 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                   height: 15,
                 ),
                 CustomButton(
-                  text: 'Zoom Link',
-                  height: 55,
+                  text: 'Zoom Video',
+                  height: 50,
                   width: screenWidth / 2,
                   backgroundColor: Colors.green,
                 ),
