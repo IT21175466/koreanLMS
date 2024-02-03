@@ -20,6 +20,7 @@ class _LoadingSplashState extends State<LoadingSplash> {
     super.initState();
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.checkUserIsSignUp(widget.id, context);
+    loginProvider.getUserName(widget.id);
   }
 
   @override

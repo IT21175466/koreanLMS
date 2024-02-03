@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class LoginProvider extends ChangeNotifier {
+  String? userName = 'User';
+
   checkUserIsSignUp(String userID, BuildContext context) async {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -23,6 +25,20 @@ class LoginProvider extends ChangeNotifier {
       }
     } catch (error) {
       print("Error checking document: $error");
+    }
+  }
+
+  getUserName(String sID) async {
+    try {
+      final DocumentSnapshot studentDoc = await FirebaseFirestore.instance
+          .collection("Students")
+          .doc(sID)
+          .get();
+
+      userName = studentDoc.get('FirstName');
+      notifyListeners();
+    } catch (e) {
+      print(e);
     }
   }
 }

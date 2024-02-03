@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/models/video.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
+import 'package:koreanlms/providers/authentication/login_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
 import 'package:koreanlms/screens/video/play_video.dart';
 import 'package:koreanlms/widgets/search_textfiled.dart';
@@ -52,9 +53,9 @@ class _HomeTabState extends State<HomeTab> {
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Consumer(
+      child: Consumer2(
         builder: (BuildContext context, VideoProvider videoProvider,
-                Widget? child) =>
+                LoginProvider loginProvider, Widget? child) =>
             Column(
           children: [
             SizedBox(
@@ -62,7 +63,7 @@ class _HomeTabState extends State<HomeTab> {
             ),
             Container(
               width: screenWidth,
-              height: screenHeight / 5,
+              height: screenHeight / 6,
               child: Column(
                 children: [
                   Row(
@@ -71,7 +72,7 @@ class _HomeTabState extends State<HomeTab> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hi, User',
+                            'Hi, ${loginProvider.userName}',
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w700,
@@ -96,9 +97,7 @@ class _HomeTabState extends State<HomeTab> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  Spacer(),
                   SearchTextField(
                       controller: sampleController, labelText: "Search"),
                 ],
@@ -107,7 +106,7 @@ class _HomeTabState extends State<HomeTab> {
             Container(
               width: screenWidth,
               height:
-                  screenHeight / 5 * 4 - (AppBar().preferredSize.height + 60),
+                  screenHeight / 6 * 5 - (AppBar().preferredSize.height + 60),
               //padding: EdgeInsets.symmetric(horizontal: 10),
               child: videoProvider.noBatch
                   ? Column(
