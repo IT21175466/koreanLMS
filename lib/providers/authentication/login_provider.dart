@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class LoginProvider extends ChangeNotifier {
-  String vehicleType = '';
+  String? userName = 'User';
+  String? phoneNumber = '';
 
   checkUserIsSignUp(String userID, BuildContext context) async {
     try {
@@ -25,6 +26,21 @@ class LoginProvider extends ChangeNotifier {
       }
     } catch (error) {
       print("Error checking document: $error");
+    }
+  }
+
+  getUserName(String sID) async {
+    try {
+      final DocumentSnapshot studentDoc = await FirebaseFirestore.instance
+          .collection("Students")
+          .doc(sID)
+          .get();
+
+      userName = studentDoc.get('FirstName');
+      phoneNumber = studentDoc.get('PhoneNumber');
+      notifyListeners();
+    } catch (e) {
+      print(e);
     }
   }
 }

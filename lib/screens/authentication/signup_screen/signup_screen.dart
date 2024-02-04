@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/models/student.dart';
 import 'package:koreanlms/providers/authentication/signup_provider.dart';
@@ -178,10 +179,13 @@ class _SignUPScreenState extends State<SignUPScreen> {
                         email: emailController.text,
                         nic: nicController.text,
                         phoneNum: phoneNo,
-                        date: DateTime.now(),
+                        date: DateFormat.yMMMMd()
+                            .format(DateTime.now())
+                            .toString(),
                         dateOfBirth: signUPProvider.brithdayController.text,
-                        batch: 'batch',
-                        studentClass: 'studentClass',
+                        batch: 'no_batch',
+                        studentClass: 'no_class',
+                        payment: 'not_yet',
                       );
                       // User(
                       //   userID: userID!,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/providers/authentication/otp_provider.dart';
@@ -129,7 +131,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 child: Image.asset('assets/images/gPhotosLogo.png'),
               ),
               SizedBox(
-                height: 30,
+                height: Platform.isIOS ? 60 : 30,
               ),
             ],
           ),

@@ -21,6 +21,7 @@ class _QuizTabState extends State<QuizTab> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             'Quizzes',
             style: TextStyle(

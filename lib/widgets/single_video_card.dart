@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 
-class VideoCard extends StatefulWidget {
-  const VideoCard({super.key});
+// ignore: must_be_immutable
+class VideoCard extends StatelessWidget {
+  bool isAccepted = false;
+  bool isWatched = false;
+  bool isLoading = false;
+  String title;
+  String teacher;
+  VideoCard({
+    super.key,
+    required this.isAccepted,
+    required this.isWatched,
+    required this.title,
+    required this.teacher,
+  });
 
-  @override
-  State<VideoCard> createState() => _VideoCardState();
-}
-
-class _VideoCardState extends State<VideoCard> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -38,6 +45,59 @@ class _VideoCardState extends State<VideoCard> {
                 topRight: Radius.circular(15),
               ),
             ),
+            child: Container(
+              width: screenWidth,
+              height: 130,
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+              ),
+              child: Center(
+                child: isAccepted
+                    ? Container(
+                        height: 50,
+                        width: 50,
+                        child: Center(
+                          child: Icon(
+                            Icons.play_arrow,
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          Spacer(),
+                          Container(
+                            height: 50,
+                            width: 50,
+                            child: Icon(
+                              Icons.lock,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          Text(
+                            'Payment Required',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Spacer(),
+                        ],
+                      ),
+              ),
+            ),
           ),
           Spacer(),
           Padding(
@@ -48,7 +108,7 @@ class _VideoCardState extends State<VideoCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Language Basics',
+                      title,
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
@@ -56,7 +116,7 @@ class _VideoCardState extends State<VideoCard> {
                       ),
                     ),
                     Text(
-                      'By TeacherName',
+                      teacher,
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
@@ -67,23 +127,25 @@ class _VideoCardState extends State<VideoCard> {
                   ],
                 ),
                 Spacer(),
-                Column(
-                  children: [
-                    Icon(
-                      Icons.done,
-                      color: AppColors.grayColor,
-                    ),
-                    Text(
-                      'Watched',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.grayColor,
-                        fontSize: 14,
+                isWatched == false
+                    ? SizedBox()
+                    : Column(
+                        children: [
+                          Icon(
+                            Icons.done,
+                            color: AppColors.grayColor,
+                          ),
+                          Text(
+                            'Watched',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.grayColor,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),

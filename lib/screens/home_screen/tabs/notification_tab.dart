@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:koreanlms/widgets/notification_card.dart';
 
@@ -38,7 +40,9 @@ class _NotificationTabState extends State<NotificationTab> {
             ),
           ),
           Container(
-            height: screenHeight - (AppBar().preferredSize.height * 2) - 60,
+            height: screenHeight -
+                (AppBar().preferredSize.height * 2) -
+                (Platform.isIOS ? 92 : 60),
             width: screenWidth,
             child: SingleChildScrollView(
               child: Column(

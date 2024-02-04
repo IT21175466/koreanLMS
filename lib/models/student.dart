@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Student {
   final String userID;
   final String firstName;
@@ -10,7 +8,8 @@ class Student {
   final String dateOfBirth;
   final String batch;
   final String studentClass;
-  final DateTime date;
+  final String payment;
+  final String date;
 
   Student({
     required this.userID,
@@ -23,6 +22,7 @@ class Student {
     required this.dateOfBirth,
     required this.batch,
     required this.studentClass,
+    required this.payment,
   });
 
   factory Student.fromJson(Map<String, dynamic> json) {
@@ -36,7 +36,8 @@ class Student {
       dateOfBirth: json['DateOfBirth'].toString(),
       batch: json['Batch'].toString(),
       studentClass: json['Student_Class'].toString(),
-      date: (json['Registed_Date'] as Timestamp).toDate(),
+      payment: json['Payment'].toString(),
+      date: json['Registed_Date'],
     );
   }
 
@@ -51,7 +52,8 @@ class Student {
       'DateOfBirth': dateOfBirth,
       'Batch': batch,
       'Student_Class': studentClass,
-      'Registed_Date': date,
+      'Payment': payment,
+      'Registed_Date': DateTime.now().toString(),
     };
   }
 }

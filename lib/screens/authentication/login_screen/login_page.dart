@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/signup_provider.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/phone_textfiled.dart';
@@ -13,11 +14,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final images = [
-    'https://firebasestorage.googleapis.com/v0/b/koreanlms-f3ced.appspot.com/o/feature-what-is-ppc.png?alt=media&token=dd8197e0-26c1-49bc-bc03-2fe6b45f7edb',
-    'https://firebasestorage.googleapis.com/v0/b/koreanlms-f3ced.appspot.com/o/cocacola-ads-example-with-orange-background-slogan.png?alt=media&token=16a3a6b0-a434-4e87-b224-f6fb08ae655b',
-    'https://firebasestorage.googleapis.com/v0/b/koreanlms-f3ced.appspot.com/o/advertisement.png?alt=media&token=1cd5f3d7-bd5f-4c23-9b4b-864b0730e2fe',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    final appDataProvider =
+        Provider.of<AppDataProvider>(context, listen: false);
+    appDataProvider.isLoading = true;
+    appDataProvider.getBannerImages(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -39,16 +44,16 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 10),
         width: screenWidth,
-        child: Consumer(
+        child: Consumer2(
           builder: (BuildContext context, SignUPProvider signUPProvider,
-                  Widget? child) =>
+                  AppDataProvider appDataProvider, Widget? child) =>
               Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 flex: 2,
                 child: CarouselSlider(
-                  items: images
+                  items: appDataProvider.images
                       .map(
                         (image) => Container(
                           decoration: BoxDecoration(

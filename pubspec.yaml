@@ -44,6 +44,10 @@ dependencies:
   firebase_auth: ^4.16.0
   shared_preferences: ^2.2.2
   cloud_firestore: ^4.13.6
+  #vimeo_player_flutter: ^0.1.0
+  youtube_player_flutter: ^8.1.2
+  http: ^1.2.0
+  webview_flutter: ^4.2.2
 
 dev_dependencies:
   flutter_test:

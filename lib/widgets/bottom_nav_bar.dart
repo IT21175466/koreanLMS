@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:koreanlms/providers/home/bottomnavbar_provider.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +11,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       builder: (BuildContext context,
           BottomNavBarProvider bottomNavigationProvider, Widget? child) {
         return Container(
-          height: 60,
+          height: Platform.isIOS ? 92 : 60,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
