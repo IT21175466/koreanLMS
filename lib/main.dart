@@ -50,11 +50,6 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: loginStatus ? '/initsplash' : '/login',
         routes: AppRoutes.getRoutes(),
-        // home: PlayVideoScreen(
-        //     link: 'https://www.youtube.com/watch?v=hP25aVmxkP8',
-        //     title: 'title',
-        //     teacher: 'teacher',
-        //     zoomLink: '908992765'),
       ),
     );
   }

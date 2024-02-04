@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:koreanlms/screens/video/zoom_recording_webview.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -90,11 +91,38 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                 SizedBox(
                   height: 15,
                 ),
-                CustomButton(
-                  text: 'Zoom Video',
-                  height: 50,
-                  width: screenWidth / 2,
-                  backgroundColor: Colors.green,
+                GestureDetector(
+                  onTap: () {
+                    if (widget.zoomLink.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'No zoom videos yet!',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ZoomRecordingPlay(zoomLink: widget.zoomLink),
+                        ),
+                      );
+                    }
+                  },
+                  child: CustomButton(
+                    text: 'Zoom Video',
+                    height: 50,
+                    width: screenWidth / 2,
+                    backgroundColor: Colors.green,
+                  ),
                 ),
               ],
             ),
