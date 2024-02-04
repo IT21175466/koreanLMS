@@ -16,6 +16,7 @@ class VideoProvider extends ChangeNotifier {
   //List<String> videoDocumentIDs = [];
 
   List<Video> videos = [];
+  List<Video> lockedVideos = [];
 
   checkUserInBatch(String sID) async {
     try {
@@ -69,8 +70,6 @@ class VideoProvider extends ChangeNotifier {
           .doc(batch)
           .collection("Classes")
           .doc(sClass)
-          .collection('Payments')
-          .doc(payment)
           .collection("Videos")
           .get();
 
@@ -89,12 +88,18 @@ class VideoProvider extends ChangeNotifier {
           zoomLink: zoomLink,
         );
 
-        videos.add(video);
+        if (payment == paymentTerm) {
+          videos.add(video);
+        } else {
+          lockedVideos.add(video);
+        }
       }
 
       notifyListeners();
     } catch (e) {
       print(e);
+    } finally {
+      videos.addAll(lockedVideos);
     }
   }
 }
