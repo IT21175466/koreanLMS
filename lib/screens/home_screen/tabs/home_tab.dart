@@ -230,28 +230,26 @@ class _HomeTabState extends State<HomeTab> {
                                     String verificationCode =
                                         await generateRandomCode();
 
-                                    // await sendVerificationCode(
-                                    //   phone: loginProvider.phoneNumber,
-                                    //   code: verificationCode,
-                                    // );
-
-                                    print(verificationCode);
-
-                                    //if (isSucess = true) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            VideoVerificationScreen(
-                                          msgCode: verificationCode,
-                                          link: video.link,
-                                          title: video.title,
-                                          teacher: video.teacher,
-                                          zoomLink: video.zoomLink,
-                                        ),
-                                      ),
+                                    await sendVerificationCode(
+                                      phone: loginProvider.phoneNumber,
+                                      code: verificationCode,
                                     );
-                                    //}
+
+                                    if (isSucess = true) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              VideoVerificationScreen(
+                                            msgCode: verificationCode,
+                                            link: video.link,
+                                            title: video.title,
+                                            teacher: video.teacher,
+                                            zoomLink: video.zoomLink,
+                                          ),
+                                        ),
+                                      );
+                                    }
                                   },
                                   child: VideoCard(
                                     isAccepted: true,

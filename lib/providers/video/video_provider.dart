@@ -10,8 +10,6 @@ class VideoProvider extends ChangeNotifier {
   String payment = '';
   bool isLoading = false;
 
-  String zoomURL = '';
-
   String teacherName = '';
   String title = '';
 
