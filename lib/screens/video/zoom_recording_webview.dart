@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class ZoomRecordingPlay extends StatefulWidget {
   final String zoomLink;
@@ -13,32 +13,53 @@ class ZoomRecordingPlay extends StatefulWidget {
 }
 
 class _ZoomRecordingPlayState extends State<ZoomRecordingPlay> {
-  final controller = WebViewController();
-
-  @override
-  void initState() {
-    super.initState();
-    controller
-      ..setJavaScriptMode(JavaScriptMode.disabled)
-      ..loadRequest(Uri.parse(widget.zoomLink));
-  }
+  double _progress = 0;
+  late InAppWebViewController inAppWebViewController;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Zoom Video',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Zoom Video',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
           ),
+          centerTitle: true,
+          backgroundColor: Colors.green,
+          automaticallyImplyLeading: false,
         ),
-        centerTitle: true,
-        backgroundColor: Colors.green,
+        body: Stack(
+          children: [
+            InAppWebView(
+              initialUrlRequest: URLRequest(
+                url: Uri.parse("https://zoom.us/"),
+              ),
+              onWebViewCreated: (InAppWebViewController controller) {
+                inAppWebViewController = controller;
+              },
+              onProgressChanged:
+                  (InAppWebViewController controller, int progress) {
+                setState(() {
+                  _progress = progress / 100;
+                });
+              },
+            ),
+            _progress < 1
+                ? Container(
+                    child: LinearProgressIndicator(
+                      color: Colors.blue,
+                      value: _progress,
+                    ),
+                  )
+                : SizedBox(),
+          ],
+        ),
       ),
-      body: WebViewWidget(controller: controller),
     );
   }
 }

@@ -134,6 +134,7 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                                         zoomLink: widget.zoomLink),
                                   ),
                                 );
+                                print(widget.zoomLink);
                               },
                               child: CustomButton(
                                 text: 'Zoom Video',
