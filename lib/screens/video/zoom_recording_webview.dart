@@ -15,17 +15,6 @@ class ZoomRecordingPlay extends StatefulWidget {
 }
 
 class _ZoomRecordingPlayState extends State<ZoomRecordingPlay> {
-  var videoProvider = VideoProvider();
-
-  @override
-  void initState() {
-    super.initState();
-    videoProvider = Provider.of<VideoProvider>(context, listen: false);
-    setState(() {
-      videoProvider.zoomURL = widget.zoomLink;
-    });
-  }
-
   double _progress = 0;
   late InAppWebViewController inAppWebViewController;
 

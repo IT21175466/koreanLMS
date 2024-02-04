@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:koreanlms/screens/video/zoom_recording_webview.dart';
+import 'package:koreanlms/providers/video/video_provider.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayVideoScreen extends StatefulWidget {
@@ -24,10 +26,16 @@ class PlayVideoScreen extends StatefulWidget {
 class _PlayVideoScreenState extends State<PlayVideoScreen> {
   bool isFullScreen = false;
   late YoutubePlayerController _controller;
+  var videoProvider = VideoProvider();
 
   @override
   void initState() {
     super.initState();
+
+    videoProvider = Provider.of<VideoProvider>(context, listen: false);
+    setState(() {
+      videoProvider.zoomURL = widget.zoomLink;
+    });
     final videoID = YoutubePlayer.convertUrlToId(widget.link);
 
     _controller = YoutubePlayerController(
@@ -127,14 +135,20 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                       widget.zoomLink.isNotEmpty
                           ? GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ZoomRecordingPlay(
-                                        zoomLink: widget.zoomLink),
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => ZoomRecordingPlay(
+                                //         zoomLink: widget.zoomLink),
+                                //   ),
+                                // );
                                 print(widget.zoomLink);
+                                setState(() {
+                                  launchUrl(
+                                    Uri.parse(widget.zoomLink),
+                                    mode: LaunchMode.inAppWebView,
+                                  );
+                                });
                               },
                               child: CustomButton(
                                 text: 'Zoom Video',
