@@ -45,10 +45,12 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
         if (isFullScreen) {
           setState(() {
             isFullScreen = true;
+            _controller.pause();
           });
         } else {
           setState(() {
             isFullScreen = false;
+            _controller.pause();
           });
         }
       }
@@ -71,13 +73,11 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
               height: screenHeight,
               width: screenWidth,
               color: Colors.black,
-              child: Center(
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: YoutubePlayer(
-                    controller: _controller,
-                    showVideoProgressIndicator: true,
-                  ),
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: YoutubePlayer(
+                  controller: _controller,
+                  showVideoProgressIndicator: true,
                 ),
               ),
             )
