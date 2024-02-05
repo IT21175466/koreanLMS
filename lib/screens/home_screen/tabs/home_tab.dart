@@ -6,6 +6,7 @@ import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/models/video.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/login_provider.dart';
+import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
 import 'package:koreanlms/screens/video/video_verification.dart';
 import 'package:koreanlms/widgets/search_textfiled.dart';
@@ -26,6 +27,7 @@ class _HomeTabState extends State<HomeTab> {
   String? studentID = '';
 
   var videoProvider = VideoProvider();
+  var quizProvider = QuizProvider();
 
   String phone = '';
 
@@ -42,6 +44,7 @@ class _HomeTabState extends State<HomeTab> {
     appDataProvider.getImageData();
 
     videoProvider = Provider.of<VideoProvider>(context, listen: false);
+    quizProvider = Provider.of<QuizProvider>(context, listen: false);
   }
 
   getStudentID() async {
@@ -52,6 +55,7 @@ class _HomeTabState extends State<HomeTab> {
     });
 
     videoProvider.checkUserInBatch(studentID!);
+    quizProvider.checkUserInBatch(studentID!);
   }
 
   String generateRandomCode() {
@@ -227,32 +231,53 @@ class _HomeTabState extends State<HomeTab> {
                                 Video video = videoProvider.videos[index];
                                 return GestureDetector(
                                   onTap: () async {
-                                    String verificationCode =
-                                        await generateRandomCode();
+                                    if (videoProvider.payment ==
+                                        video.paymentTerm) {
+                                      String verificationCode =
+                                          await generateRandomCode();
 
-                                    await sendVerificationCode(
-                                      phone: loginProvider.phoneNumber,
-                                      code: verificationCode,
-                                    );
+                                      await sendVerificationCode(
+                                        phone: loginProvider.phoneNumber,
+                                        code: verificationCode,
+                                      );
 
-                                    if (isSucess = true) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              VideoVerificationScreen(
-                                            msgCode: verificationCode,
-                                            link: video.link,
-                                            title: video.title,
-                                            teacher: video.teacher,
-                                            zoomLink: video.zoomLink,
+                                      if (isSucess = true) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                VideoVerificationScreen(
+                                              msgCode: verificationCode,
+                                              link: video.link,
+                                              title: video.title,
+                                              teacher: video.teacher,
+                                              zoomLink: video.zoomLink,
+                                            ),
                                           ),
+                                        );
+                                      }
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Make payment and try again!',
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          backgroundColor: Colors.green,
                                         ),
                                       );
                                     }
                                   },
                                   child: VideoCard(
-                                    isAccepted: true,
+                                    isAccepted: videoProvider.payment ==
+                                            video.paymentTerm
+                                        ? true
+                                        : false,
                                     isWatched: false,
                                     teacher: video.teacher,
                                     title: video.title,

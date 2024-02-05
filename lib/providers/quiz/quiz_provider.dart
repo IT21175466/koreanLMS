@@ -1,22 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:koreanlms/models/video.dart';
+import 'package:koreanlms/models/quiz.dart';
 
-class VideoProvider extends ChangeNotifier {
+class QuizProvider extends ChangeNotifier {
   bool noBatch = false;
   bool paymentDone = false;
+
   String batch = '';
   String sClass = '';
   String payment = '';
   bool isLoading = false;
 
-  String teacherName = '';
-  String title = '';
-
-  //List<String> videoDocumentIDs = [];
-
-  List<Video> videos = [];
-  List<Video> lockedVideos = [];
+  List<Quiz> quizzes = [];
 
   checkUserInBatch(String sID) async {
     try {
@@ -48,7 +43,7 @@ class VideoProvider extends ChangeNotifier {
           print('Not yet payment');
           notifyListeners();
         } else {
-          getVideos();
+          getQuizzes();
           paymentDone = true;
           notifyListeners();
         }
@@ -63,43 +58,35 @@ class VideoProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getVideos() async {
+  Future<void> getQuizzes() async {
     try {
-      final QuerySnapshot videoQuerySnapshot = await FirebaseFirestore.instance
+      final QuerySnapshot quizQuerySnapshot = await FirebaseFirestore.instance
           .collection("Batches")
           .doc(batch)
           .collection("Classes")
           .doc(sClass)
-          .collection("Videos")
+          .collection("Papers")
           .get();
 
-      for (QueryDocumentSnapshot videoDoc in videoQuerySnapshot.docs) {
-        String title = videoDoc['Title'];
-        String teacher = videoDoc['Teacher_Name'];
-        String paymentTerm = videoDoc['Payment_term'];
-        String link = videoDoc['Video_link'];
-        String zoomLink = videoDoc['zoomLink'];
+      for (QueryDocumentSnapshot quizDoc in quizQuerySnapshot.docs) {
+        String quizID = quizDoc['QuizID'];
+        String question = quizDoc['Question'];
+        String paymentTerm = quizDoc['Payment_term'];
+        String answers = quizDoc['Answers'];
 
-        Video video = Video(
+        Quiz quiz = Quiz(
+          quizID: quizID,
+          question: question,
+          answers: answers,
           paymentTerm: paymentTerm,
-          link: link,
-          title: title,
-          teacher: teacher,
-          zoomLink: zoomLink,
         );
 
-        if (payment == paymentTerm) {
-          videos.add(video);
-        } else {
-          lockedVideos.add(video);
-        }
+        quizzes.add(quiz);
       }
 
       notifyListeners();
     } catch (e) {
       print(e);
-    } finally {
-      videos.addAll(lockedVideos);
     }
   }
 }

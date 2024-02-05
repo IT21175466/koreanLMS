@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:koreanlms/screens/video/zoom_recording_webview.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayVideoScreen extends StatefulWidget {
@@ -22,6 +22,7 @@ class PlayVideoScreen extends StatefulWidget {
 }
 
 class _PlayVideoScreenState extends State<PlayVideoScreen> {
+  bool isFullScreen = false;
   late YoutubePlayerController _controller;
 
   @override
@@ -33,14 +34,33 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
       initialVideoId: videoID!,
       flags: YoutubePlayerFlags(
         autoPlay: false,
-        mute: true,
+        mute: false,
       ),
     );
+
+    _controller.addListener(() {
+      if (_controller.value.isFullScreen != isFullScreen) {
+        isFullScreen = _controller.value.isFullScreen;
+
+        if (isFullScreen) {
+          setState(() {
+            isFullScreen = true;
+            _controller.pause();
+          });
+        } else {
+          setState(() {
+            isFullScreen = false;
+            _controller.pause();
+          });
+        }
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
@@ -48,87 +68,93 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
         toolbarHeight: 0,
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: YoutubePlayer(
-              controller: _controller,
-              showVideoProgressIndicator: true,
-            ),
-          ),
-
-          // AspectRatio(
-          //   aspectRatio: 16 / 9,
-          //   child: VimeoPlayer(
-          //     videoId: widget.link,
-          //   ),
-          // ),
-
-          Container(
-            padding: EdgeInsets.all(15),
-            child: Column(
+      body: isFullScreen
+          ? Container(
+              height: screenHeight,
+              width: screenWidth,
+              color: Colors.black,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: YoutubePlayer(
+                  controller: _controller,
+                  showVideoProgressIndicator: true,
+                ),
+              ),
+            )
+          : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  widget.title,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: YoutubePlayer(
+                    controller: _controller,
+                    showVideoProgressIndicator: true,
                   ),
                 ),
-                Text(
-                  widget.teacher,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    if (widget.zoomLink.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'No zoom videos yet!',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                          backgroundColor: Colors.green,
+
+                // AspectRatio(
+                //   aspectRatio: 16 / 9,
+                //   child: VimeoPlayer(
+                //     videoId: widget.link,
+                //   ),
+                // ),
+
+                Container(
+                  padding: EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.title,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
                         ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ZoomRecordingPlay(zoomLink: widget.zoomLink),
+                      ),
+                      Text(
+                        widget.teacher,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: Colors.grey,
                         ),
-                      );
-                    }
-                  },
-                  child: CustomButton(
-                    text: 'Zoom Video',
-                    height: 50,
-                    width: screenWidth / 2,
-                    backgroundColor: Colors.green,
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      widget.zoomLink.isNotEmpty
+                          ? GestureDetector(
+                              onTap: () {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => ZoomRecordingPlay(
+                                //         zoomLink: widget.zoomLink),
+                                //   ),
+                                // );
+                                print(widget.zoomLink);
+                                setState(() {
+                                  launchUrl(
+                                    Uri.parse(widget.zoomLink),
+                                    mode: LaunchMode.inAppWebView,
+                                  );
+                                });
+                              },
+                              child: CustomButton(
+                                text: 'Zoom Video',
+                                height: 50,
+                                width: screenWidth / 2,
+                                backgroundColor: Colors.green,
+                              ),
+                            )
+                          : SizedBox(),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }
