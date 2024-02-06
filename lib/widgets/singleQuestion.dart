@@ -54,10 +54,7 @@ class SingleQuestion extends StatefulWidget {
 class _SingleQuestionState extends State<SingleQuestion> {
   late YoutubePlayerController _controller;
 
-  @override
-  void initState() {
-    super.initState();
-
+  void initializeController() {
     if (widget.questionVideo.isNotEmpty) {
       final videoID = YoutubePlayer.convertUrlToId(widget.questionVideo);
 
@@ -66,16 +63,15 @@ class _SingleQuestionState extends State<SingleQuestion> {
         flags: YoutubePlayerFlags(
           autoPlay: false,
           mute: false,
-          hideControls: true,
+          //hideControls: true,
         ),
       );
-    } else {
-      print('No Video');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    initializeController();
     double screenWidth = MediaQuery.of(context).size.width;
     //double screenHeight = MediaQuery.of(context).size.height;
     return Container(
@@ -107,11 +103,19 @@ class _SingleQuestionState extends State<SingleQuestion> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: widget.questionVideo.isNotEmpty
-                      ? AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: YoutubePlayer(
-                            controller: _controller,
-                            showVideoProgressIndicator: true,
+                      ? Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: YoutubePlayer(
+                              controller: _controller,
+                              showVideoProgressIndicator: true,
+                              bottomActions: [
+                                FullScreenButton(
+                                  color: Colors.transparent,
+                                )
+                              ],
+                            ),
                           ),
                         )
                       : Image.network(

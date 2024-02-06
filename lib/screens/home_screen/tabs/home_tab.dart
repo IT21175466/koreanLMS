@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
@@ -36,6 +37,12 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   void initState() {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [
+        SystemUiOverlay.top,
+      ],
+    );
     super.initState();
     getStudentID();
     final appDataProvider =
@@ -198,7 +205,7 @@ class _HomeTabState extends State<HomeTab> {
                   width: screenWidth,
                   height: screenHeight / 6 * 5 -
                       (AppBar().preferredSize.height +
-                          (Platform.isIOS ? 92 : 60)),
+                          (Platform.isIOS ? 92 : 70)),
                   //padding: EdgeInsets.symmetric(horizontal: 10),
                   child: videoProvider.noBatch
                       ? Column(
