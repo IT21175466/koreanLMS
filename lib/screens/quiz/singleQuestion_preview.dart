@@ -141,9 +141,7 @@ class _SingleQuestionToPreviewState extends State<SingleQuestionToPreview> {
               answer: widget.answer1,
               answerImage: widget.answer1Image,
               textColor: widget.userSelected == widget.answer1
-                  ? widget.userSelected == widget.correctAnswer
-                      ? Colors.white
-                      : Colors.grey
+                  ? Colors.white
                   : Colors.grey,
               backgroundColor: widget.userSelected == widget.answer1
                   ? widget.userSelected == widget.correctAnswer
@@ -160,9 +158,7 @@ class _SingleQuestionToPreviewState extends State<SingleQuestionToPreview> {
               answer: widget.answer2,
               answerImage: widget.answer2Image,
               textColor: widget.userSelected == widget.answer2
-                  ? widget.userSelected == widget.correctAnswer
-                      ? Colors.white
-                      : Colors.grey
+                  ? Colors.white
                   : Colors.grey,
               backgroundColor: widget.userSelected == widget.answer2
                   ? widget.userSelected == widget.correctAnswer
@@ -179,9 +175,7 @@ class _SingleQuestionToPreviewState extends State<SingleQuestionToPreview> {
               answer: widget.answer3,
               answerImage: widget.answer3Image,
               textColor: widget.userSelected == widget.answer3
-                  ? widget.userSelected == widget.correctAnswer
-                      ? Colors.white
-                      : Colors.grey
+                  ? Colors.white
                   : Colors.grey,
               backgroundColor: widget.userSelected == widget.answer3
                   ? widget.userSelected == widget.correctAnswer
@@ -198,9 +192,7 @@ class _SingleQuestionToPreviewState extends State<SingleQuestionToPreview> {
               answer: widget.answer4,
               answerImage: widget.answer4Image,
               textColor: widget.userSelected == widget.answer4
-                  ? widget.userSelected == widget.correctAnswer
-                      ? Colors.white
-                      : Colors.grey
+                  ? Colors.white
                   : Colors.grey,
               backgroundColor: widget.userSelected == widget.answer4
                   ? widget.userSelected == widget.correctAnswer
@@ -219,9 +211,7 @@ class _SingleQuestionToPreviewState extends State<SingleQuestionToPreview> {
                     answer: widget.answer5,
                     answerImage: widget.answer5Image,
                     textColor: widget.userSelected == widget.answer5
-                        ? widget.userSelected == widget.correctAnswer
-                            ? Colors.white
-                            : Colors.grey
+                        ? Colors.white
                         : Colors.grey,
                     backgroundColor: widget.userSelected == widget.answer5
                         ? widget.userSelected == widget.correctAnswer

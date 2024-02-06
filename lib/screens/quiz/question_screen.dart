@@ -264,7 +264,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                           goToPrevousQuestion();
                                           setState(() {
                                             quizProvider.selectedAnswer = "";
-
+                                            quizProvider.answers.removeLast();
                                             quizProvider.isSelected = false;
                                           });
                                         },
