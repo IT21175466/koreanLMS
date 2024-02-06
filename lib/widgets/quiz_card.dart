@@ -26,12 +26,12 @@ class _QuizCardState extends State<QuizCard> {
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.document_scanner,
-            size: 35,
+          SizedBox(
+            height: 40,
+            child: Image.asset('assets/images/quiz.png'),
           ),
           SizedBox(
-            width: 20,
+            width: 10,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
