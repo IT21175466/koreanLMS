@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
+import 'package:koreanlms/screens/quiz/quiz_ending.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/outline_button.dart';
 import 'package:koreanlms/widgets/singleQuestion.dart';
@@ -247,26 +248,34 @@ class _QuestionScreenState extends State<QuestionScreen> {
                               quizProvider.quizzes[index].answer5Video,
                           correctAnswer:
                               quizProvider.quizzes[index].correctAnswer,
+                          timer: quizProvider.quizzes[index].timer,
+                          indexOfQuiz: quizProvider.quizzes[index].toString(),
                         ),
                         Row(
                           children: [
                             quizProvider.quizzes[index].isBackEnable
-                                ? GestureDetector(
-                                    onTap: () {
-                                      goToPrevousQuestion();
-                                      setState(() {
-                                        quizProvider.selectedAnswer = "";
-                                        quizProvider.isSelected = false;
-                                      });
-                                    },
-                                    child: CustomOutlineButton(
-                                      text: 'Previous',
-                                      height: 45,
-                                      width: screenWidth / 2 - 20,
-                                      borderColor: Colors.green,
-                                      textColor: Colors.green,
-                                    ),
-                                  )
+                                ? quizProvider.isSelected
+                                    ? SizedBox(
+                                        height: 45,
+                                        width: screenWidth / 2 - 20,
+                                      )
+                                    : GestureDetector(
+                                        onTap: () {
+                                          goToPrevousQuestion();
+                                          setState(() {
+                                            quizProvider.selectedAnswer = "";
+
+                                            quizProvider.isSelected = false;
+                                          });
+                                        },
+                                        child: CustomOutlineButton(
+                                          text: 'Previous',
+                                          height: 45,
+                                          width: screenWidth / 2 - 20,
+                                          borderColor: Colors.green,
+                                          textColor: Colors.green,
+                                        ),
+                                      )
                                 : SizedBox(
                                     height: 45,
                                     width: screenWidth / 2 - 20,
@@ -274,14 +283,27 @@ class _QuestionScreenState extends State<QuestionScreen> {
                             Spacer(),
                             GestureDetector(
                               onTap: () {
-                                goToNextQuestion();
-                                setState(() {
-                                  quizProvider.selectedAnswer = "";
-                                  quizProvider.isSelected = false;
-                                });
+                                if (quizProvider.quizzes[index] ==
+                                    quizProvider.quizzes.last) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => QuizEnd(),
+                                    ),
+                                  );
+                                } else {
+                                  goToNextQuestion();
+                                  setState(() {
+                                    quizProvider.selectedAnswer = "";
+                                    quizProvider.isSelected = false;
+                                  });
+                                }
                               },
                               child: CustomButton(
-                                text: 'Next',
+                                text: quizProvider.quizzes[index] ==
+                                        quizProvider.quizzes.last
+                                    ? "Finish"
+                                    : 'Next',
                                 height: 45,
                                 width: screenWidth / 2 - 20,
                                 backgroundColor: Colors.green,

@@ -107,6 +107,7 @@ class _QuizSectionState extends State<QuizSection> {
                                     onTap: () async {
                                       await quizProvider
                                           .getQuizzes(paper.paperName);
+                                      quizProvider.isSelected = false;
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

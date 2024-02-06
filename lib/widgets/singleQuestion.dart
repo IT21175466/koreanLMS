@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:koreanlms/models/answer.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/widgets/answer_tile.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,8 @@ class SingleQuestion extends StatefulWidget {
   final String answer4Video;
   final String answer5Video;
   final String correctAnswer;
+  final int timer;
+  final String indexOfQuiz;
   const SingleQuestion({
     super.key,
     required this.question,
@@ -49,6 +52,8 @@ class SingleQuestion extends StatefulWidget {
     required this.answer4Video,
     required this.answer5Video,
     required this.correctAnswer,
+    required this.timer,
+    required this.indexOfQuiz,
   });
 
   @override
@@ -88,6 +93,28 @@ class _SingleQuestionState extends State<SingleQuestion> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Divider(),
+            // widget.timer == 0
+            //     ? SizedBox()
+            //     : Container(
+            //         width: screenWidth,
+            //         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            //         decoration: BoxDecoration(
+            //           color: _seconds < 10 ? Colors.red : Colors.green,
+            //           borderRadius: BorderRadius.circular(5),
+            //         ),
+            //         child: Text(
+            //           '$_seconds seconds remaining',
+            //           style: TextStyle(
+            //             fontFamily: 'Poppins',
+            //             fontWeight: FontWeight.w400,
+            //             fontSize: 12,
+            //             color: Colors.white,
+            //           ),
+            //         ),
+            //       ),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               widget.question,
               style: TextStyle(
@@ -133,6 +160,7 @@ class _SingleQuestionState extends State<SingleQuestion> {
             SizedBox(
               height: 15,
             ),
+
             GestureDetector(
               onTap: () {
                 if (quizProvider.isSelected) {
@@ -151,6 +179,15 @@ class _SingleQuestionState extends State<SingleQuestion> {
                     quizProvider.isSelected = true;
                     quizProvider.coorectAnswer = widget.correctAnswer;
                     quizProvider.selectedAnswer = widget.answer1;
+                    quizProvider.countCorrectWrong();
+
+                    Answer answer = Answer(
+                      indexOfQuiz: widget.indexOfQuiz,
+                      correctAnswer: quizProvider.coorectAnswer,
+                      selectedAnswer: quizProvider.selectedAnswer,
+                    );
+
+                    quizProvider.answers.add(answer);
                   });
                 }
               },
@@ -192,6 +229,15 @@ class _SingleQuestionState extends State<SingleQuestion> {
                     quizProvider.isSelected = true;
                     quizProvider.coorectAnswer = widget.correctAnswer;
                     quizProvider.selectedAnswer = widget.answer2;
+                    quizProvider.countCorrectWrong();
+
+                    Answer answer = Answer(
+                      indexOfQuiz: widget.indexOfQuiz,
+                      correctAnswer: quizProvider.coorectAnswer,
+                      selectedAnswer: quizProvider.selectedAnswer,
+                    );
+
+                    quizProvider.answers.add(answer);
                   });
                 }
               },
@@ -233,6 +279,15 @@ class _SingleQuestionState extends State<SingleQuestion> {
                     quizProvider.isSelected = true;
                     quizProvider.selectedAnswer = widget.answer3;
                     quizProvider.coorectAnswer = widget.correctAnswer;
+                    quizProvider.countCorrectWrong();
+
+                    Answer answer = Answer(
+                      indexOfQuiz: widget.indexOfQuiz,
+                      correctAnswer: quizProvider.coorectAnswer,
+                      selectedAnswer: quizProvider.selectedAnswer,
+                    );
+
+                    quizProvider.answers.add(answer);
                   });
                 }
               },
@@ -274,6 +329,15 @@ class _SingleQuestionState extends State<SingleQuestion> {
                     quizProvider.isSelected = true;
                     quizProvider.selectedAnswer = widget.answer4;
                     quizProvider.coorectAnswer = widget.correctAnswer;
+                    quizProvider.countCorrectWrong();
+
+                    Answer answer = Answer(
+                      indexOfQuiz: widget.indexOfQuiz,
+                      correctAnswer: quizProvider.coorectAnswer,
+                      selectedAnswer: quizProvider.selectedAnswer,
+                    );
+
+                    quizProvider.answers.add(answer);
                   });
                 }
               },
@@ -317,6 +381,15 @@ class _SingleQuestionState extends State<SingleQuestion> {
                           quizProvider.isSelected = true;
                           quizProvider.coorectAnswer = widget.correctAnswer;
                           quizProvider.selectedAnswer = widget.answer5;
+                          quizProvider.countCorrectWrong();
+
+                          Answer answer = Answer(
+                            indexOfQuiz: widget.indexOfQuiz,
+                            correctAnswer: quizProvider.coorectAnswer,
+                            selectedAnswer: quizProvider.selectedAnswer,
+                          );
+
+                          quizProvider.answers.add(answer);
                         });
                       }
                     },

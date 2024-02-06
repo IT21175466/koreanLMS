@@ -22,6 +22,7 @@ class Quiz {
   final String answer3Video;
   final String answer4Video;
   final String answer5Video;
+  final int timer;
   //final String quizAmount;
 
   Quiz({
@@ -48,6 +49,7 @@ class Quiz {
     required this.answer3Video,
     required this.answer4Video,
     required this.answer5Video,
+    required this.timer,
     //required this.quizAmount,
   });
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:koreanlms/models/answer.dart';
 import 'package:koreanlms/models/paper.dart';
 import 'package:koreanlms/models/quiz.dart';
 
@@ -15,11 +16,25 @@ class QuizProvider extends ChangeNotifier {
 
   List<Quiz> quizzes = [];
   List<Paper> papers = [];
+  List<Answer> answers = [];
 
   bool isSelected = false;
 
+  int correctAnswers = 0;
+  int wrongAnswers = 0;
+
   String coorectAnswer = '';
   String selectedAnswer = '';
+
+  countCorrectWrong() {
+    if (coorectAnswer == selectedAnswer) {
+      correctAnswers++;
+      notifyListeners();
+    } else {
+      wrongAnswers++;
+      notifyListeners();
+    }
+  }
 
   checkUserInBatch(String sID) async {
     try {
@@ -116,6 +131,14 @@ class QuizProvider extends ChangeNotifier {
         String answer3 = quizDoc['Answer3'];
         String answer4 = quizDoc['Answer4'];
         String correctAnswer = quizDoc['CorrectAnswer'];
+        int timer;
+
+        if (data.containsKey('Timer')) {
+          timer = quizDoc['Timer'];
+        } else {
+          timer = 0;
+        }
+
         String answer5 = '';
 
         if (data.containsKey('Answer5')) {
@@ -247,6 +270,7 @@ class QuizProvider extends ChangeNotifier {
           answer3Video: answer3Video,
           answer4Video: answer4Video,
           answer5Video: answer5Video, correctAnswer: correctAnswer,
+          timer: timer,
           //quizAmount: quizAmount,
         );
 
