@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:koreanlms/constants/app_colors.dart';
 
 class AnswerTile extends StatefulWidget {
   final String answer;
   final String answerImage;
+  final Color textColor;
+  final Color backgroundColor;
+  final Image icon;
   const AnswerTile({
     super.key,
     required this.answer,
     required this.answerImage,
+    required this.textColor,
+    required this.backgroundColor,
+    required this.icon,
   });
 
   @override
@@ -27,18 +32,29 @@ class _AnswerTileState extends State<AnswerTile> {
         border: Border.all(
           color: Colors.grey,
         ),
+        color: widget.backgroundColor,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.answer,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
-              color: AppColors.grayColor,
-            ),
+          Row(
+            children: [
+              Text(
+                widget.answer,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  color: widget.textColor,
+                ),
+              ),
+              Spacer(),
+              SizedBox(
+                height: 20,
+                width: 20,
+                child: widget.icon,
+              )
+            ],
           ),
           widget.answerImage.isEmpty
               ? SizedBox()

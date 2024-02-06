@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/widgets/answer_tile.dart';
+import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SingleQuestion extends StatefulWidget {
@@ -23,6 +25,7 @@ class SingleQuestion extends StatefulWidget {
   final String answer3Video;
   final String answer4Video;
   final String answer5Video;
+  final String correctAnswer;
   const SingleQuestion({
     super.key,
     required this.question,
@@ -45,6 +48,7 @@ class SingleQuestion extends StatefulWidget {
     required this.answer3Video,
     required this.answer4Video,
     required this.answer5Video,
+    required this.correctAnswer,
   });
 
   @override
@@ -77,81 +81,298 @@ class _SingleQuestionState extends State<SingleQuestion> {
     return Container(
       //height: screenHeight - (AppBar().preferredSize.height * 2),
       width: screenWidth,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Divider(),
-          Text(
-            widget.question,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w600,
-              fontSize: 17,
+      child: Consumer(
+        builder:
+            (BuildContext context, QuizProvider quizProvider, Widget? child) =>
+                Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Divider(),
+            Text(
+              widget.question,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w600,
+                fontSize: 17,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          widget.questionImage.isEmpty && widget.questionVideo.isEmpty
-              ? SizedBox()
-              : Container(
-                  height: 200,
-                  width: screenWidth,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 224, 222, 222),
-                    borderRadius: BorderRadius.circular(15),
+            SizedBox(
+              height: 20,
+            ),
+            widget.questionImage.isEmpty && widget.questionVideo.isEmpty
+                ? SizedBox()
+                : Container(
+                    height: 200,
+                    width: screenWidth,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 224, 222, 222),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: widget.questionVideo.isNotEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: YoutubePlayer(
+                                controller: _controller,
+                                showVideoProgressIndicator: true,
+                                bottomActions: [
+                                  FullScreenButton(
+                                    color: Colors.transparent,
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        : Image.network(
+                            '${widget.questionImage}',
+                            fit: BoxFit.contain,
+                          ),
                   ),
-                  child: widget.questionVideo.isNotEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: YoutubePlayer(
-                              controller: _controller,
-                              showVideoProgressIndicator: true,
-                              bottomActions: [
-                                FullScreenButton(
-                                  color: Colors.transparent,
-                                )
-                              ],
+            SizedBox(
+              height: 15,
+            ),
+            GestureDetector(
+              onTap: () {
+                if (quizProvider.isSelected) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'You already selected a answer!',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  setState(() {
+                    quizProvider.isSelected = true;
+                    quizProvider.coorectAnswer = widget.correctAnswer;
+                    quizProvider.selectedAnswer = widget.answer1;
+                  });
+                }
+              },
+              child: AnswerTile(
+                answer: widget.answer1,
+                answerImage: widget.answer1Image,
+                textColor: quizProvider.selectedAnswer == widget.answer1
+                    ? quizProvider.coorectAnswer == widget.correctAnswer
+                        ? Colors.white
+                        : Colors.grey
+                    : Colors.grey,
+                backgroundColor: quizProvider.selectedAnswer == widget.answer1
+                    ? quizProvider.selectedAnswer == widget.correctAnswer
+                        ? Colors.green
+                        : Colors.red
+                    : Colors.white,
+                icon: quizProvider.selectedAnswer == widget.answer1
+                    ? quizProvider.selectedAnswer == widget.correctAnswer
+                        ? Image.asset('assets/images/correct.png')
+                        : Image.asset('assets/images/wrong.png')
+                    : Image.asset('assets/images/correct.png'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                if (quizProvider.isSelected) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'You already selected a answer!',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  setState(() {
+                    quizProvider.isSelected = true;
+                    quizProvider.coorectAnswer = widget.correctAnswer;
+                    quizProvider.selectedAnswer = widget.answer2;
+                  });
+                }
+              },
+              child: AnswerTile(
+                answer: widget.answer2,
+                answerImage: widget.answer2Image,
+                textColor: quizProvider.selectedAnswer == widget.answer2
+                    ? quizProvider.coorectAnswer == widget.correctAnswer
+                        ? Colors.white
+                        : Colors.grey
+                    : Colors.grey,
+                backgroundColor: quizProvider.selectedAnswer == widget.answer2
+                    ? quizProvider.selectedAnswer == widget.correctAnswer
+                        ? Colors.green
+                        : Colors.red
+                    : Colors.white,
+                icon: quizProvider.selectedAnswer == widget.answer2
+                    ? quizProvider.selectedAnswer == widget.correctAnswer
+                        ? Image.asset('assets/images/correct.png')
+                        : Image.asset('assets/images/wrong.png')
+                    : Image.asset('assets/images/correct.png'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                if (quizProvider.isSelected) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'You already selected a answer!',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  setState(() {
+                    quizProvider.isSelected = true;
+                    quizProvider.selectedAnswer = widget.answer3;
+                    quizProvider.coorectAnswer = widget.correctAnswer;
+                  });
+                }
+              },
+              child: AnswerTile(
+                answer: widget.answer3,
+                answerImage: widget.answer3Image,
+                textColor: quizProvider.selectedAnswer == widget.answer3
+                    ? quizProvider.coorectAnswer == widget.correctAnswer
+                        ? Colors.white
+                        : Colors.grey
+                    : Colors.grey,
+                backgroundColor: quizProvider.selectedAnswer == widget.answer3
+                    ? quizProvider.selectedAnswer == widget.correctAnswer
+                        ? Colors.green
+                        : Colors.red
+                    : Colors.white,
+                icon: quizProvider.selectedAnswer == widget.answer3
+                    ? quizProvider.selectedAnswer == widget.correctAnswer
+                        ? Image.asset('assets/images/correct.png')
+                        : Image.asset('assets/images/wrong.png')
+                    : Image.asset('assets/images/correct.png'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                if (quizProvider.isSelected) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'You already selected a answer!',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  setState(() {
+                    quizProvider.isSelected = true;
+                    quizProvider.selectedAnswer = widget.answer4;
+                    quizProvider.coorectAnswer = widget.correctAnswer;
+                  });
+                }
+              },
+              child: AnswerTile(
+                answer: widget.answer4,
+                answerImage: widget.answer4Image,
+                textColor: quizProvider.selectedAnswer == widget.answer4
+                    ? quizProvider.coorectAnswer == widget.correctAnswer
+                        ? Colors.white
+                        : Colors.grey
+                    : Colors.grey,
+                backgroundColor: quizProvider.selectedAnswer == widget.answer4
+                    ? quizProvider.selectedAnswer == widget.correctAnswer
+                        ? Colors.green
+                        : Colors.red
+                    : Colors.white,
+                icon: quizProvider.selectedAnswer == widget.answer4
+                    ? quizProvider.selectedAnswer == widget.correctAnswer
+                        ? Image.asset('assets/images/correct.png')
+                        : Image.asset('assets/images/wrong.png')
+                    : Image.asset('assets/images/correct.png'),
+              ),
+            ),
+            widget.answer5.isEmpty
+                ? SizedBox()
+                : GestureDetector(
+                    onTap: () {
+                      if (quizProvider.isSelected) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'You already selected a answer!',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                              ),
                             ),
                           ),
-                        )
-                      : Image.network(
-                          '${widget.questionImage}',
-                          fit: BoxFit.contain,
+                        );
+                      } else {
+                        setState(() {
+                          quizProvider.isSelected = true;
+                          quizProvider.coorectAnswer = widget.correctAnswer;
+                          quizProvider.selectedAnswer = widget.answer5;
+                        });
+                      }
+                    },
+                    child: AnswerTile(
+                      answer: widget.answer5,
+                      answerImage: widget.answer5Image,
+                      textColor: quizProvider.selectedAnswer == widget.answer5
+                          ? quizProvider.coorectAnswer == widget.correctAnswer
+                              ? Colors.white
+                              : Colors.grey
+                          : Colors.grey,
+                      backgroundColor: quizProvider.selectedAnswer ==
+                              widget.answer5
+                          ? quizProvider.selectedAnswer == widget.correctAnswer
+                              ? Colors.green
+                              : Colors.red
+                          : Colors.white,
+                      icon: quizProvider.selectedAnswer == widget.answer5
+                          ? quizProvider.selectedAnswer == widget.correctAnswer
+                              ? Image.asset('assets/images/correct.png')
+                              : Image.asset('assets/images/wrong.png')
+                          : Image.asset('assets/images/correct.png'),
+                    ),
+                  ),
+            SizedBox(
+              height: 10,
+            ),
+            quizProvider.isSelected == false
+                ? SizedBox()
+                : Row(
+                    children: [
+                      Text(
+                        "Correct Answer : ",
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15,
+                          color: Colors.black,
                         ),
-                ),
-          SizedBox(
-            height: 15,
-          ),
-          AnswerTile(
-            answer: widget.answer1,
-            answerImage: widget.answer1Image,
-          ),
-          AnswerTile(
-            answer: widget.answer2,
-            answerImage: widget.answer2Image,
-          ),
-          AnswerTile(
-            answer: widget.answer3,
-            answerImage: widget.answer3Image,
-          ),
-          AnswerTile(
-            answer: widget.answer4,
-            answerImage: widget.answer4Image,
-          ),
-          widget.answer5.isEmpty
-              ? SizedBox()
-              : AnswerTile(
-                  answer: widget.answer5,
-                  answerImage: widget.answer5Image,
-                ),
-          SizedBox(
-            height: 30,
-          ),
-        ],
+                      ),
+                      Text(
+                        widget.correctAnswer,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+            SizedBox(
+              height: 30,
+            ),
+          ],
+        ),
       ),
     );
   }

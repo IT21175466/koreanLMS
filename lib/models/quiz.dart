@@ -6,6 +6,7 @@ class Quiz {
   final String answer3;
   final String answer4;
   final String answer5;
+  final String correctAnswer;
   //final String paymentTerm;
   final bool isSample;
   final bool isBackEnable;
@@ -31,6 +32,7 @@ class Quiz {
     required this.answer3,
     required this.answer4,
     required this.answer5,
+    required this.correctAnswer,
     //required this.paymentTerm,
     required this.isSample,
     required this.isBackEnable,

@@ -14,6 +14,13 @@ class QuizSection extends StatefulWidget {
 
 class _QuizSectionState extends State<QuizSection> {
   @override
+  void initState() {
+    super.initState();
+    final quizProvider = Provider.of<QuizProvider>(context, listen: false);
+    quizProvider.quizzes = [];
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;

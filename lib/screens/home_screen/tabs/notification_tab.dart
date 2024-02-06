@@ -15,7 +15,7 @@ class _NotificationTabState extends State<NotificationTab> {
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
+      SystemUiMode.immersiveSticky,
       overlays: [
         SystemUiOverlay.top,
       ],

@@ -16,6 +16,11 @@ class QuizProvider extends ChangeNotifier {
   List<Quiz> quizzes = [];
   List<Paper> papers = [];
 
+  bool isSelected = false;
+
+  String coorectAnswer = '';
+  String selectedAnswer = '';
+
   checkUserInBatch(String sID) async {
     try {
       final DocumentSnapshot studentDoc = await FirebaseFirestore.instance
@@ -110,6 +115,7 @@ class QuizProvider extends ChangeNotifier {
         String answer2 = quizDoc['Answer2'];
         String answer3 = quizDoc['Answer3'];
         String answer4 = quizDoc['Answer4'];
+        String correctAnswer = quizDoc['CorrectAnswer'];
         String answer5 = '';
 
         if (data.containsKey('Answer5')) {
@@ -240,7 +246,7 @@ class QuizProvider extends ChangeNotifier {
           answer2Video: answer2Video,
           answer3Video: answer3Video,
           answer4Video: answer4Video,
-          answer5Video: answer5Video,
+          answer5Video: answer5Video, correctAnswer: correctAnswer,
           //quizAmount: quizAmount,
         );
 
