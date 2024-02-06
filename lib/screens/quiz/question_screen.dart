@@ -118,10 +118,17 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     ),
                                     actions: <Widget>[
                                       TextButton(
-                                        onPressed: () async {
+                                        onPressed: () {
                                           Navigator.of(ctx).pop();
                                           Navigator.of(ctx).pop();
-                                          quizProvider.quizzes = await [];
+                                          quizProvider.answers = [];
+                                          quizProvider.quizzes = [];
+                                          quizProvider.isSelected = false;
+                                          quizProvider.correctAnswers = 0;
+                                          quizProvider.wrongAnswers = 0;
+                                          quizProvider.coorectAnswer = '';
+                                          quizProvider.selectedAnswer = '';
+                                          quizProvider.papers = [];
                                         },
                                         child: const Text(
                                           "Yes",
@@ -166,8 +173,15 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     ),
                                     actions: <Widget>[
                                       TextButton(
-                                        onPressed: () async {
-                                          quizProvider.quizzes = await [];
+                                        onPressed: () {
+                                          quizProvider.answers = [];
+                                          quizProvider.quizzes = [];
+                                          quizProvider.isSelected = false;
+                                          quizProvider.correctAnswers = 0;
+                                          quizProvider.wrongAnswers = 0;
+                                          quizProvider.coorectAnswer = '';
+                                          quizProvider.selectedAnswer = '';
+                                          quizProvider.papers = [];
                                           Navigator.of(ctx).pop();
                                           Navigator.of(ctx).pop();
                                         },
