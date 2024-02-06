@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:koreanlms/models/answer.dart';
+import 'package:koreanlms/models/history_quiz.dart';
 import 'package:koreanlms/models/paper.dart';
 import 'package:koreanlms/models/quiz.dart';
+import 'package:koreanlms/screens/home_screen/home_screen.dart';
 
 class QuizProvider extends ChangeNotifier {
+  final db = FirebaseFirestore.instance;
+
   bool noBatch = false;
   bool paymentDone = false;
   bool noPapers = false;
@@ -26,12 +30,50 @@ class QuizProvider extends ChangeNotifier {
   String coorectAnswer = '';
   String selectedAnswer = '';
 
+  bool loading = false;
+
   countCorrectWrong() {
     if (coorectAnswer == selectedAnswer) {
       correctAnswers++;
       notifyListeners();
     } else {
       wrongAnswers++;
+      notifyListeners();
+    }
+  }
+
+  addQuizToFirebase(
+      HistoryQuiz historyQuiz, BuildContext context, String uID) async {
+    try {
+      db
+          .collection("HistoryQuizzes")
+          .doc(uID)
+          .set(historyQuiz.toJson())
+          .then((value) async {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+            (route) => false);
+        notifyListeners();
+      });
+      notifyListeners();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+        ),
+      );
+      notifyListeners();
+    } finally {
+      answers = [];
+      quizzes = [];
+      isSelected = false;
+      correctAnswers = 0;
+      wrongAnswers = 0;
+      coorectAnswer = '';
+      selectedAnswer = '';
+      papers = [];
+      loading = false;
       notifyListeners();
     }
   }

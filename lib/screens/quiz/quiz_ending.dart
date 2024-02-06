@@ -1,20 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
+import 'package:koreanlms/models/history_quiz.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
-import 'package:koreanlms/screens/home_screen/home_screen.dart';
 import 'package:koreanlms/screens/quiz/preview_screen.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/outline_button.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizEnd extends StatefulWidget {
-  const QuizEnd({super.key});
+  final String quizName;
+  const QuizEnd({super.key, required this.quizName});
 
   @override
   State<QuizEnd> createState() => _QuizEndState();
 }
 
 class _QuizEndState extends State<QuizEnd> {
+  @override
+  void initState() {
+    super.initState();
+    getUserID();
+    final quizProvider = Provider.of<QuizProvider>(context, listen: false);
+    marks =
+        ((quizProvider.correctAnswers) / (quizProvider.quizzes.length) * 100)
+            .toString();
+    print(marks);
+  }
+
+  String? userID = '';
+
+  String? marks = '';
+
+  getUserID() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userID = prefs.getString('userID');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -204,23 +228,15 @@ class _QuizEndState extends State<QuizEnd> {
                       height: 20,
                     ),
                     GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          quizProvider.answers = [];
-                          quizProvider.quizzes = [];
-                          quizProvider.isSelected = false;
-                          quizProvider.correctAnswers = 0;
-                          quizProvider.wrongAnswers = 0;
-                          quizProvider.coorectAnswer = '';
-                          quizProvider.selectedAnswer = '';
-                          quizProvider.papers = [];
-
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreen()),
-                              (route) => false);
-                        });
+                      onTap: () async {
+                        quizProvider.isLoading = true;
+                        HistoryQuiz historyQuiz = HistoryQuiz(
+                          studentID: userID!,
+                          quizName: widget.quizName,
+                          marks: marks.toString(),
+                        );
+                        quizProvider.addQuizToFirebase(
+                            historyQuiz, context, userID!);
                       },
                       child: CustomButton(
                         text: 'Done',

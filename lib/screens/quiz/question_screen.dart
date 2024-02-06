@@ -302,7 +302,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => QuizEnd(),
+                                      builder: (context) => QuizEnd(
+                                        quizName: widget.quizName,
+                                      ),
                                     ),
                                   );
                                 } else {
