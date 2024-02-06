@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:koreanlms/constants/app_colors.dart';
 
 class QuizCard extends StatefulWidget {
-  const QuizCard({super.key});
+  final String title;
+  const QuizCard({
+    super.key,
+    required this.title,
+  });
 
   @override
   State<QuizCard> createState() => _QuizCardState();
@@ -35,22 +38,22 @@ class _QuizCardState extends State<QuizCard> {
             children: [
               Spacer(),
               Text(
-                'Language Basics',
+                '${widget.title}',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
                 ),
               ),
-              Text(
-                '30 min',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  color: AppColors.grayColor,
-                ),
-              ),
+              // Text(
+              //   "${widget.quizAmount} Questions",
+              //   style: TextStyle(
+              //     fontFamily: 'Poppins',
+              //     fontWeight: FontWeight.w600,
+              //     fontSize: 14,
+              //     color: AppColors.grayColor,
+              //   ),
+              // ),
               Spacer(),
             ],
           ),

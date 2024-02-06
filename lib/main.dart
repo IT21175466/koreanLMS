@@ -50,6 +50,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: primary,
         ),
+        //home: QuizTab(),
         initialRoute: loginStatus ? '/initsplash' : '/login',
         routes: AppRoutes.getRoutes(),
       ),

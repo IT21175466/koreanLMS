@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:koreanlms/models/paper.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
+import 'package:koreanlms/screens/quiz/question_screen.dart';
 import 'package:koreanlms/widgets/quiz_card.dart';
 import 'package:provider/provider.dart';
 
@@ -46,26 +48,73 @@ class _QuizSectionState extends State<QuizSection> {
                     Spacer(),
                   ],
                 )
-              : Column(
-                  children: [
-                    SizedBox(
-                      height: 15,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        //Navigator.pushNamed(context, '/quiz');
-                      },
-                      child: QuizCard(),
-                    ),
-                    QuizCard(),
-                    QuizCard(),
-                    QuizCard(),
-                    QuizCard(),
-                    SizedBox(
-                      height: 30,
-                    ),
-                  ],
-                ),
+              : quizProvider.noBatch == false &&
+                      quizProvider.payment == "not_yet"
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Spacer(),
+                        Text(
+                          'Payment Required',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Spacer(),
+                      ],
+                    )
+                  : quizProvider.noPapers
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Spacer(),
+                            Text(
+                              'No papers yet!',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Spacer(),
+                          ],
+                        )
+                      : ListView.builder(
+                          itemCount: quizProvider.papers.length,
+                          itemBuilder: (context, index) {
+                            Paper paper = quizProvider.papers[index];
+                            return quizProvider.papers.isEmpty
+                                ? Center(
+                                    child: Text(
+                                      'No Quizzes yet!',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  )
+                                : GestureDetector(
+                                    onTap: () async {
+                                      await quizProvider
+                                          .getQuizzes(paper.paperName);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => QuestionScreen(
+                                              quizName: paper.paperName),
+                                        ),
+                                      );
+                                      print(paper.paperName);
+                                    },
+                                    child: QuizCard(
+                                      title: paper.paperName,
+                                    ),
+                                  );
+                          },
+                        ),
         ),
       ),
     );

@@ -64,6 +64,9 @@ class _QuizTabState extends State<QuizTab> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
               Expanded(
                 child: TabBarView(
                   children: [

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
-import 'package:koreanlms/widgets/outline_button.dart';
 
 class QuizEnd extends StatefulWidget {
   const QuizEnd({super.key});
@@ -173,12 +172,12 @@ class _QuizEndState extends State<QuizEnd> {
                     ],
                   ),
                   Spacer(),
-                  CustomOutlineButton(
-                    text: 'Preview',
-                    height: 50,
-                    width: screenWidth,
-                    backgroundColor: Colors.white,
-                  ),
+                  // CustomOutlineButton(
+                  //   text: 'Preview',
+                  //   height: 50,
+                  //   width: screenWidth,
+                  //   backgroundColor: Colors.white,
+                  // ),
                   SizedBox(
                     height: 20,
                   ),
