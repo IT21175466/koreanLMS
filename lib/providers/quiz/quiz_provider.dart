@@ -70,6 +70,7 @@ class QuizProvider extends ChangeNotifier {
       quizzes = [];
       isSelected = false;
       correctAnswers = [];
+      wrongAnswers = [];
       coorectAnswer = '';
       selectedAnswer = '';
       loading = false;
