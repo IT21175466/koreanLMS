@@ -23,6 +23,7 @@ class QuestionScreen extends StatefulWidget {
 }
 
 class _QuestionScreenState extends State<QuestionScreen> {
+  var quizProvider = QuizProvider();
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIMode(
@@ -261,7 +262,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                           correctAnswer:
                               quizProvider.quizzes[index].correctAnswer,
                           timer: quizProvider.quizzes[index].timer,
-                          indexOfQuiz: quizProvider.quizzes[index].toString(),
+                          indexOfQuiz: index,
                           questionSample:
                               quizProvider.quizzes[index].questionSample,
                           answer1Sample:

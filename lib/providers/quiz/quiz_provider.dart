@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:koreanlms/models/answer.dart';
@@ -24,6 +26,7 @@ class QuizProvider extends ChangeNotifier {
 
   List<String> correctAnswers = [];
   List<String> wrongAnswers = [];
+  List<String> emptyAnswers = [];
 
   bool isSelected = false;
 

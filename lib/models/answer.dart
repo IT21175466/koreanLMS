@@ -1,5 +1,5 @@
 class Answer {
-  final String indexOfQuiz;
+  final int indexOfQuiz;
   final String correctAnswer;
   final String selectedAnswer;
 

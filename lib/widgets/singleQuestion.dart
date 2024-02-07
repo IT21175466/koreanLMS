@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:koreanlms/models/answer.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/widgets/answer_tile.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SingleQuestion extends StatefulWidget {
@@ -29,7 +32,7 @@ class SingleQuestion extends StatefulWidget {
   final String answer5Video;
   final String correctAnswer;
   final int timer;
-  final String indexOfQuiz;
+  final int indexOfQuiz;
 
   //Sample
   final String questionSample;
@@ -336,27 +339,53 @@ class _SingleQuestionState extends State<SingleQuestion> {
                 Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Divider(),
-            widget.timer == 0
+            quizProvider.quizzes[widget.indexOfQuiz].timer == 0
                 ? SizedBox()
-                : Container(
-                    width: screenWidth,
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    decoration: BoxDecoration(
-                      //color: _seconds < 10 ? Colors.red : Colors.green,
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      'seconds remaining',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12,
-                        color: Colors.white,
+                : Countdown(
+                    seconds: widget.timer,
+                    build: (BuildContext context, double time) => Container(
+                      width: screenWidth,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: (time * 75.0 / 100.0) < 10.0
+                            ? Colors.red
+                            : Colors.green,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Text(
+                        '${time.toStringAsFixed(0)} seconds left',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
+                    interval: Duration(seconds: 1),
+                    onFinished: () {
+                      print('Timer is done!');
+                      if (quizProvider.selectedAnswer == "") {
+                        setState(() {
+                          quizProvider.isSelected = true;
+                          quizProvider.coorectAnswer = widget.correctAnswer;
+                          quizProvider.selectedAnswer =
+                              "Not_Selected_987123567677645495898785476584";
+                          quizProvider.countCorrectAnswers();
+
+                          Answer answer = Answer(
+                            indexOfQuiz: widget.indexOfQuiz,
+                            correctAnswer: quizProvider.coorectAnswer,
+                            selectedAnswer: quizProvider.selectedAnswer,
+                          );
+
+                          quizProvider.answers.add(answer);
+                        });
+                      }
+                    },
                   ),
+            Divider(),
             widget.isSample
                 ? Row(
                     children: [
