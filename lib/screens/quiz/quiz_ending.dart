@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/models/history_quiz.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
@@ -212,7 +213,11 @@ class _QuizEndState extends State<QuizEnd> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => QuizPreviewScreen(),
+                            builder: (context) => QuizPreviewScreen(
+                              sID: userID!,
+                              marks: marks.toString(),
+                              name: widget.quizName,
+                            ),
                           ),
                         );
                       },
@@ -229,11 +234,15 @@ class _QuizEndState extends State<QuizEnd> {
                     ),
                     GestureDetector(
                       onTap: () async {
+                        String formattedDate =
+                            DateFormat.yMMMMd().format(DateTime.now());
+
                         quizProvider.isLoading = true;
                         HistoryQuiz historyQuiz = HistoryQuiz(
                           studentID: userID!,
                           quizName: widget.quizName,
                           marks: marks.toString(),
+                          date: formattedDate,
                         );
                         quizProvider.addQuizToFirebase(
                             historyQuiz, context, userID!);

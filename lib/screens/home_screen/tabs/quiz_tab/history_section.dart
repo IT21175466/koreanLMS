@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/widgets/quiz_history_card.dart';
@@ -46,18 +47,75 @@ class _HistorySectionState extends State<HistorySection> {
                     Spacer(),
                   ],
                 )
-              : Column(
-                  children: [
-                    SizedBox(
-                      height: 15,
-                    ),
-                    QuizHistoryCard(),
-                    QuizHistoryCard(),
-                    SizedBox(
-                      height: 30,
-                    ),
-                  ],
+              : StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('HistoryQuizzes')
+                      .doc("tz7pMEAToxeZb4PTtGr9DM0Kkyo2")
+                      .collection("Quizzes")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Connection Error!',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      Text(
+                        'Loading.....',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      );
+                    }
+
+                    if (snapshot.hasData) {
+                      var docs = snapshot.data!.docs;
+                      return ListView.builder(
+                          itemCount: docs.length,
+                          itemBuilder: (context, index) {
+                            return QuizHistoryCard(
+                              title: docs[index]['QuizName'],
+                              marks: docs[index]['Marks'],
+                              didDate: docs[index]['Date'],
+                              id: docs[index]['StudentID'],
+                            );
+                          });
+                      //Text('${docs.length}');
+                    }
+                    return Text(
+                      'No Docs',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    );
+                  },
                 ),
+          // Column(
+          //     children: [
+          //       SizedBox(
+          //         height: 15,
+          //       ),
+          //       QuizHistoryCard(),
+          //       QuizHistoryCard(),
+          //       SizedBox(
+          //         height: 30,
+          //       ),
+          //     ],
+          //   ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:koreanlms/models/history_quiz.dart';
 import 'package:koreanlms/models/paper.dart';
 import 'package:koreanlms/models/quiz.dart';
 import 'package:koreanlms/screens/home_screen/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizProvider extends ChangeNotifier {
   final db = FirebaseFirestore.instance;
@@ -48,6 +49,8 @@ class QuizProvider extends ChangeNotifier {
       db
           .collection("HistoryQuizzes")
           .doc(uID)
+          .collection("Quizzes")
+          .doc()
           .set(historyQuiz.toJson())
           .then((value) async {
         Navigator.pushAndRemoveUntil(
@@ -150,7 +153,17 @@ class QuizProvider extends ChangeNotifier {
     });
   }
 
+  String? userID = '';
+
+  getUserID() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    userID = prefs.getString('userID');
+    notifyListeners();
+  }
+
   Future<void> getQuizzes(String quizName) async {
+    getUserID();
     try {
       final QuerySnapshot quizQuerySnapshot = await FirebaseFirestore.instance
           .collection("Batches")
@@ -325,4 +338,26 @@ class QuizProvider extends ChangeNotifier {
       print(e);
     }
   }
+
+  // getHistoryQuizzes() async {
+  //   try {
+  //     final DocumentSnapshot driversDoc = await FirebaseFirestore.instance
+  //         .collection("Drivers")
+  //         .doc(driverID)
+  //         .get();
+
+  //     if (driversDoc.exists) {
+  //       setState(() {
+  //         firstName = driversDoc.get('firstName').toString();
+  //         phoneNumber = driversDoc.get('telephone').toString();
+  //         dialNumber = Uri(scheme: 'tel', path: phoneNumber);
+  //       });
+  //       return Driver.fromJson(driversDoc.data() as Map<String, dynamic>);
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   } finally {
+  //     print("Succesfully get data");
+  //   }
+  // }
 }

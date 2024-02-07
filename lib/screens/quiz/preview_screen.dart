@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:koreanlms/models/history_quiz.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
-import 'package:koreanlms/screens/home_screen/home_screen.dart';
 import 'package:koreanlms/screens/quiz/singleQuestion_preview.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 
 class QuizPreviewScreen extends StatefulWidget {
-  const QuizPreviewScreen({super.key});
+  final String sID;
+  final String marks;
+  final String name;
+  const QuizPreviewScreen(
+      {super.key, required this.sID, required this.marks, required this.name});
 
   @override
   State<QuizPreviewScreen> createState() => _QuizPreviewScreenState();
@@ -61,21 +66,18 @@ class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    quizProvider.answers = [];
-                    quizProvider.quizzes = [];
-                    quizProvider.isSelected = false;
-                    quizProvider.correctAnswers = 0;
-                    quizProvider.wrongAnswers = 0;
-                    quizProvider.coorectAnswer = '';
-                    quizProvider.selectedAnswer = '';
-                    quizProvider.papers = [];
+                  String formattedDate =
+                      DateFormat.yMMMMd().format(DateTime.now());
 
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                        (route) => false);
-                  });
+                  quizProvider.isLoading = true;
+                  HistoryQuiz historyQuiz = HistoryQuiz(
+                    studentID: widget.sID,
+                    quizName: widget.name,
+                    marks: widget.marks,
+                    date: formattedDate,
+                  );
+                  quizProvider.addQuizToFirebase(
+                      historyQuiz, context, widget.sID);
                 },
                 child: CustomButton(
                   text: 'Done',
