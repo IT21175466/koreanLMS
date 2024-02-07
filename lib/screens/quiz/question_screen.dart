@@ -125,6 +125,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                           quizProvider.quizzes = [];
                                           quizProvider.isSelected = false;
                                           quizProvider.correctAnswers = [];
+                                          quizProvider.wrongAnswers = [];
                                           quizProvider.coorectAnswer = '';
                                           quizProvider.selectedAnswer = '';
                                         },
@@ -176,7 +177,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                           quizProvider.quizzes = [];
                                           quizProvider.isSelected = false;
                                           quizProvider.correctAnswers = [];
-
+                                          quizProvider.wrongAnswers = [];
                                           quizProvider.coorectAnswer = '';
                                           quizProvider.selectedAnswer = '';
                                           Navigator.of(ctx).pop();
