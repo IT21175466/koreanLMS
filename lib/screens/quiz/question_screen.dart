@@ -128,7 +128,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                           quizProvider.wrongAnswers = 0;
                                           quizProvider.coorectAnswer = '';
                                           quizProvider.selectedAnswer = '';
-                                          quizProvider.papers = [];
                                         },
                                         child: const Text(
                                           "Yes",
@@ -181,7 +180,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                           quizProvider.wrongAnswers = 0;
                                           quizProvider.coorectAnswer = '';
                                           quizProvider.selectedAnswer = '';
-                                          quizProvider.papers = [];
                                           Navigator.of(ctx).pop();
                                           Navigator.of(ctx).pop();
                                         },
@@ -264,6 +262,44 @@ class _QuestionScreenState extends State<QuestionScreen> {
                               quizProvider.quizzes[index].correctAnswer,
                           timer: quizProvider.quizzes[index].timer,
                           indexOfQuiz: quizProvider.quizzes[index].toString(),
+                          questionSample:
+                              quizProvider.quizzes[index].questionSample,
+                          answer1Sample:
+                              quizProvider.quizzes[index].answer1Sample,
+                          answer2Sample:
+                              quizProvider.quizzes[index].answer2Sample,
+                          answer3Sample:
+                              quizProvider.quizzes[index].answer3Sample,
+                          answer4Sample:
+                              quizProvider.quizzes[index].answer4Sample,
+                          answer5Sample:
+                              quizProvider.quizzes[index].answer5Sample,
+                          correctAnswerSample:
+                              quizProvider.quizzes[index].correctAnswerSample,
+                          questionVideoSample:
+                              quizProvider.quizzes[index].questionVideoSample,
+                          questionImageSample:
+                              quizProvider.quizzes[index].questionImageSample,
+                          answer1ImageSample:
+                              quizProvider.quizzes[index].answer1ImageSample,
+                          answer2ImageSample:
+                              quizProvider.quizzes[index].answer2ImageSample,
+                          answer3ImageSample:
+                              quizProvider.quizzes[index].answer3ImageSample,
+                          answer4ImageSample:
+                              quizProvider.quizzes[index].answer4ImageSample,
+                          answer5ImageSample:
+                              quizProvider.quizzes[index].answer5ImageSample,
+                          answer1VideoSample:
+                              quizProvider.quizzes[index].answer1VideoSample,
+                          answer2VideoSample:
+                              quizProvider.quizzes[index].answer2VideoSample,
+                          answer3VideoSample:
+                              quizProvider.quizzes[index].answer3VideoSample,
+                          answer4VideoSample:
+                              quizProvider.quizzes[index].answer4VideoSample,
+                          answer5VideoSample:
+                              quizProvider.quizzes[index].answer5VideoSample,
                         ),
                         Row(
                           children: [
@@ -308,11 +344,24 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     ),
                                   );
                                 } else {
-                                  goToNextQuestion();
-                                  setState(() {
-                                    quizProvider.selectedAnswer = "";
-                                    quizProvider.isSelected = false;
-                                  });
+                                  if (quizProvider.isSelected == false) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Please select a answer!',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    goToNextQuestion();
+                                    setState(() {
+                                      quizProvider.selectedAnswer = "";
+                                      quizProvider.isSelected = false;
+                                    });
+                                  }
                                 }
                               },
                               child: CustomButton(

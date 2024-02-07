@@ -297,6 +297,160 @@ class QuizProvider extends ChangeNotifier {
 
         //String quizAmount = quizDoc['quizAmount'];
 
+        //Sample
+
+        String correctAnswerSample = '';
+
+        if (data.containsKey('correctAnswerSample')) {
+          correctAnswerSample = quizDoc['correctAnswerSample'];
+        } else {
+          correctAnswerSample = '';
+        }
+
+        String questionSample = '';
+
+        if (data.containsKey('questionSample')) {
+          questionSample = quizDoc['questionSample'];
+        } else {
+          questionSample = '';
+        }
+
+        String answer1Sample = '';
+
+        if (data.containsKey('Answer1Sample')) {
+          answer1Sample = quizDoc['Answer1Sample'];
+        } else {
+          answer1Sample = '';
+        }
+
+        String answer2Sample = '';
+
+        if (data.containsKey('Answer2Sample')) {
+          answer2Sample = quizDoc['Answer2Sample'];
+        } else {
+          answer2Sample = '';
+        }
+
+        String answer3Sample = '';
+
+        if (data.containsKey('Answer3Sample')) {
+          answer3Sample = quizDoc['Answer3Sample'];
+        } else {
+          answer3Sample = '';
+        }
+
+        String answer4Sample = '';
+
+        if (data.containsKey('Answer4Sample')) {
+          answer4Sample = quizDoc['Answer4Sample'];
+        } else {
+          answer4Sample = '';
+        }
+
+        String answer5Sample = '';
+
+        if (data.containsKey('Answer5Sample')) {
+          answer5Sample = quizDoc['Answer5Sample'];
+        } else {
+          answer5Sample = '';
+        }
+
+        String answer1ImageSample = '';
+
+        if (data.containsKey('answer1ImageSample')) {
+          answer1ImageSample = quizDoc['answer1ImageSample'];
+        } else {
+          answer1ImageSample = '';
+        }
+
+        String answer2ImageSample = '';
+
+        if (data.containsKey('answer2ImageSample')) {
+          answer2ImageSample = quizDoc['answer2ImageSample'];
+        } else {
+          answer2ImageSample = '';
+        }
+
+        String answer3ImageSample = '';
+
+        if (data.containsKey('answer3ImageSample')) {
+          answer3ImageSample = quizDoc['answer3ImageSample'];
+        } else {
+          answer3ImageSample = '';
+        }
+
+        String answer4ImageSample = '';
+
+        if (data.containsKey('answer4ImageSample')) {
+          answer4ImageSample = quizDoc['answer4ImageSample'];
+        } else {
+          answer4ImageSample = '';
+        }
+
+        String answer5ImageSample = '';
+
+        if (data.containsKey('answer5ImageSample')) {
+          answer5ImageSample = quizDoc['answer5ImageSample'];
+        } else {
+          answer5ImageSample = '';
+        }
+
+        String answer1VideoSample = '';
+
+        if (data.containsKey('answer1VideoSample')) {
+          answer1VideoSample = quizDoc['answer1VideoSample'];
+        } else {
+          answer1VideoSample = '';
+        }
+
+        String answer2VideoSample = '';
+
+        if (data.containsKey('answer2VideoSample')) {
+          answer2VideoSample = quizDoc['answer2VideoSample'];
+        } else {
+          answer2VideoSample = '';
+        }
+
+        String answer3VideoSample = '';
+
+        if (data.containsKey('answer3VideoSample')) {
+          answer3VideoSample = quizDoc['answer3VideoSample'];
+        } else {
+          answer3VideoSample = '';
+        }
+
+        String answer4VideoSample = '';
+
+        if (data.containsKey('answer4VideoSample')) {
+          answer4VideoSample = quizDoc['answer4VideoSample'];
+        } else {
+          answer4VideoSample = '';
+        }
+
+        String answer5VideoSample = '';
+
+        if (data.containsKey('answer5VideoSample')) {
+          answer5VideoSample = quizDoc['answer5VideoSample'];
+        } else {
+          answer5VideoSample = '';
+        }
+
+        String questionVideoSample = '';
+
+        if (data.containsKey('questionVideoSample')) {
+          questionVideoSample = quizDoc['questionVideoSample'];
+        } else {
+          questionVideoSample = '';
+        }
+
+        String questionImageSample = '';
+
+        if (data.containsKey('questionImageSample')) {
+          questionImageSample = quizDoc['questionImageSample'];
+        } else {
+          questionImageSample = '';
+        }
+
         Quiz quiz = Quiz(
           //quizID: quizID,
           question: question,
@@ -319,8 +473,28 @@ class QuizProvider extends ChangeNotifier {
           answer2Video: answer2Video,
           answer3Video: answer3Video,
           answer4Video: answer4Video,
-          answer5Video: answer5Video, correctAnswer: correctAnswer,
+          answer5Video: answer5Video,
+          correctAnswer: correctAnswer,
           timer: timer,
+          questionSample: questionSample,
+          answer1Sample: answer1Sample,
+          answer2Sample: answer2Sample,
+          answer3Sample: answer3Sample,
+          answer4Sample: answer4Sample,
+          answer5Sample: answer5Sample,
+          correctAnswerSample: correctAnswerSample,
+          questionVideoSample: questionVideoSample,
+          questionImageSample: questionImageSample,
+          answer1ImageSample: answer1ImageSample,
+          answer2ImageSample: answer2ImageSample,
+          answer3ImageSample: answer3ImageSample,
+          answer4ImageSample: answer4ImageSample,
+          answer5ImageSample: answer5ImageSample,
+          answer1VideoSample: answer1VideoSample,
+          answer2VideoSample: answer2VideoSample,
+          answer3VideoSample: answer3VideoSample,
+          answer4VideoSample: answer4VideoSample,
+          answer5VideoSample: answer5VideoSample,
           //quizAmount: quizAmount,
         );
 
