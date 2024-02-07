@@ -369,7 +369,6 @@ class _SingleQuestionState extends State<SingleQuestion> {
                       if (quizProvider.selectedAnswer == "") {
                         setState(() {
                           quizProvider.isSelected = true;
-                          quizProvider.coorectAnswer = widget.correctAnswer;
                           quizProvider.selectedAnswer =
                               "Not_Selected_987123567677645495898785476584";
                           quizProvider.countCorrectAnswers();

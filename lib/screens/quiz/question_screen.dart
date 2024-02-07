@@ -125,8 +125,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                           quizProvider.answers = [];
                                           quizProvider.quizzes = [];
                                           quizProvider.isSelected = false;
-                                          quizProvider.correctAnswers = [];
-                                          quizProvider.wrongAnswers = [];
+                                          quizProvider.selectedAnswers = [];
                                           quizProvider.coorectAnswer = '';
                                           quizProvider.selectedAnswer = '';
                                         },
@@ -177,8 +176,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                           quizProvider.answers = [];
                                           quizProvider.quizzes = [];
                                           quizProvider.isSelected = false;
-                                          quizProvider.correctAnswers = [];
-                                          quizProvider.wrongAnswers = [];
+                                          quizProvider.selectedAnswers = [];
                                           quizProvider.coorectAnswer = '';
                                           quizProvider.selectedAnswer = '';
                                           Navigator.of(ctx).pop();
@@ -320,9 +318,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                             }
 
                                             if (quizProvider
-                                                .correctAnswers.isNotEmpty) {
+                                                .selectedAnswers.isNotEmpty) {
                                               quizProvider
-                                                  .correctAnswers.length--;
+                                                  .selectedAnswers.length--;
                                             }
 
                                             quizProvider.isSelected = false;

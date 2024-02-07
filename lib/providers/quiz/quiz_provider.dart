@@ -24,9 +24,7 @@ class QuizProvider extends ChangeNotifier {
   List<Paper> papers = [];
   List<Answer> answers = [];
 
-  List<String> correctAnswers = [];
-  List<String> wrongAnswers = [];
-  List<String> emptyAnswers = [];
+  List<String> selectedAnswers = [];
 
   bool isSelected = false;
 
@@ -37,11 +35,16 @@ class QuizProvider extends ChangeNotifier {
 
   countCorrectAnswers() {
     if (coorectAnswer == selectedAnswer) {
-      correctAnswers.add('1');
+      selectedAnswers.add('1');
       notifyListeners();
       print('Answer is Correct');
+    } else if (selectedAnswer ==
+        "Not_Selected_987123567677645495898785476584") {
+      selectedAnswers.add('N');
+      notifyListeners();
+      print('Answer is Not Given');
     } else {
-      wrongAnswers.add('1');
+      selectedAnswers.add('0');
       notifyListeners();
       print('Answer is Wrong');
     }
@@ -72,8 +75,7 @@ class QuizProvider extends ChangeNotifier {
       answers = [];
       quizzes = [];
       isSelected = false;
-      correctAnswers = [];
-      wrongAnswers = [];
+      selectedAnswers = [];
       coorectAnswer = '';
       selectedAnswer = '';
       loading = false;

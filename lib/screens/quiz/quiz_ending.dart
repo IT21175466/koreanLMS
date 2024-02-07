@@ -18,17 +18,28 @@ class QuizEnd extends StatefulWidget {
 }
 
 class _QuizEndState extends State<QuizEnd> {
+  int correctAnswerAmount = 0;
+  int wrongAnswerAmount = 0;
+  int notGivenAnswerAmount = 0;
+
   @override
   void initState() {
     super.initState();
     getUserID();
     final quizProvider = Provider.of<QuizProvider>(context, listen: false);
 
-    marks = ((quizProvider.correctAnswers.length) /
-            (quizProvider.quizzes.length) *
-            100)
+    for (String answer in quizProvider.selectedAnswers) {
+      if (answer == "0") {
+        wrongAnswerAmount++;
+      } else if (answer == "1") {
+        correctAnswerAmount++;
+      } else if (answer == "N") {
+        notGivenAnswerAmount++;
+      }
+    }
+
+    marks = ((correctAnswerAmount) / (quizProvider.quizzes.length) * 100)
         .toStringAsFixed(1);
-    print(marks);
   }
 
   String? userID = '';
@@ -151,7 +162,7 @@ class _QuizEndState extends State<QuizEnd> {
                           child: Column(
                             children: [
                               Text(
-                                quizProvider.correctAnswers.length.toString(),
+                                correctAnswerAmount.toString(),
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w700,
@@ -183,7 +194,7 @@ class _QuizEndState extends State<QuizEnd> {
                           child: Column(
                             children: [
                               Text(
-                                quizProvider.wrongAnswers.length.toString(),
+                                wrongAnswerAmount.toString(),
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w700,
@@ -206,6 +217,41 @@ class _QuizEndState extends State<QuizEnd> {
                         Spacer(),
                       ],
                     ),
+                    notGivenAnswerAmount == 0
+                        ? SizedBox()
+                        : Container(
+                            width: 100,
+                            margin: EdgeInsets.only(top: 10),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Color.fromARGB(255, 255, 179, 0),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  notGivenAnswerAmount.toString(),
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  'Not Given',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                    Spacer(),
                     Spacer(),
                     SizedBox(
                       height: 20,
