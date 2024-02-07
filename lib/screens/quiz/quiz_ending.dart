@@ -25,7 +25,7 @@ class _QuizEndState extends State<QuizEnd> {
     final quizProvider = Provider.of<QuizProvider>(context, listen: false);
     marks =
         ((quizProvider.correctAnswers) / (quizProvider.quizzes.length) * 100)
-            .toString();
+            .toStringAsFixed(1);
     print(marks);
   }
 
