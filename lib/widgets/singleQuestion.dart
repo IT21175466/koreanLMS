@@ -337,25 +337,26 @@ class _SingleQuestionState extends State<SingleQuestion> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Divider(),
-            // widget.timer == 0
-            //     ? SizedBox()
-            //     : Container(
-            //         width: screenWidth,
-            //         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-            //         decoration: BoxDecoration(
-            //           color: _seconds < 10 ? Colors.red : Colors.green,
-            //           borderRadius: BorderRadius.circular(5),
-            //         ),
-            //         child: Text(
-            //           '$_seconds seconds remaining',
-            //           style: TextStyle(
-            //             fontFamily: 'Poppins',
-            //             fontWeight: FontWeight.w400,
-            //             fontSize: 12,
-            //             color: Colors.white,
-            //           ),
-            //         ),
-            //       ),
+            widget.timer == 0
+                ? SizedBox()
+                : Container(
+                    width: screenWidth,
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    decoration: BoxDecoration(
+                      //color: _seconds < 10 ? Colors.red : Colors.green,
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Text(
+                      'seconds remaining',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
             widget.isSample
                 ? Row(
                     children: [
@@ -425,7 +426,6 @@ class _SingleQuestionState extends State<SingleQuestion> {
             SizedBox(
               height: 15,
             ),
-
             GestureDetector(
               onTap: () {
                 if (quizProvider.isSelected) {
