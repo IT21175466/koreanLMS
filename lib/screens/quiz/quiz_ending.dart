@@ -23,9 +23,11 @@ class _QuizEndState extends State<QuizEnd> {
     super.initState();
     getUserID();
     final quizProvider = Provider.of<QuizProvider>(context, listen: false);
-    marks =
-        ((quizProvider.correctAnswers) / (quizProvider.quizzes.length) * 100)
-            .toStringAsFixed(1);
+
+    marks = ((quizProvider.correctAnswers.length) /
+            (quizProvider.quizzes.length) *
+            100)
+        .toStringAsFixed(1);
     print(marks);
   }
 
@@ -149,7 +151,7 @@ class _QuizEndState extends State<QuizEnd> {
                           child: Column(
                             children: [
                               Text(
-                                quizProvider.correctAnswers.toString(),
+                                quizProvider.correctAnswers.length.toString(),
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w700,
@@ -181,7 +183,7 @@ class _QuizEndState extends State<QuizEnd> {
                           child: Column(
                             children: [
                               Text(
-                                quizProvider.wrongAnswers.toString(),
+                                quizProvider.wrongAnswers.length.toString(),
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w700,

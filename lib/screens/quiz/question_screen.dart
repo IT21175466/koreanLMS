@@ -124,8 +124,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                           quizProvider.answers = [];
                                           quizProvider.quizzes = [];
                                           quizProvider.isSelected = false;
-                                          quizProvider.correctAnswers = 0;
-                                          quizProvider.wrongAnswers = 0;
+                                          quizProvider.correctAnswers = [];
                                           quizProvider.coorectAnswer = '';
                                           quizProvider.selectedAnswer = '';
                                         },
@@ -176,8 +175,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                           quizProvider.answers = [];
                                           quizProvider.quizzes = [];
                                           quizProvider.isSelected = false;
-                                          quizProvider.correctAnswers = 0;
-                                          quizProvider.wrongAnswers = 0;
+                                          quizProvider.correctAnswers = [];
+
                                           quizProvider.coorectAnswer = '';
                                           quizProvider.selectedAnswer = '';
                                           Navigator.of(ctx).pop();
@@ -313,9 +312,19 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                         onTap: () {
                                           goToPrevousQuestion();
                                           setState(() {
-                                            quizProvider.selectedAnswer = "";
-                                            quizProvider.answers.removeLast();
+                                            if (quizProvider
+                                                .answers.isNotEmpty) {
+                                              quizProvider.answers.length--;
+                                            }
+
+                                            if (quizProvider
+                                                .correctAnswers.isNotEmpty) {
+                                              quizProvider
+                                                  .correctAnswers.length--;
+                                            }
+
                                             quizProvider.isSelected = false;
+                                            quizProvider.selectedAnswer = "";
                                           });
                                         },
                                         child: CustomOutlineButton(
@@ -357,6 +366,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     );
                                   } else {
                                     goToNextQuestion();
+                                    print(quizProvider.answers.length);
+                                    print(quizProvider.quizzes.length);
                                     setState(() {
                                       quizProvider.selectedAnswer = "";
                                       quizProvider.isSelected = false;

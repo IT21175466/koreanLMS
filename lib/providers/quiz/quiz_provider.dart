@@ -22,23 +22,25 @@ class QuizProvider extends ChangeNotifier {
   List<Paper> papers = [];
   List<Answer> answers = [];
 
-  bool isSelected = false;
+  List<String> correctAnswers = [];
+  List<String> wrongAnswers = [];
 
-  int correctAnswers = 0;
-  int wrongAnswers = 0;
+  bool isSelected = false;
 
   String coorectAnswer = '';
   String selectedAnswer = '';
 
   bool loading = false;
 
-  countCorrectWrong() {
+  countCorrectAnswers() {
     if (coorectAnswer == selectedAnswer) {
-      correctAnswers++;
+      correctAnswers.add('1');
       notifyListeners();
+      print('Answer is Correct');
     } else {
-      wrongAnswers++;
+      wrongAnswers.add('1');
       notifyListeners();
+      print('Answer is Wrong');
     }
   }
 
@@ -67,8 +69,7 @@ class QuizProvider extends ChangeNotifier {
       answers = [];
       quizzes = [];
       isSelected = false;
-      correctAnswers = 0;
-      wrongAnswers = 0;
+      correctAnswers = [];
       coorectAnswer = '';
       selectedAnswer = '';
       loading = false;

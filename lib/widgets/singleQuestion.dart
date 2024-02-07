@@ -444,7 +444,7 @@ class _SingleQuestionState extends State<SingleQuestion> {
                     quizProvider.isSelected = true;
                     quizProvider.coorectAnswer = widget.correctAnswer;
                     quizProvider.selectedAnswer = widget.answer1;
-                    quizProvider.countCorrectWrong();
+                    quizProvider.countCorrectAnswers();
 
                     Answer answer = Answer(
                       indexOfQuiz: widget.indexOfQuiz,
@@ -494,7 +494,7 @@ class _SingleQuestionState extends State<SingleQuestion> {
                     quizProvider.isSelected = true;
                     quizProvider.coorectAnswer = widget.correctAnswer;
                     quizProvider.selectedAnswer = widget.answer2;
-                    quizProvider.countCorrectWrong();
+                    quizProvider.countCorrectAnswers();
 
                     Answer answer = Answer(
                       indexOfQuiz: widget.indexOfQuiz,
@@ -544,7 +544,7 @@ class _SingleQuestionState extends State<SingleQuestion> {
                     quizProvider.isSelected = true;
                     quizProvider.selectedAnswer = widget.answer3;
                     quizProvider.coorectAnswer = widget.correctAnswer;
-                    quizProvider.countCorrectWrong();
+                    quizProvider.countCorrectAnswers();
 
                     Answer answer = Answer(
                       indexOfQuiz: widget.indexOfQuiz,
@@ -594,7 +594,7 @@ class _SingleQuestionState extends State<SingleQuestion> {
                     quizProvider.isSelected = true;
                     quizProvider.selectedAnswer = widget.answer4;
                     quizProvider.coorectAnswer = widget.correctAnswer;
-                    quizProvider.countCorrectWrong();
+                    quizProvider.countCorrectAnswers();
 
                     Answer answer = Answer(
                       indexOfQuiz: widget.indexOfQuiz,
@@ -646,7 +646,7 @@ class _SingleQuestionState extends State<SingleQuestion> {
                           quizProvider.isSelected = true;
                           quizProvider.coorectAnswer = widget.correctAnswer;
                           quizProvider.selectedAnswer = widget.answer5;
-                          quizProvider.countCorrectWrong();
+                          quizProvider.countCorrectAnswers();
 
                           Answer answer = Answer(
                             indexOfQuiz: widget.indexOfQuiz,
