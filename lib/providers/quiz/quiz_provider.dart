@@ -4,7 +4,6 @@ import 'package:koreanlms/models/answer.dart';
 import 'package:koreanlms/models/history_quiz.dart';
 import 'package:koreanlms/models/paper.dart';
 import 'package:koreanlms/models/quiz.dart';
-import 'package:koreanlms/screens/home_screen/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizProvider extends ChangeNotifier {
@@ -53,10 +52,7 @@ class QuizProvider extends ChangeNotifier {
           .doc()
           .set(historyQuiz.toJson())
           .then((value) async {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-            (route) => false);
+        Navigator.pop(context);
         notifyListeners();
       });
       notifyListeners();
@@ -75,7 +71,6 @@ class QuizProvider extends ChangeNotifier {
       wrongAnswers = 0;
       coorectAnswer = '';
       selectedAnswer = '';
-      papers = [];
       loading = false;
       notifyListeners();
     }

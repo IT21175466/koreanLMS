@@ -210,7 +210,7 @@ class _QuizEndState extends State<QuizEnd> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => QuizPreviewScreen(
