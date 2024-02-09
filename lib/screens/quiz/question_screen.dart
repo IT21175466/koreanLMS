@@ -324,7 +324,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                                   .selectedAnswers.length--;
                                             }
 
-                                            quizProvider.isSelected = false;
+                                            //quizProvider.isSelected = false;
                                             quizProvider.selectedAnswer = "";
                                           });
                                         },
@@ -345,44 +345,32 @@ class _QuestionScreenState extends State<QuestionScreen> {
                               onTap: () {
                                 if (quizProvider.quizzes[index] ==
                                     quizProvider.quizzes.last) {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => QuizEnd(
-                                        quizName: widget.quizName,
-                                      ),
-                                    ),
-                                  );
-                                } else {
-                                  if (quizProvider.isSelected == false) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Please select a answer!',
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    if (quizProvider.selectedAnswer ==
-                                        quizProvider
-                                            .quizzes[index].correctAnswer) {
-                                      setState(() {
-                                        quizProvider.selectedAnswers.add('1');
-                                      });
-                                    } else if (quizProvider.selectedAnswer ==
-                                        "Not_Selected_987123567677645495898785476584") {
-                                      setState(() {
-                                        quizProvider.selectedAnswers.add('N');
-                                      });
-                                    } else {
-                                      setState(() {
-                                        quizProvider.selectedAnswers.add('0');
-                                      });
-                                    }
+                                  print(quizProvider.answers.length);
+                                  print(quizProvider.quizzes.length);
 
+                                  if (quizProvider
+                                          .quizzes[index].correctAnswer ==
+                                      quizProvider.selectedAnswer) {
+                                    setState(() {
+                                      quizProvider.selectedAnswers.add('1');
+                                    });
+
+                                    print('Answer is Correct');
+                                  } else if (quizProvider.selectedAnswer ==
+                                      "Not_Selected_987123567677645495898785476584") {
+                                    setState(() {
+                                      quizProvider.selectedAnswers.add('N');
+                                    });
+
+                                    print('Answer is Not Given');
+                                  } else {
+                                    setState(() {
+                                      quizProvider.selectedAnswers.add('0');
+                                    });
+
+                                    print('Answer is Wrong');
+                                  }
+                                  setState(() {
                                     Answer answer = Answer(
                                       indexOfQuiz: index,
                                       correctAnswer: quizProvider
@@ -392,15 +380,57 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     );
 
                                     quizProvider.answers.add(answer);
-                                    goToNextQuestion();
 
-                                    print(quizProvider.answers.length);
-                                    print(quizProvider.quizzes.length);
+                                    quizProvider.selectedAnswer = "";
+                                  });
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => QuizEnd(
+                                        quizName: widget.quizName,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  print(quizProvider.answers.length);
+                                  print(quizProvider.quizzes.length);
+                                  if (quizProvider
+                                          .quizzes[index].correctAnswer ==
+                                      quizProvider.selectedAnswer) {
                                     setState(() {
-                                      quizProvider.selectedAnswer = "";
-                                      quizProvider.isSelected = false;
+                                      quizProvider.selectedAnswers.add('1');
                                     });
+
+                                    print('Answer is Correct');
+                                  } else if (quizProvider.selectedAnswer ==
+                                      "Not_Selected_987123567677645495898785476584") {
+                                    setState(() {
+                                      quizProvider.selectedAnswers.add('N');
+                                    });
+
+                                    print('Answer is Not Given');
+                                  } else {
+                                    setState(() {
+                                      quizProvider.selectedAnswers.add('0');
+                                    });
+
+                                    print('Answer is Wrong');
                                   }
+                                  setState(() {
+                                    Answer answer = Answer(
+                                      indexOfQuiz: index,
+                                      correctAnswer: quizProvider
+                                          .quizzes[index].correctAnswer,
+                                      selectedAnswer:
+                                          quizProvider.selectedAnswer,
+                                    );
+
+                                    quizProvider.answers.add(answer);
+
+                                    quizProvider.selectedAnswer = "";
+                                  });
+
+                                  goToNextQuestion();
                                 }
                               },
                               child: CustomButton(

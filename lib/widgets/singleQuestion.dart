@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:koreanlms/models/answer.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/widgets/answer_tile.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
@@ -480,7 +479,6 @@ class _SingleQuestionState extends State<SingleQuestion> {
                 backgroundColor: quizProvider.selectedAnswer == widget.answer1
                     ? Colors.green
                     : Colors.white,
-                icon: Image.asset(''),
               ),
             ),
             GestureDetector(
@@ -498,7 +496,6 @@ class _SingleQuestionState extends State<SingleQuestion> {
                 backgroundColor: quizProvider.selectedAnswer == widget.answer2
                     ? Colors.green
                     : Colors.white,
-                icon: Image.asset(''),
               ),
             ),
             GestureDetector(
@@ -516,7 +513,6 @@ class _SingleQuestionState extends State<SingleQuestion> {
                 backgroundColor: quizProvider.selectedAnswer == widget.answer3
                     ? Colors.green
                     : Colors.white,
-                icon: Image.asset(''),
               ),
             ),
             GestureDetector(
@@ -534,7 +530,6 @@ class _SingleQuestionState extends State<SingleQuestion> {
                 backgroundColor: quizProvider.selectedAnswer == widget.answer4
                     ? Colors.green
                     : Colors.white,
-                icon: Image.asset(''),
               ),
             ),
             widget.answer5.isEmpty
@@ -555,7 +550,6 @@ class _SingleQuestionState extends State<SingleQuestion> {
                           quizProvider.selectedAnswer == widget.answer5
                               ? Colors.green
                               : Colors.white,
-                      icon: Image.asset(''),
                     ),
                   ),
             // SizedBox(

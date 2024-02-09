@@ -28,6 +28,8 @@ class _QuizEndState extends State<QuizEnd> {
     getUserID();
     final quizProvider = Provider.of<QuizProvider>(context, listen: false);
 
+    print(quizProvider.answers);
+
     for (String answer in quizProvider.selectedAnswers) {
       if (answer == "0") {
         wrongAnswerAmount++;

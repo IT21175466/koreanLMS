@@ -5,14 +5,14 @@ class AnswerTile extends StatefulWidget {
   final String answerImage;
   final Color textColor;
   final Color backgroundColor;
-  final Image icon;
+  final Image? icon;
   const AnswerTile({
     super.key,
     required this.answer,
     required this.answerImage,
     required this.textColor,
     required this.backgroundColor,
-    required this.icon,
+    this.icon,
   });
 
   @override
