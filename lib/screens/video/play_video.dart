@@ -66,7 +66,7 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         toolbarHeight: 0,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
       ),
       body: isFullScreen
           ? Container(

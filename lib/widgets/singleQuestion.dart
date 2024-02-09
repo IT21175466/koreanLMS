@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:koreanlms/models/answer.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
+import 'package:koreanlms/screens/quiz/quiz_ending.dart';
 import 'package:koreanlms/widgets/answer_tile.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +11,7 @@ import 'package:timer_count_down/timer_count_down.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SingleQuestion extends StatefulWidget {
+  final String quizName;
   final String question;
   final String answer1;
   final String answer2;
@@ -56,6 +59,7 @@ class SingleQuestion extends StatefulWidget {
 
   const SingleQuestion({
     super.key,
+    required this.quizName,
     required this.question,
     required this.answer1,
     required this.answer2,
@@ -338,6 +342,104 @@ class _SingleQuestionState extends State<SingleQuestion> {
                 Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            quizProvider.quizzes[0].paperTimer != 0
+                ? Countdown(
+                    seconds: quizProvider.quizzes[0].paperTimer,
+                    build: (BuildContext context, double time) {
+                      int minutes = time ~/ 60;
+                      int seconds = (time % 60).toInt();
+
+                      return Container(
+                        width: screenWidth,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: (quizProvider.quizzes[0].paperTimer *
+                                      75.0 /
+                                      100.0) <
+                                  10.0
+                              ? Colors.red
+                              : Colors.green,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          'Paper Timer - ${minutes} minutes and ${seconds} seconds left',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                        ),
+                      );
+                    },
+                    interval: Duration(seconds: 1),
+                    onFinished: () {
+                      print('Timer is done!');
+
+                      print(quizProvider.quizzes.length);
+                      print(quizProvider.answers.length);
+
+                      if (quizProvider.quizzes.length !=
+                          quizProvider.answers.length) {
+                        int index = quizProvider.answers.length;
+
+                        // setState(() {
+                        //   index = quizProvider.quizzes.length -
+                        //       quizProvider.answers.length;
+                        // });
+
+                        print(index);
+                        try {
+                          for (int i = index;
+                              i < quizProvider.quizzes.length;
+                              i++) {
+                            print(quizProvider.quizzes.length);
+                            print(quizProvider.answers.length);
+
+                            Answer answer = Answer(
+                              indexOfQuiz: index,
+                              correctAnswer:
+                                  quizProvider.quizzes[index].correctAnswer,
+                              selectedAnswer: "",
+                            );
+
+                            // String selectedAnswer =
+                            //     'Not_Selected_987123567677645495898785476584';
+                            // quizProvider.selectedAnswers.add(selectedAnswer);
+                            quizProvider.answers.add(answer);
+
+                            print(quizProvider.quizzes.length);
+                            print(quizProvider.answers.length);
+                          }
+                        } catch (e) {
+                          print(e);
+                        } finally {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => QuizEnd(
+                                quizName: widget.quizName,
+                              ),
+                            ),
+                          );
+                        }
+                      }
+
+                      // if (quizProvider.selectedAnswer == "") {
+                      //   setState(() {
+                      //     quizProvider.selectedAnswer =
+                      //         "Not_Selected_987123567677645495898785476584";
+                      //   });
+                      // }
+
+                      // setState(() {
+                      //   quizProvider.timerDone = true;
+
+                      // });
+                    },
+                  )
+                : SizedBox(),
             Divider(),
 
             quizProvider.quizzes[widget.indexOfQuiz].timer == 0

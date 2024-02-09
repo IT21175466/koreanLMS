@@ -36,6 +36,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
     super.initState();
   }
 
+  bool isPaperTimerAvailable = false;
+
   int index = 0;
 
   void goToNextQuestion() {
@@ -225,6 +227,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     child: Column(
                       children: [
                         SingleQuestion(
+                          quizName: widget.quizName,
                           question: quizProvider.quizzes[index].question,
                           answer1: quizProvider.quizzes[index].answer1,
                           answer2: quizProvider.quizzes[index].answer2,

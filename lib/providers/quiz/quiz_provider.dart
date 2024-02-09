@@ -191,11 +191,18 @@ class QuizProvider extends ChangeNotifier {
         String answer4 = quizDoc['Answer4'];
         String correctAnswer = quizDoc['CorrectAnswer'];
         int timer;
+        int paperTimer;
 
         if (data.containsKey('Timer')) {
           timer = quizDoc['Timer'];
         } else {
           timer = 0;
+        }
+
+        if (data.containsKey('Paper_Timer')) {
+          paperTimer = quizDoc['Paper_Timer'];
+        } else {
+          paperTimer = 0;
         }
 
         String answer5 = '';
@@ -504,6 +511,7 @@ class QuizProvider extends ChangeNotifier {
           answer3VideoSample: answer3VideoSample,
           answer4VideoSample: answer4VideoSample,
           answer5VideoSample: answer5VideoSample,
+          paperTimer: paperTimer,
           //quizAmount: quizAmount,
         );
 

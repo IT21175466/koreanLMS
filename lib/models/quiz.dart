@@ -45,6 +45,7 @@ class Quiz {
   final String answer3VideoSample;
   final String answer4VideoSample;
   final String answer5VideoSample;
+  final int paperTimer;
 
   Quiz({
     //required this.quizID,
@@ -93,5 +94,6 @@ class Quiz {
     required this.answer3VideoSample,
     required this.answer4VideoSample,
     required this.answer5VideoSample,
+    required this.paperTimer,
   });
 }
