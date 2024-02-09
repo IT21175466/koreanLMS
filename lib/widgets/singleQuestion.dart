@@ -338,6 +338,8 @@ class _SingleQuestionState extends State<SingleQuestion> {
                 Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Divider(),
+
             quizProvider.quizzes[widget.indexOfQuiz].timer == 0
                 ? SizedBox()
                 : Countdown(
@@ -388,7 +390,6 @@ class _SingleQuestionState extends State<SingleQuestion> {
                       });
                     },
                   ),
-            Divider(),
             widget.isSample
                 ? Row(
                     children: [
