@@ -366,10 +366,16 @@ class _SingleQuestionState extends State<SingleQuestion> {
                     onFinished: () {
                       print('Timer is done!');
 
+                      if (quizProvider.selectedAnswer == "") {
+                        setState(() {
+                          quizProvider.selectedAnswer =
+                              "Not_Selected_987123567677645495898785476584";
+                        });
+                      }
+
                       setState(() {
-                        //quizProvider.isSelected = true;
-                        quizProvider.selectedAnswer =
-                            "Not_Selected_987123567677645495898785476584";
+                        quizProvider.timerDone = true;
+
                         //quizProvider.countCorrectAnswers();
 
                         // Answer answer = Answer(
@@ -454,21 +460,30 @@ class _SingleQuestionState extends State<SingleQuestion> {
             ),
             GestureDetector(
               onTap: () {
-                setState(() {
-                  //quizProvider.isSelected = true;
-                  //quizProvider.coorectAnswer = widget.correctAnswer;
-                  quizProvider.selectedAnswer = widget.answer1;
+                if (quizProvider.timerDone == false) {
+                  setState(() {
+                    //quizProvider.isSelected = true;
+                    //quizProvider.coorectAnswer = widget.correctAnswer;
+                    quizProvider.selectedAnswer = widget.answer1;
 
-                  ///quizProvider.countCorrectAnswers();
+                    ///quizProvider.countCorrectAnswers();
 
-                  // Answer answer = Answer(
-                  //   indexOfQuiz: widget.indexOfQuiz,
-                  //   correctAnswer: quizProvider.coorectAnswer,
-                  //   selectedAnswer: quizProvider.selectedAnswer,
-                  // );
+                    // Answer answer = Answer(
+                    //   indexOfQuiz: widget.indexOfQuiz,
+                    //   correctAnswer: quizProvider.coorectAnswer,
+                    //   selectedAnswer: quizProvider.selectedAnswer,
+                    // );
 
-                  //quizProvider.answers.add(answer);
-                });
+                    //quizProvider.answers.add(answer);
+                  });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Timeout!'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               },
               child: AnswerTile(
                 answer: widget.answer1,
@@ -483,9 +498,18 @@ class _SingleQuestionState extends State<SingleQuestion> {
             ),
             GestureDetector(
               onTap: () {
-                setState(() {
-                  quizProvider.selectedAnswer = widget.answer2;
-                });
+                if (quizProvider.timerDone == false) {
+                  setState(() {
+                    quizProvider.selectedAnswer = widget.answer2;
+                  });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Timeout!'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               },
               child: AnswerTile(
                 answer: widget.answer2,
@@ -500,9 +524,18 @@ class _SingleQuestionState extends State<SingleQuestion> {
             ),
             GestureDetector(
               onTap: () {
-                setState(() {
-                  quizProvider.selectedAnswer = widget.answer3;
-                });
+                if (quizProvider.timerDone == false) {
+                  setState(() {
+                    quizProvider.selectedAnswer = widget.answer3;
+                  });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Timeout!'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               },
               child: AnswerTile(
                 answer: widget.answer3,
@@ -517,9 +550,18 @@ class _SingleQuestionState extends State<SingleQuestion> {
             ),
             GestureDetector(
               onTap: () {
-                setState(() {
-                  quizProvider.selectedAnswer = widget.answer4;
-                });
+                if (quizProvider.timerDone == false) {
+                  setState(() {
+                    quizProvider.selectedAnswer = widget.answer4;
+                  });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Timeout!'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               },
               child: AnswerTile(
                 answer: widget.answer4,
@@ -536,9 +578,18 @@ class _SingleQuestionState extends State<SingleQuestion> {
                 ? SizedBox()
                 : GestureDetector(
                     onTap: () {
-                      setState(() {
-                        quizProvider.selectedAnswer = widget.answer5;
-                      });
+                      if (quizProvider.timerDone == false) {
+                        setState(() {
+                          quizProvider.selectedAnswer = widget.answer5;
+                        });
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Timeout!'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
                     },
                     child: AnswerTile(
                       answer: widget.answer5,

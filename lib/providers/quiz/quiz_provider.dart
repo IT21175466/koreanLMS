@@ -33,6 +33,8 @@ class QuizProvider extends ChangeNotifier {
 
   bool loading = false;
 
+  bool timerDone = false;
+
   // countCorrectAnswers() {
   //   if (coorectAnswer == selectedAnswer) {
   //     selectedAnswers.add('1');

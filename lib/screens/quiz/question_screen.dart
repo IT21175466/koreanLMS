@@ -381,6 +381,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
                                     quizProvider.answers.add(answer);
 
+                                    quizProvider.timerDone = false;
+
                                     quizProvider.selectedAnswer = "";
                                   });
                                   Navigator.pushReplacement(
@@ -426,6 +428,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     );
 
                                     quizProvider.answers.add(answer);
+
+                                    quizProvider.timerDone = false;
 
                                     quizProvider.selectedAnswer = "";
                                   });
