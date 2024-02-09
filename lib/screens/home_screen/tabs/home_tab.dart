@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'dart:math';
+
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
+import 'package:koreanlms/global/variables.dart';
 import 'package:koreanlms/models/video.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/login_provider.dart';
@@ -52,6 +54,9 @@ class _HomeTabState extends State<HomeTab> {
 
     videoProvider = Provider.of<VideoProvider>(context, listen: false);
     quizProvider = Provider.of<QuizProvider>(context, listen: false);
+    // final notificationProvider =
+    //     Provider.of<NotificationProvider>(context, listen: false);
+    // notificationProvider.listnToNotifications();
   }
 
   getStudentID() async {
@@ -59,6 +64,7 @@ class _HomeTabState extends State<HomeTab> {
 
     setState(() {
       studentID = prefs.getString('userID');
+      globleStudentID = prefs.getString('userID');
     });
 
     videoProvider.checkUserInBatch(studentID!);

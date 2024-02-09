@@ -51,6 +51,9 @@ dependencies:
   url_launcher: ^6.2.4
   firebase_database: ^10.4.5
   timer_count_down: ^2.2.2
+  firebase_messaging: ^14.7.15
+  firebase_analytics: ^10.8.5
+  uuid: ^3.0.4
 
 dev_dependencies:
   flutter_test:
