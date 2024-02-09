@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:koreanlms/constants/app_colors.dart';
+import 'package:koreanlms/models/answer.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/screens/quiz/quiz_ending.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
@@ -365,7 +366,34 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                       ),
                                     );
                                   } else {
+                                    if (quizProvider.selectedAnswer ==
+                                        quizProvider
+                                            .quizzes[index].correctAnswer) {
+                                      setState(() {
+                                        quizProvider.selectedAnswers.add('1');
+                                      });
+                                    } else if (quizProvider.selectedAnswer ==
+                                        "Not_Selected_987123567677645495898785476584") {
+                                      setState(() {
+                                        quizProvider.selectedAnswers.add('N');
+                                      });
+                                    } else {
+                                      setState(() {
+                                        quizProvider.selectedAnswers.add('0');
+                                      });
+                                    }
+
+                                    Answer answer = Answer(
+                                      indexOfQuiz: index,
+                                      correctAnswer: quizProvider
+                                          .quizzes[index].correctAnswer,
+                                      selectedAnswer:
+                                          quizProvider.selectedAnswer,
+                                    );
+
+                                    quizProvider.answers.add(answer);
                                     goToNextQuestion();
+
                                     print(quizProvider.answers.length);
                                     print(quizProvider.quizzes.length);
                                     setState(() {

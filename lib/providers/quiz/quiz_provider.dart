@@ -33,22 +33,22 @@ class QuizProvider extends ChangeNotifier {
 
   bool loading = false;
 
-  countCorrectAnswers() {
-    if (coorectAnswer == selectedAnswer) {
-      selectedAnswers.add('1');
-      notifyListeners();
-      print('Answer is Correct');
-    } else if (selectedAnswer ==
-        "Not_Selected_987123567677645495898785476584") {
-      selectedAnswers.add('N');
-      notifyListeners();
-      print('Answer is Not Given');
-    } else {
-      selectedAnswers.add('0');
-      notifyListeners();
-      print('Answer is Wrong');
-    }
-  }
+  // countCorrectAnswers() {
+  //   if (coorectAnswer == selectedAnswer) {
+  //     selectedAnswers.add('1');
+  //     notifyListeners();
+  //     print('Answer is Correct');
+  //   } else if (selectedAnswer ==
+  //       "Not_Selected_987123567677645495898785476584") {
+  //     selectedAnswers.add('N');
+  //     notifyListeners();
+  //     print('Answer is Not Given');
+  //   } else {
+  //     selectedAnswers.add('0');
+  //     notifyListeners();
+  //     print('Answer is Wrong');
+  //   }
+  // }
 
   addQuizToFirebase(
       HistoryQuiz historyQuiz, BuildContext context, String uID) async {

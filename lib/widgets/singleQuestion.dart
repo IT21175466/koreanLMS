@@ -366,22 +366,21 @@ class _SingleQuestionState extends State<SingleQuestion> {
                     interval: Duration(seconds: 1),
                     onFinished: () {
                       print('Timer is done!');
-                      if (quizProvider.selectedAnswer == "") {
-                        setState(() {
-                          quizProvider.isSelected = true;
-                          quizProvider.selectedAnswer =
-                              "Not_Selected_987123567677645495898785476584";
-                          quizProvider.countCorrectAnswers();
 
-                          Answer answer = Answer(
-                            indexOfQuiz: widget.indexOfQuiz,
-                            correctAnswer: quizProvider.coorectAnswer,
-                            selectedAnswer: quizProvider.selectedAnswer,
-                          );
+                      setState(() {
+                        //quizProvider.isSelected = true;
+                        quizProvider.selectedAnswer =
+                            "Not_Selected_987123567677645495898785476584";
+                        //quizProvider.countCorrectAnswers();
 
-                          quizProvider.answers.add(answer);
-                        });
-                      }
+                        // Answer answer = Answer(
+                        //   indexOfQuiz: widget.indexOfQuiz,
+                        //   correctAnswer: quizProvider.coorectAnswer,
+                        //   selectedAnswer: quizProvider.selectedAnswer,
+                        // );
+
+                        // quizProvider.answers.add(answer);
+                      });
                     },
                   ),
             Divider(),
@@ -456,284 +455,136 @@ class _SingleQuestionState extends State<SingleQuestion> {
             ),
             GestureDetector(
               onTap: () {
-                if (quizProvider.isSelected) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'You already selected a answer!',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  setState(() {
-                    quizProvider.isSelected = true;
-                    quizProvider.coorectAnswer = widget.correctAnswer;
-                    quizProvider.selectedAnswer = widget.answer1;
-                    quizProvider.countCorrectAnswers();
+                setState(() {
+                  //quizProvider.isSelected = true;
+                  //quizProvider.coorectAnswer = widget.correctAnswer;
+                  quizProvider.selectedAnswer = widget.answer1;
 
-                    Answer answer = Answer(
-                      indexOfQuiz: widget.indexOfQuiz,
-                      correctAnswer: quizProvider.coorectAnswer,
-                      selectedAnswer: quizProvider.selectedAnswer,
-                    );
+                  ///quizProvider.countCorrectAnswers();
 
-                    quizProvider.answers.add(answer);
-                  });
-                }
+                  // Answer answer = Answer(
+                  //   indexOfQuiz: widget.indexOfQuiz,
+                  //   correctAnswer: quizProvider.coorectAnswer,
+                  //   selectedAnswer: quizProvider.selectedAnswer,
+                  // );
+
+                  //quizProvider.answers.add(answer);
+                });
               },
               child: AnswerTile(
                 answer: widget.answer1,
                 answerImage: widget.answer1Image,
                 textColor: quizProvider.selectedAnswer == widget.answer1
-                    ? quizProvider.coorectAnswer == widget.correctAnswer
-                        ? Colors.white
-                        : Colors.grey
+                    ? Colors.white
                     : Colors.grey,
                 backgroundColor: quizProvider.selectedAnswer == widget.answer1
-                    ? quizProvider.selectedAnswer == widget.correctAnswer
-                        ? Colors.green
-                        : Colors.red
+                    ? Colors.green
                     : Colors.white,
-                icon: quizProvider.selectedAnswer == widget.answer1
-                    ? quizProvider.selectedAnswer == widget.correctAnswer
-                        ? Image.asset('assets/images/correct.png')
-                        : Image.asset('assets/images/wrong.png')
-                    : Image.asset('assets/images/correct.png'),
+                icon: Image.asset(''),
               ),
             ),
             GestureDetector(
               onTap: () {
-                if (quizProvider.isSelected) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'You already selected a answer!',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  setState(() {
-                    quizProvider.isSelected = true;
-                    quizProvider.coorectAnswer = widget.correctAnswer;
-                    quizProvider.selectedAnswer = widget.answer2;
-                    quizProvider.countCorrectAnswers();
-
-                    Answer answer = Answer(
-                      indexOfQuiz: widget.indexOfQuiz,
-                      correctAnswer: quizProvider.coorectAnswer,
-                      selectedAnswer: quizProvider.selectedAnswer,
-                    );
-
-                    quizProvider.answers.add(answer);
-                  });
-                }
+                setState(() {
+                  quizProvider.selectedAnswer = widget.answer2;
+                });
               },
               child: AnswerTile(
                 answer: widget.answer2,
                 answerImage: widget.answer2Image,
                 textColor: quizProvider.selectedAnswer == widget.answer2
-                    ? quizProvider.coorectAnswer == widget.correctAnswer
-                        ? Colors.white
-                        : Colors.grey
+                    ? Colors.white
                     : Colors.grey,
                 backgroundColor: quizProvider.selectedAnswer == widget.answer2
-                    ? quizProvider.selectedAnswer == widget.correctAnswer
-                        ? Colors.green
-                        : Colors.red
+                    ? Colors.green
                     : Colors.white,
-                icon: quizProvider.selectedAnswer == widget.answer2
-                    ? quizProvider.selectedAnswer == widget.correctAnswer
-                        ? Image.asset('assets/images/correct.png')
-                        : Image.asset('assets/images/wrong.png')
-                    : Image.asset('assets/images/correct.png'),
+                icon: Image.asset(''),
               ),
             ),
             GestureDetector(
               onTap: () {
-                if (quizProvider.isSelected) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'You already selected a answer!',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  setState(() {
-                    quizProvider.isSelected = true;
-                    quizProvider.selectedAnswer = widget.answer3;
-                    quizProvider.coorectAnswer = widget.correctAnswer;
-                    quizProvider.countCorrectAnswers();
-
-                    Answer answer = Answer(
-                      indexOfQuiz: widget.indexOfQuiz,
-                      correctAnswer: quizProvider.coorectAnswer,
-                      selectedAnswer: quizProvider.selectedAnswer,
-                    );
-
-                    quizProvider.answers.add(answer);
-                  });
-                }
+                setState(() {
+                  quizProvider.selectedAnswer = widget.answer3;
+                });
               },
               child: AnswerTile(
                 answer: widget.answer3,
                 answerImage: widget.answer3Image,
                 textColor: quizProvider.selectedAnswer == widget.answer3
-                    ? quizProvider.coorectAnswer == widget.correctAnswer
-                        ? Colors.white
-                        : Colors.grey
+                    ? Colors.white
                     : Colors.grey,
                 backgroundColor: quizProvider.selectedAnswer == widget.answer3
-                    ? quizProvider.selectedAnswer == widget.correctAnswer
-                        ? Colors.green
-                        : Colors.red
+                    ? Colors.green
                     : Colors.white,
-                icon: quizProvider.selectedAnswer == widget.answer3
-                    ? quizProvider.selectedAnswer == widget.correctAnswer
-                        ? Image.asset('assets/images/correct.png')
-                        : Image.asset('assets/images/wrong.png')
-                    : Image.asset('assets/images/correct.png'),
+                icon: Image.asset(''),
               ),
             ),
             GestureDetector(
               onTap: () {
-                if (quizProvider.isSelected) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'You already selected a answer!',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  setState(() {
-                    quizProvider.isSelected = true;
-                    quizProvider.selectedAnswer = widget.answer4;
-                    quizProvider.coorectAnswer = widget.correctAnswer;
-                    quizProvider.countCorrectAnswers();
-
-                    Answer answer = Answer(
-                      indexOfQuiz: widget.indexOfQuiz,
-                      correctAnswer: quizProvider.coorectAnswer,
-                      selectedAnswer: quizProvider.selectedAnswer,
-                    );
-
-                    quizProvider.answers.add(answer);
-                  });
-                }
+                setState(() {
+                  quizProvider.selectedAnswer = widget.answer4;
+                });
               },
               child: AnswerTile(
                 answer: widget.answer4,
                 answerImage: widget.answer4Image,
                 textColor: quizProvider.selectedAnswer == widget.answer4
-                    ? quizProvider.coorectAnswer == widget.correctAnswer
-                        ? Colors.white
-                        : Colors.grey
+                    ? Colors.white
                     : Colors.grey,
                 backgroundColor: quizProvider.selectedAnswer == widget.answer4
-                    ? quizProvider.selectedAnswer == widget.correctAnswer
-                        ? Colors.green
-                        : Colors.red
+                    ? Colors.green
                     : Colors.white,
-                icon: quizProvider.selectedAnswer == widget.answer4
-                    ? quizProvider.selectedAnswer == widget.correctAnswer
-                        ? Image.asset('assets/images/correct.png')
-                        : Image.asset('assets/images/wrong.png')
-                    : Image.asset('assets/images/correct.png'),
+                icon: Image.asset(''),
               ),
             ),
             widget.answer5.isEmpty
                 ? SizedBox()
                 : GestureDetector(
                     onTap: () {
-                      if (quizProvider.isSelected) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'You already selected a answer!',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                          ),
-                        );
-                      } else {
-                        setState(() {
-                          quizProvider.isSelected = true;
-                          quizProvider.coorectAnswer = widget.correctAnswer;
-                          quizProvider.selectedAnswer = widget.answer5;
-                          quizProvider.countCorrectAnswers();
-
-                          Answer answer = Answer(
-                            indexOfQuiz: widget.indexOfQuiz,
-                            correctAnswer: quizProvider.coorectAnswer,
-                            selectedAnswer: quizProvider.selectedAnswer,
-                          );
-
-                          quizProvider.answers.add(answer);
-                        });
-                      }
+                      setState(() {
+                        quizProvider.selectedAnswer = widget.answer5;
+                      });
                     },
                     child: AnswerTile(
                       answer: widget.answer5,
                       answerImage: widget.answer5Image,
                       textColor: quizProvider.selectedAnswer == widget.answer5
-                          ? quizProvider.coorectAnswer == widget.correctAnswer
-                              ? Colors.white
-                              : Colors.grey
+                          ? Colors.white
                           : Colors.grey,
-                      backgroundColor: quizProvider.selectedAnswer ==
-                              widget.answer5
-                          ? quizProvider.selectedAnswer == widget.correctAnswer
+                      backgroundColor:
+                          quizProvider.selectedAnswer == widget.answer5
                               ? Colors.green
-                              : Colors.red
-                          : Colors.white,
-                      icon: quizProvider.selectedAnswer == widget.answer5
-                          ? quizProvider.selectedAnswer == widget.correctAnswer
-                              ? Image.asset('assets/images/correct.png')
-                              : Image.asset('assets/images/wrong.png')
-                          : Image.asset('assets/images/correct.png'),
+                              : Colors.white,
+                      icon: Image.asset(''),
                     ),
                   ),
-            SizedBox(
-              height: 10,
-            ),
-            quizProvider.isSelected == false
-                ? SizedBox()
-                : Row(
-                    children: [
-                      Text(
-                        "Correct Answer : ",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        widget.correctAnswer,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // quizProvider.isSelected == false
+            //     ? SizedBox()
+            //     : Row(
+            //         children: [
+            //           Text(
+            //             "Correct Answer : ",
+            //             style: TextStyle(
+            //               fontFamily: 'Poppins',
+            //               fontWeight: FontWeight.w700,
+            //               fontSize: 15,
+            //               color: Colors.black,
+            //             ),
+            //           ),
+            //           Text(
+            //             widget.correctAnswer,
+            //             style: TextStyle(
+            //               fontFamily: 'Poppins',
+            //               fontWeight: FontWeight.w500,
+            //               fontSize: 15,
+            //               color: Colors.black,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
             SizedBox(
               height: 30,
             ),
