@@ -31,12 +31,14 @@ class _NotificationCardState extends State<NotificationCard> {
           SizedBox(
             width: 20,
           ),
-          Text(
-            widget.msg,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w400,
-              fontSize: 15,
+          Expanded(
+            child: Text(
+              widget.msg,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w400,
+                fontSize: 15,
+              ),
             ),
           ),
         ],

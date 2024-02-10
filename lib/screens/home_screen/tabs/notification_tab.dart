@@ -67,7 +67,9 @@ class _NotificationTabState extends State<NotificationTab> {
               itemBuilder: (context, snapshot, animation, index) {
                 print(snapshot.value);
                 return NotificationCard(
-                  msg: snapshot.child('body').value.toString(),
+                  msg: snapshot.child('body').value == null
+                      ? "Welcome to Dream Korean Academy"
+                      : snapshot.child('body').value.toString(),
                 );
               },
             ),

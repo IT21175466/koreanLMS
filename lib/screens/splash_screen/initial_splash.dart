@@ -32,15 +32,15 @@ class _InitialSplashState extends State<InitialSplash> {
           children: [
             Spacer(),
             SizedBox(
-              height: 150,
-              width: 150,
-              child: Image.asset('assets/images/gPhotosLogo.png'),
+              height: 220,
+              width: 220,
+              child: Image.asset('assets/images/splashLogo.png'),
             ),
             SizedBox(
               height: 10,
             ),
             Text(
-              'Korean LMS',
+              'Dream Korean Academy',
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w600,
@@ -49,7 +49,7 @@ class _InitialSplashState extends State<InitialSplash> {
             ),
             Spacer(),
             Text(
-              'Powered by Korean Academy',
+              'By Teshan Sadeep',
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w400,

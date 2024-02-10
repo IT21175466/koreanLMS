@@ -41,7 +41,7 @@ class _UserInfoCardState extends State<UserInfoCard> {
             style: TextStyle(
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w600,
-              fontSize: 18,
+              fontSize: 16,
             ),
           ),
         ],

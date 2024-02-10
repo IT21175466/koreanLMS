@@ -126,8 +126,8 @@ class _OTPScreenState extends State<OTPScreen> {
               Spacer(),
               Spacer(),
               SizedBox(
-                height: 50,
-                width: 50,
+                height: 70,
+                width: 70,
                 child: Image.asset('assets/images/gPhotosLogo.png'),
               ),
               SizedBox(
