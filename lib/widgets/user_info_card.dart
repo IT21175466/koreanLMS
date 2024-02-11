@@ -20,9 +20,10 @@ class _UserInfoCardState extends State<UserInfoCard> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        // border: Border.all(
-        //   color: Colors.grey,
-        // ),
+        border: Border.all(
+          color: Colors.grey,
+          width: 0.5,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
