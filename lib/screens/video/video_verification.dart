@@ -6,6 +6,7 @@ import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:pinput/pinput.dart';
 
 class VideoVerificationScreen extends StatefulWidget {
+  final String userID;
   final String msgCode;
   final String link;
   final String title;
@@ -18,6 +19,7 @@ class VideoVerificationScreen extends StatefulWidget {
     required this.title,
     required this.teacher,
     required this.zoomLink,
+    required this.userID,
   });
 
   @override
@@ -137,6 +139,7 @@ class _VideoVerificationScreenState extends State<VideoVerificationScreen> {
                           title: widget.title,
                           teacher: widget.teacher,
                           zoomLink: widget.zoomLink,
+                          userID: widget.userID,
                         ),
                       ),
                     );

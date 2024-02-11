@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:koreanlms/models/history_quiz.dart';
@@ -5,6 +6,7 @@ import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/screens/quiz/singleQuestion_preview.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class QuizPreviewScreen extends StatefulWidget {
   final String sID;
@@ -18,6 +20,14 @@ class QuizPreviewScreen extends StatefulWidget {
 }
 
 class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
+  DatabaseReference databaseReference =
+      FirebaseDatabase.instance.ref('did_papers');
+
+  String generateRandomId() {
+    var uuid = Uuid();
+    return uuid.v4();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -78,6 +88,14 @@ class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
                   );
                   quizProvider.addQuizToFirebase(
                       historyQuiz, context, widget.sID);
+
+                  databaseReference
+                      .child(widget.sID)
+                      .child(generateRandomId())
+                      .set({
+                    "studentID": widget.sID,
+                    "paper_name": widget.name,
+                  });
                 },
                 child: CustomButton(
                   text: 'Done',

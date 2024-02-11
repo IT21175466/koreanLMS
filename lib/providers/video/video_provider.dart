@@ -15,6 +15,8 @@ class VideoProvider extends ChangeNotifier {
 
   //List<String> videoDocumentIDs = [];
 
+  List<String> watchedVideos = [];
+
   List<Video> videos = [];
   List<Video> lockedVideos = [];
 

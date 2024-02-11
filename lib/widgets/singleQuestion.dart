@@ -458,15 +458,13 @@ class _SingleQuestionState extends State<SingleQuestion> {
                             : Colors.green,
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: FittedBox(
-                        child: Text(
-                          '${time.toStringAsFixed(0)} seconds left',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Colors.white,
-                          ),
+                      child: Text(
+                        '${time.toStringAsFixed(0)} seconds left',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: Colors.white,
                         ),
                       ),
                     ),

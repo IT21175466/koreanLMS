@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class QuizCard extends StatefulWidget {
-  final String title;
-  const QuizCard({
+// ignore: must_be_immutable
+class QuizCard extends StatelessWidget {
+  String title;
+  FontWeight fontWeight;
+  Color color;
+  QuizCard({
     super.key,
     required this.title,
+    required this.color,
+    required this.fontWeight,
   });
 
-  @override
-  State<QuizCard> createState() => _QuizCardState();
-}
-
-class _QuizCardState extends State<QuizCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,6 +23,7 @@ class _QuizCardState extends State<QuizCard> {
         border: Border.all(
           color: Colors.grey,
         ),
+        color: color,
       ),
       child: Row(
         children: [
@@ -38,10 +39,10 @@ class _QuizCardState extends State<QuizCard> {
             children: [
               Spacer(),
               Text(
-                '${widget.title}',
+                '$title',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600,
+                  fontWeight: fontWeight,
                   fontSize: 16,
                 ),
               ),

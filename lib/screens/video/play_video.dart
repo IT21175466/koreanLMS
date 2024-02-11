@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayVideoScreen extends StatefulWidget {
@@ -11,6 +13,7 @@ class PlayVideoScreen extends StatefulWidget {
   final String title;
   final String teacher;
   final String zoomLink;
+  final String userID;
 
   const PlayVideoScreen({
     super.key,
@@ -18,6 +21,7 @@ class PlayVideoScreen extends StatefulWidget {
     required this.title,
     required this.teacher,
     required this.zoomLink,
+    required this.userID,
   });
 
   @override
@@ -27,6 +31,14 @@ class PlayVideoScreen extends StatefulWidget {
 class _PlayVideoScreenState extends State<PlayVideoScreen> {
   bool isFullScreen = false;
   late YoutubePlayerController _controller;
+
+  DatabaseReference databaseReference =
+      FirebaseDatabase.instance.ref('watched_videos');
+
+  String generateRandomId() {
+    var uuid = Uuid();
+    return uuid.v4();
+  }
 
   void videoInfoAlertDialog() {
     if (Platform.isIOS) {
@@ -165,6 +177,17 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
         mute: false,
       ),
     );
+
+    Future.delayed(Duration(seconds: 5), () {
+      setToHistory();
+    });
+  }
+
+  setToHistory() async {
+    await databaseReference.child(widget.userID).child(generateRandomId()).set({
+      "studentID": widget.userID,
+      "paper_name": widget.title,
+    });
   }
 
   @override

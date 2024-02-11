@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -37,6 +38,9 @@ class _HomeTabState extends State<HomeTab> {
   bool isLoading = false;
   bool isSucess = false;
 
+  DatabaseReference databaseReference =
+      FirebaseDatabase.instance.ref('watched_videos');
+
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIMode(
@@ -47,6 +51,7 @@ class _HomeTabState extends State<HomeTab> {
     );
     super.initState();
     getStudentID();
+
     final appDataProvider =
         Provider.of<AppDataProvider>(context, listen: false);
     appDataProvider.isLoading = true;
@@ -57,6 +62,7 @@ class _HomeTabState extends State<HomeTab> {
     // final notificationProvider =
     //     Provider.of<NotificationProvider>(context, listen: false);
     // notificationProvider.listnToNotifications();
+    listnToOngoings();
   }
 
   getStudentID() async {
@@ -75,6 +81,42 @@ class _HomeTabState extends State<HomeTab> {
     Random random = Random();
     int code = random.nextInt(900000) + 100000;
     return code.toString();
+  }
+
+  void listnToOngoings() {
+    databaseReference.onValue.listen((event) {
+      DataSnapshot dataSnapshot = event.snapshot;
+      Map<dynamic, dynamic>? values = dataSnapshot.value as Map?;
+
+      if (values != null) {
+        values.forEach((key, videoHistoryData) {
+          if (key == studentID) {
+            databaseReference.onValue.listen((event2) {
+              DataSnapshot dataSnapshot2 = event2.snapshot.child(key);
+              Map<dynamic, dynamic>? values2 = dataSnapshot2.value as Map?;
+
+              if (values2 != null) {
+                values2.forEach((key2, videoHistoryData2) {
+                  print('Key: $key2');
+
+                  if (videoProvider.watchedVideos
+                      .contains(videoHistoryData2['paper_name'].toString())) {
+                    print('This record available in the array list');
+                  } else {
+                    setState(() {
+                      videoProvider.watchedVideos
+                          .add(videoHistoryData2['paper_name'].toString());
+                    });
+                  }
+                });
+              }
+            });
+          }
+
+          print('Key: $key');
+        });
+      } else {}
+    });
   }
 
   Future<void> sendVerificationCode({
@@ -272,6 +314,7 @@ class _HomeTabState extends State<HomeTab> {
                                               title: video.title,
                                               teacher: video.teacher,
                                               zoomLink: video.zoomLink,
+                                              userID: studentID!,
                                             ),
                                           ),
                                         );
@@ -298,7 +341,11 @@ class _HomeTabState extends State<HomeTab> {
                                             video.paymentTerm
                                         ? true
                                         : false,
-                                    isWatched: false,
+                                    isWatched: videoProvider.watchedVideos
+                                            .contains(videoProvider
+                                                .videos[index].title)
+                                        ? true
+                                        : false,
                                     teacher: video.teacher,
                                     title: video.title,
                                   ),

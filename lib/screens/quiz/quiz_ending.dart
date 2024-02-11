@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:koreanlms/constants/app_colors.dart';
@@ -8,6 +9,7 @@ import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/outline_button.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class QuizEnd extends StatefulWidget {
   final String quizName;
@@ -21,6 +23,9 @@ class _QuizEndState extends State<QuizEnd> {
   int correctAnswerAmount = 0;
   int wrongAnswerAmount = 0;
   int notGivenAnswerAmount = 0;
+
+  DatabaseReference databaseReference =
+      FirebaseDatabase.instance.ref('did_papers');
 
   @override
   void initState() {
@@ -47,6 +52,11 @@ class _QuizEndState extends State<QuizEnd> {
   String? userID = '';
 
   String? marks = '';
+
+  String generateRandomId() {
+    var uuid = Uuid();
+    return uuid.v4();
+  }
 
   getUserID() async {
     final prefs = await SharedPreferences.getInstance();
@@ -283,7 +293,7 @@ class _QuizEndState extends State<QuizEnd> {
                       height: 20,
                     ),
                     GestureDetector(
-                      onTap: () async {
+                      onTap: () {
                         String formattedDate =
                             DateFormat.yMMMMd().format(DateTime.now());
 
@@ -296,13 +306,25 @@ class _QuizEndState extends State<QuizEnd> {
                         );
                         quizProvider.addQuizToFirebase(
                             historyQuiz, context, userID!);
+
+                        databaseReference
+                            .child(userID!)
+                            .child(generateRandomId())
+                            .set({
+                          "studentID": userID,
+                          "paper_name": widget.quizName,
+                        });
                       },
-                      child: CustomButton(
-                        text: 'Done',
-                        height: 50,
-                        width: screenWidth,
-                        backgroundColor: Colors.green,
-                      ),
+                      child: quizProvider.isLoading
+                          ? Center(
+                              child: CircularProgressIndicator.adaptive(),
+                            )
+                          : CustomButton(
+                              text: 'Done',
+                              height: 50,
+                              width: screenWidth,
+                              backgroundColor: Colors.green,
+                            ),
                     ),
                     Spacer(),
                   ],

@@ -35,6 +35,8 @@ class QuizProvider extends ChangeNotifier {
 
   bool timerDone = false;
 
+  List<String> didPapers = [];
+
   // countCorrectAnswers() {
   //   if (coorectAnswer == selectedAnswer) {
   //     selectedAnswers.add('1');

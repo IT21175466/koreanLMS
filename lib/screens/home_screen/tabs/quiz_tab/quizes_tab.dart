@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/screens/home_screen/tabs/quiz_tab/history_section.dart';
 import 'package:koreanlms/screens/home_screen/tabs/quiz_tab/quiz_section.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizTab extends StatefulWidget {
   const QuizTab({super.key});
@@ -11,6 +12,22 @@ class QuizTab extends StatefulWidget {
 }
 
 class _QuizTabState extends State<QuizTab> {
+  String? studentID = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getStudentID();
+  }
+
+  getStudentID() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      studentID = prefs.getString('userID');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     //double screenWidth = MediaQuery.of(context).size.width;
@@ -71,7 +88,9 @@ class _QuizTabState extends State<QuizTab> {
                 child: TabBarView(
                   children: [
                     QuizSection(),
-                    HistorySection(),
+                    HistorySection(
+                      sID: studentID!,
+                    ),
                   ],
                 ),
               ),

@@ -5,7 +5,8 @@ import 'package:koreanlms/widgets/quiz_history_card.dart';
 import 'package:provider/provider.dart';
 
 class HistorySection extends StatefulWidget {
-  const HistorySection({super.key});
+  final String sID;
+  const HistorySection({super.key, required this.sID});
 
   @override
   State<HistorySection> createState() => _HistorySectionState();
@@ -50,7 +51,7 @@ class _HistorySectionState extends State<HistorySection> {
               : StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('HistoryQuizzes')
-                      .doc("tz7pMEAToxeZb4PTtGr9DM0Kkyo2")
+                      .doc(widget.sID)
                       .collection("Quizzes")
                       .snapshots(),
                   builder: (context, snapshot) {
