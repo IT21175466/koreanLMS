@@ -362,13 +362,15 @@ class _SingleQuestionState extends State<SingleQuestion> {
                               : Colors.green,
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: Text(
-                          'Paper Timer - ${minutes} minutes and ${seconds} seconds left',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Colors.white,
+                        child: FittedBox(
+                          child: Text(
+                            'Paper Timer - ${minutes} minutes and ${seconds} seconds left',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       );
@@ -456,13 +458,15 @@ class _SingleQuestionState extends State<SingleQuestion> {
                             : Colors.green,
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: Text(
-                        '${time.toStringAsFixed(0)} seconds left',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          color: Colors.white,
+                      child: FittedBox(
+                        child: Text(
+                          '${time.toStringAsFixed(0)} seconds left',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),

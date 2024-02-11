@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,6 +27,130 @@ class PlayVideoScreen extends StatefulWidget {
 class _PlayVideoScreenState extends State<PlayVideoScreen> {
   bool isFullScreen = false;
   late YoutubePlayerController _controller;
+
+  void videoInfoAlertDialog() {
+    if (Platform.isIOS) {
+      showCupertinoDialog(
+        context: context,
+        builder: (ctx) => CupertinoAlertDialog(
+          title: Text(
+            "Video Details",
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
+            ),
+          ),
+          content: Container(
+            height: 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Spacer(),
+                SizedBox(
+                  height: 50,
+                  child: SingleChildScrollView(
+                    child: Text(
+                      "${widget.teacher} ",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                  child: Text(
+                    "${widget.title}",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                Spacer(),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: const Text(
+                "OK",
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(
+            "Video Details",
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
+            ),
+          ),
+          content: Container(
+            height: 80,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Spacer(),
+                SizedBox(
+                  height: 50,
+                  child: SingleChildScrollView(
+                    child: Text(
+                      "${widget.teacher} ",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                  child: Text(
+                    "${widget.title}",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                Spacer(),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: const Text(
+                "OK",
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -82,7 +209,9 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    videoInfoAlertDialog();
+                  },
                   icon: Icon(
                     Icons.info,
                     color: Colors.white,
