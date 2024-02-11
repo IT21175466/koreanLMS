@@ -56,6 +56,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
     return Consumer(
       builder:
           (BuildContext context, QuizProvider quizProvider, Widget? child) =>
