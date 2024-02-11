@@ -22,6 +22,7 @@ class QuizCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
           color: Colors.grey,
+          width: 0.5,
         ),
         color: color,
       ),
