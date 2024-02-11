@@ -113,7 +113,7 @@ class _SettingsTabState extends State<SettingsTab> {
                         prefs.setBool('logedIn', false);
 
                         Navigator.pushNamedAndRemoveUntil(
-                            context, '/login', (route) => false);
+                            context, '/loginsplash', (route) => false);
                       },
                       child: CustomButton(
                         text: 'Logout',

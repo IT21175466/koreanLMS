@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         ),
         //home: QuizTab(),
         navigatorKey: navigatorKey,
-        initialRoute: loginStatus ? '/initsplash' : '/login',
+        initialRoute: loginStatus ? '/initsplash' : '/loginsplash',
         routes: AppRoutes.getRoutes(),
       ),
     );

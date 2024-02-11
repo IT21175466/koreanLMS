@@ -45,12 +45,32 @@ class StudentProvider extends ChangeNotifier {
       studentClass = studentDoc.get('Student_Class');
       payment = studentDoc.get('Payment');
       registedDate = studentDoc.get('Registed_Date');
+      deviceID = studentDoc.get('Device_ID');
 
       notifyListeners();
     } catch (e) {
       print(e);
     } finally {
       isLoading = false;
+    }
+  }
+
+  getDeviceData(BuildContext context) async {
+    try {
+      await getStudentID();
+
+      final DocumentSnapshot studentDoc = await FirebaseFirestore.instance
+          .collection("Students")
+          .doc(studentID)
+          .get();
+
+      deviceID = studentDoc.get('Device_ID');
+      notifyListeners();
+      print(deviceID);
+    } catch (e) {
+      print(e);
+    } finally {
+      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 }
