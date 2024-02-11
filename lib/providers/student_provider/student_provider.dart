@@ -17,6 +17,7 @@ class StudentProvider extends ChangeNotifier {
   String? studentClass = '...';
   String? payment = '...';
   String? registedDate = '...';
+  String? deviceID = '...';
 
   getStudentID() async {
     final prefs = await SharedPreferences.getInstance();

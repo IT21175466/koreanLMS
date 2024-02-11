@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:koreanlms/constants/app_colors.dart';
@@ -32,10 +35,29 @@ class _SignUPScreenState extends State<SignUPScreen> {
     });
   }
 
+  String? deviceId;
+
   @override
   void initState() {
     super.initState();
     getUserID();
+    getDeviceID();
+  }
+
+  void getDeviceID() async {
+    deviceId = await _getId();
+  }
+
+  Future<String?> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor;
+    } else if (Platform.isAndroid) {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.id;
+    }
+    return null;
   }
 
   @override
@@ -186,6 +208,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                         batch: 'no_batch',
                         studentClass: 'no_class',
                         payment: 'not_yet',
+                        deviceID: deviceId!,
                       );
                       // User(
                       //   userID: userID!,
