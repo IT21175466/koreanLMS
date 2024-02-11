@@ -44,7 +44,7 @@ class _InitialSplashState extends State<InitialSplash> {
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w600,
-                fontSize: 28,
+                fontSize: 24,
               ),
             ),
             Spacer(),
