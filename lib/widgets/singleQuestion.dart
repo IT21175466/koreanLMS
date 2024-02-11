@@ -464,7 +464,7 @@ class _SingleQuestionState extends State<SingleQuestion> {
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
-                            fontSize: 14,
+                            fontSize: 12,
                             color: Colors.white,
                           ),
                         ),
