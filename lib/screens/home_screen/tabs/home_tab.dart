@@ -153,6 +153,13 @@ class _HomeTabState extends State<HomeTab> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [
+        SystemUiOverlay.top,
+      ],
+    );
+
     return Stack(
       children: [
         Padding(

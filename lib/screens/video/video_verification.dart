@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/screens/video/play_video.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
@@ -26,6 +27,19 @@ class VideoVerificationScreen extends StatefulWidget {
 
 class _VideoVerificationScreenState extends State<VideoVerificationScreen> {
   final TextEditingController otpController = TextEditingController();
+
+  @override
+  void initState() {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [
+        SystemUiOverlay.top,
+        SystemUiOverlay.bottom,
+      ],
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
