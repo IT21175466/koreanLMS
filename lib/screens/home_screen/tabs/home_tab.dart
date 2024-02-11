@@ -13,7 +13,6 @@ import 'package:koreanlms/providers/authentication/login_provider.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
 import 'package:koreanlms/screens/video/video_verification.dart';
-import 'package:koreanlms/widgets/search_textfiled.dart';
 import 'package:koreanlms/widgets/single_video_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +25,7 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  final TextEditingController sampleController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   String? studentID = '';
 
@@ -63,6 +62,25 @@ class _HomeTabState extends State<HomeTab> {
     //     Provider.of<NotificationProvider>(context, listen: false);
     // notificationProvider.listnToNotifications();
     listnToOngoings();
+  }
+
+  searchVideo(String query) {
+    final suggestions = videoProvider.videos.where((video) {
+      final title = video.title.toLowerCase();
+      final input = query.toLowerCase();
+
+      return title.contains(input);
+    }).toList();
+
+    if (query.isEmpty) {
+      setState(() {
+        videoProvider.getVideos();
+      });
+    } else {
+      setState(() {
+        videoProvider.videos = suggestions;
+      });
+    }
   }
 
   getStudentID() async {
@@ -251,8 +269,34 @@ class _HomeTabState extends State<HomeTab> {
                         ],
                       ),
                       Spacer(),
-                      SearchTextField(
-                          controller: sampleController, labelText: "Search"),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        margin: const EdgeInsets.symmetric(vertical: 7),
+                        height: 45,
+                        child: TextField(
+                          controller: searchController,
+                          onChanged: searchVideo,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: const BorderSide(
+                                color: AppColors.grayColor,
+                                width: 0.5,
+                              ),
+                            ),
+                            prefixIcon: Icon(Icons.search),
+                            labelText: "Search",
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),

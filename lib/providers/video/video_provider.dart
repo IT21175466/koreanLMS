@@ -75,6 +75,9 @@ class VideoProvider extends ChangeNotifier {
           .collection("Videos")
           .get();
 
+      videos.clear();
+      lockedVideos.clear();
+
       for (QueryDocumentSnapshot videoDoc in videoQuerySnapshot.docs) {
         String title = videoDoc['Title'];
         String teacher = videoDoc['Teacher_Name'];
