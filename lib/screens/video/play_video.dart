@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -168,6 +169,8 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
   void initState() {
     super.initState();
 
+    disableScreenRecord();
+
     final videoID = YoutubePlayer.convertUrlToId(widget.link);
 
     _controller = YoutubePlayerController(
@@ -181,6 +184,10 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
     Future.delayed(Duration(seconds: 5), () {
       setToHistory();
     });
+  }
+
+  Future<void> disableScreenRecord() async {
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
 
   setToHistory() async {

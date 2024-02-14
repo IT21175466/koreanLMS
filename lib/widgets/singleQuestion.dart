@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:koreanlms/models/answer.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/screens/quiz/quiz_ending.dart';
@@ -111,6 +112,12 @@ class SingleQuestion extends StatefulWidget {
 }
 
 class _SingleQuestionState extends State<SingleQuestion> {
+  @override
+  void initState() {
+    disableScreenRecord();
+    super.initState();
+  }
+
   late YoutubePlayerController _controller;
 
   void initializeController() {
@@ -126,6 +133,10 @@ class _SingleQuestionState extends State<SingleQuestion> {
         ),
       );
     }
+  }
+
+  Future<void> disableScreenRecord() async {
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
 
   @override

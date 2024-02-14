@@ -11,6 +11,7 @@ import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/outline_button.dart';
 import 'package:koreanlms/widgets/singleQuestion.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
 class QuestionScreen extends StatefulWidget {
   final String quizName;
@@ -27,6 +28,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   var quizProvider = QuizProvider();
   @override
   void initState() {
+    disableScreenRecord();
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.immersiveSticky,
       overlays: [
@@ -34,6 +36,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
       ],
     );
     super.initState();
+  }
+
+  Future<void> disableScreenRecord() async {
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
 
   bool isPaperTimerAvailable = false;
