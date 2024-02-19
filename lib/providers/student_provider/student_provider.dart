@@ -59,14 +59,33 @@ class StudentProvider extends ChangeNotifier {
     try {
       await getStudentID();
 
-      final DocumentSnapshot studentDoc = await FirebaseFirestore.instance
-          .collection("Students")
-          .doc(studentID)
-          .get();
+      final DocumentSnapshot<Map<String, dynamic>> studentDoc =
+          await FirebaseFirestore.instance
+              .collection("Students")
+              .doc(studentID)
+              .get();
 
-      deviceID = studentDoc.get('Device_ID');
-      notifyListeners();
-      print(deviceID);
+      // final DocumentSnapshot studentDoc = await FirebaseFirestore.instance
+      //     .collection("Students")
+      //     .doc(studentID)
+      //     .get();
+
+      // deviceID = studentDoc.get('Device_ID');
+
+      if (studentDoc.exists) {
+        Map<String, dynamic>? data = studentDoc.data();
+        if (data != null && data.containsKey('Device_ID')) {
+          deviceID = data['Device_ID'];
+          notifyListeners();
+        } else {
+          deviceID = 'not';
+          notifyListeners();
+        }
+      } else {
+        print('Document does not exist');
+        deviceID = 'not';
+        notifyListeners();
+      }
     } catch (e) {
       print(e);
     } finally {
