@@ -18,6 +18,7 @@ import 'package:koreanlms/widgets/play_video_sample.dart';
 import 'package:koreanlms/widgets/single_video_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -313,94 +314,135 @@ class _HomeTabState extends State<HomeTab> {
                       // Column(
                       //     crossAxisAlignment: CrossAxisAlignment.center,
                       //     children: [
-                      StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('InitialVideo')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Connection Error!',
+                      Column(
+                          children: [
+                            Expanded(
+                              child: StreamBuilder(
+                                stream: FirebaseFirestore.instance
+                                    .collection('InitialVideo')
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Connection Error!',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    Center(
+                                      child: Text(
+                                        'Loading.....',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  if (snapshot.hasData) {
+                                    var docs = snapshot.data!.docs;
+                                    return ListView.builder(
+                                        itemCount: docs.length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              if (docs[index]['Accept']) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PlayVideoSampleScreen(
+                                                      link: docs[index]['link'],
+                                                      title: docs[index]
+                                                          ['Title'],
+                                                      teacher: docs[index]
+                                                          ['Teacher'],
+                                                    ),
+                                                  ),
+                                                );
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Make payment and try again!',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: VideoCard(
+                                              title: docs[index]['Title'],
+                                              teacher: docs[index]['Teacher'],
+                                              isAccepted: docs[index]['Accept'],
+                                              isWatched: false,
+                                            ),
+                                          );
+                                        });
+                                  }
+                                  return Text(
+                                    'No Videos',
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
                                     ),
-                                  ),
-                                ),
-                              );
-                            }
-
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              Center(
-                                child: Text(
-                                  'Loading.....',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              );
-                            }
-
-                            if (snapshot.hasData) {
-                              var docs = snapshot.data!.docs;
-                              return ListView.builder(
-                                  itemCount: docs.length,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        if (docs[index]['Accept']) {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PlayVideoSampleScreen(
-                                                link: docs[index]['link'],
-                                                title: docs[index]['Title'],
-                                                teacher: docs[index]['Teacher'],
-                                              ),
-                                            ),
-                                          );
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Make payment and try again!',
-                                                style: TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              backgroundColor: Colors.green,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      child: VideoCard(
-                                        title: docs[index]['Title'],
-                                        teacher: docs[index]['Teacher'],
-                                        isAccepted: docs[index]['Accept'],
-                                        isWatched: false,
-                                      ),
-                                    );
-                                  });
-                            }
-                            return Text(
-                              'No Videos',
+                                  );
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Please Contact Admin for Access',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
                               ),
-                            );
-                          },
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                launchUrl(
+                                  Uri.parse(
+                                      'https://dreamkoreanacademy.com/contact/'),
+                                );
+                              },
+                              child: Text(
+                                'Tap to contact ',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
                         )
                       // GestureDetector(
                       //   onTap: () {

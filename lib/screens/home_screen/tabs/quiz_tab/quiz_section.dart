@@ -7,6 +7,7 @@ import 'package:koreanlms/screens/quiz/question_screen.dart';
 import 'package:koreanlms/widgets/quiz_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class QuizSection extends StatefulWidget {
   const QuizSection({super.key});
@@ -109,6 +110,22 @@ class _QuizSectionState extends State<QuizSection> {
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                         fontSize: 20,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        launchUrl(
+                          Uri.parse('https://dreamkoreanacademy.com/contact/'),
+                        );
+                      },
+                      child: Text(
+                        'Tap to contact ',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: Colors.blue,
+                        ),
                       ),
                     ),
                     Spacer(),

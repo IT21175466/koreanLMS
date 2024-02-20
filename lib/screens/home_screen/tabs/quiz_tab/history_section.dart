@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/widgets/quiz_history_card.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HistorySection extends StatefulWidget {
   final String sID;
@@ -43,6 +44,22 @@ class _HistorySectionState extends State<HistorySection> {
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                         fontSize: 20,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        launchUrl(
+                          Uri.parse('https://dreamkoreanacademy.com/contact/'),
+                        );
+                      },
+                      child: Text(
+                        'Tap to contact ',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: Colors.blue,
+                        ),
                       ),
                     ),
                     Spacer(),
