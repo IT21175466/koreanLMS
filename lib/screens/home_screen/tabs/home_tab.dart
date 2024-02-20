@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,7 @@ import 'package:koreanlms/providers/authentication/login_provider.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
 import 'package:koreanlms/screens/video/video_verification.dart';
+import 'package:koreanlms/widgets/play_video_sample.dart';
 import 'package:koreanlms/widgets/single_video_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -307,29 +309,162 @@ class _HomeTabState extends State<HomeTab> {
                           (Platform.isIOS ? 92 : 70)),
                   //padding: EdgeInsets.symmetric(horizontal: 10),
                   child: videoProvider.noBatch
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Spacer(),
-                            SizedBox(
-                              height: 150,
-                              width: 150,
-                              child: Image.asset('assets/images/admin.png'),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              'Please Contact Admin',
+                      ?
+                      // Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.center,
+                      //     children: [
+                      StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('InitialVideo')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Connection Error!',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              Center(
+                                child: Text(
+                                  'Loading.....',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              );
+                            }
+
+                            if (snapshot.hasData) {
+                              var docs = snapshot.data!.docs;
+                              return ListView.builder(
+                                  itemCount: docs.length,
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (docs[index]['Accept']) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PlayVideoSampleScreen(
+                                                link: docs[index]['link'],
+                                                title: docs[index]['Title'],
+                                                teacher: docs[index]['Teacher'],
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Make payment and try again!',
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              backgroundColor: Colors.green,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: VideoCard(
+                                        title: docs[index]['Title'],
+                                        teacher: docs[index]['Teacher'],
+                                        isAccepted: docs[index]['Accept'],
+                                        isWatched: false,
+                                      ),
+                                    );
+                                  });
+                            }
+                            return Text(
+                              'No Videos',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
                               ),
-                            ),
-                            Spacer(),
-                          ],
+                            );
+                          },
                         )
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) =>
+                      //             PlayVideoSampleScreen(
+                      //           link: link,
+                      //           title: title,
+                      //           teacher: teacher,
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      //   child: VideoCard(
+                      //     isAccepted: true,
+                      //     isWatched: false,
+                      //     title: 'title',
+                      //     teacher: 'teacher',
+                      //   ),
+                      // ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //       SnackBar(
+                      //         content: Text(
+                      //           'Make payment and try again!',
+                      //           style: TextStyle(
+                      //             fontFamily: 'Poppins',
+                      //             fontWeight: FontWeight.w500,
+                      //             color: Colors.white,
+                      //           ),
+                      //         ),
+                      //         backgroundColor: Colors.green,
+                      //       ),
+                      //     );
+                      //   },
+                      //   child: VideoCard(
+                      //     isAccepted: false,
+                      //     isWatched: false,
+                      //     title: 'Language Basics',
+                      //     teacher: 'Mr. Dilan',
+                      //   ),
+                      // ),
+
+                      // SizedBox(
+                      //   height: 150,
+                      //   width: 150,
+                      //   child: Image.asset('assets/images/admin.png'),
+                      // ),
+                      // SizedBox(
+                      //   height: 30,
+                      // ),
+                      // Text(
+                      //   'Please Contact Admin for Access',
+                      //   style: TextStyle(
+                      //     fontFamily: 'Poppins',
+                      //     fontWeight: FontWeight.w500,
+                      //     fontSize: 16,
+                      //   ),
+                      // ),
+                      //   ],
+                      //)
                       : videoProvider.paymentDone
                           ? ListView.builder(
                               itemCount: videoProvider.videos.length,

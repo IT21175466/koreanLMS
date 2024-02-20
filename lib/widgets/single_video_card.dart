@@ -25,9 +25,9 @@ class VideoCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(
-          color: Colors.grey,
-        ),
+        // border: Border.all(
+        //   color: Colors.grey,
+        // ),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
@@ -108,7 +108,7 @@ class VideoCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      title.toUpperCase(),
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,

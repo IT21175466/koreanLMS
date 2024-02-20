@@ -1,45 +1,29 @@
 import 'dart:io';
-
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:uuid/uuid.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class PlayVideoScreen extends StatefulWidget {
+class PlayVideoSampleScreen extends StatefulWidget {
   final String link;
   final String title;
   final String teacher;
-  final String zoomLink;
-  final String userID;
 
-  const PlayVideoScreen({
+  const PlayVideoSampleScreen({
     super.key,
     required this.link,
     required this.title,
     required this.teacher,
-    required this.zoomLink,
-    required this.userID,
   });
 
   @override
-  State<PlayVideoScreen> createState() => _PlayVideoScreenState();
+  State<PlayVideoSampleScreen> createState() => _PlayVideoSampleScreenState();
 }
 
-class _PlayVideoScreenState extends State<PlayVideoScreen> {
+class _PlayVideoSampleScreenState extends State<PlayVideoSampleScreen> {
   bool isFullScreen = false;
   late YoutubePlayerController _controller;
-
-  DatabaseReference databaseReference =
-      FirebaseDatabase.instance.ref('watched_videos');
-
-  String generateRandomId() {
-    var uuid = Uuid();
-    return uuid.v4();
-  }
 
   void videoInfoAlertDialog() {
     if (Platform.isIOS) {
@@ -180,21 +164,10 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
         mute: false,
       ),
     );
-
-    Future.delayed(Duration(seconds: 5), () {
-      setToHistory();
-    });
   }
 
   Future<void> disableScreenRecord() async {
     await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-  }
-
-  setToHistory() async {
-    await databaseReference.child(widget.userID).child(generateRandomId()).set({
-      "studentID": widget.userID,
-      "paper_name": widget.title,
-    });
   }
 
   @override
@@ -249,34 +222,6 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                   ),
                 ),
                 Spacer(),
-                widget.zoomLink.isNotEmpty
-                    ? GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => ZoomWebview(),
-                          //   ),
-                          // );
-                          print(widget.zoomLink);
-                          setState(() {
-                            launchUrl(
-                              Uri.parse(widget.zoomLink),
-                              mode: LaunchMode.inAppWebView,
-                            );
-                          });
-                        },
-                        child: Text(
-                          'Zoom Video',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      )
-                    : SizedBox(),
               ],
             ),
             backgroundColor: Colors.green,

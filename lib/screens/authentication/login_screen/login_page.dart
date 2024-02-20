@@ -164,34 +164,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        if (studentProvider.deviceID == 'not') {
+                        // if (studentProvider.deviceID == 'not') {
+                        //   signUPProvider.loading = true;
+                        //   signUPProvider.verifyPhoneNumber(
+                        //       signUPProvider.phoneController.text, context);
+                        // } else {
+                        //   if (studentProvider.deviceID != deviceId) {
+                        //     ScaffoldMessenger.of(context).showSnackBar(
+                        //       SnackBar(
+                        //         content: Text(
+                        //             "This account already logged in a device"),
+                        //         backgroundColor: Colors.red,
+                        //       ),
+                        //     );
+                        //   } else {
+                        if (signUPProvider.phoneController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Please enter your Phone Number"),
+                            ),
+                          );
+                        } else {
                           signUPProvider.loading = true;
                           signUPProvider.verifyPhoneNumber(
                               signUPProvider.phoneController.text, context);
-                        } else {
-                          if (studentProvider.deviceID != deviceId) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    "This account already logged in a device"),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
-                          } else {
-                            if (signUPProvider.phoneController.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content:
-                                      Text("Please enter your Phone Number"),
-                                ),
-                              );
-                            } else {
-                              signUPProvider.loading = true;
-                              signUPProvider.verifyPhoneNumber(
-                                  signUPProvider.phoneController.text, context);
-                            }
-                          }
                         }
+                        //}
+                        //}
                       },
                       child: signUPProvider.loading
                           ? Container(
