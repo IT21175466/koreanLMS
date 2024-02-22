@@ -143,7 +143,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
             width: screenWidth,
             height: screenHeight / 5 * 4,
             child: SingleChildScrollView(
