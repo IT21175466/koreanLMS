@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:koreanlms/constants/app_colors.dart';
 
 // ignore: must_be_immutable
 class VideoCard extends StatelessWidget {
@@ -24,7 +23,7 @@ class VideoCard extends StatelessWidget {
       height: 200,
       margin: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color.fromARGB(255, 40, 49, 54),
         // border: Border.all(
         //   color: Colors.grey,
         // ),
@@ -38,7 +37,7 @@ class VideoCard extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage('assets/images/card.jpeg'),
+                image: AssetImage('assets/images/card.png'),
               ),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15),
@@ -48,6 +47,7 @@ class VideoCard extends StatelessWidget {
             child: Container(
               width: screenWidth,
               height: 130,
+              padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.5),
                 borderRadius: BorderRadius.only(
@@ -55,25 +55,141 @@ class VideoCard extends StatelessWidget {
                   topRight: Radius.circular(15),
                 ),
               ),
-              child: Center(
-                child: isAccepted
-                    ? Container(
-                        height: 50,
-                        width: 50,
-                        child: Center(
-                          child: Icon(
-                            Icons.play_arrow,
+              child: isAccepted
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        isWatched == false
+                            ? Container(
+                                width: 100,
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 5,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.black,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Spacer(),
+                                    Icon(
+                                      Icons.pending,
+                                      size: 15,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      'To Watch',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                  ],
+                                ),
+                              )
+                            : Container(
+                                width: 100,
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 5,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.black,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Spacer(),
+                                    Icon(
+                                      Icons.done,
+                                      size: 15,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      'Watched',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                  ],
+                                ),
+                              ),
+                        Spacer(),
+                        Center(
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            child: Center(
+                              child: Icon(
+                                Icons.play_arrow,
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
                           ),
                         ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(100),
+                        Spacer(),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 10,
                         ),
-                      )
-                    : Column(
-                        children: [
-                          Spacer(),
-                          Container(
+                        Container(
+                          width: 100,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.black,
+                          ),
+                          child: Row(
+                            children: [
+                              Spacer(),
+                              Icon(
+                                Icons.payment,
+                                size: 15,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'Pending',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                ),
+                              ),
+                              Spacer(),
+                            ],
+                          ),
+                        ),
+                        Spacer(),
+                        Center(
+                          child: Container(
                             height: 50,
                             width: 50,
                             child: Icon(
@@ -84,7 +200,9 @@ class VideoCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
-                          Text(
+                        ),
+                        Center(
+                          child: Text(
                             'Payment Required',
                             style: TextStyle(
                               fontFamily: 'Poppins',
@@ -93,10 +211,10 @@ class VideoCard extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ),
-                          Spacer(),
-                        ],
-                      ),
-              ),
+                        ),
+                        Spacer(),
+                      ],
+                    ),
             ),
           ),
           Spacer(),
@@ -112,40 +230,21 @@ class VideoCard extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
-                        fontSize: 14,
+                        fontSize: 16,
+                        color: Colors.white,
                       ),
                     ),
                     Text(
                       teacher,
                       style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         fontSize: 12,
                         color: Colors.grey,
                       ),
                     ),
                   ],
                 ),
-                Spacer(),
-                isWatched == false
-                    ? SizedBox()
-                    : Column(
-                        children: [
-                          Icon(
-                            Icons.done,
-                            color: AppColors.grayColor,
-                          ),
-                          Text(
-                            'Watched',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.grayColor,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
               ],
             ),
           ),
