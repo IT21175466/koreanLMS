@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/signup_provider.dart';
+import 'package:koreanlms/providers/student_provider/student_provider.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/phone_textfiled.dart';
 import 'package:provider/provider.dart';
@@ -14,13 +18,32 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  String? deviceId;
+
   @override
   void initState() {
     super.initState();
+    getDeviceID();
     final appDataProvider =
         Provider.of<AppDataProvider>(context, listen: false);
     appDataProvider.isLoading = true;
     appDataProvider.getBannerImages(context);
+  }
+
+  void getDeviceID() async {
+    deviceId = await _getId();
+  }
+
+  Future<String?> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor;
+    } else if (Platform.isAndroid) {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.id;
+    }
+    return null;
   }
 
   @override
@@ -44,9 +67,12 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 10),
         width: screenWidth,
-        child: Consumer2(
-          builder: (BuildContext context, SignUPProvider signUPProvider,
-                  AppDataProvider appDataProvider, Widget? child) =>
+        child: Consumer3(
+          builder: (BuildContext context,
+                  SignUPProvider signUPProvider,
+                  StudentProvider studentProvider,
+                  AppDataProvider appDataProvider,
+                  Widget? child) =>
               Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -138,6 +164,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
+                        // if (studentProvider.deviceID == 'not') {
+                        //   signUPProvider.loading = true;
+                        //   signUPProvider.verifyPhoneNumber(
+                        //       signUPProvider.phoneController.text, context);
+                        // } else {
+                        //   if (studentProvider.deviceID != deviceId) {
+                        //     ScaffoldMessenger.of(context).showSnackBar(
+                        //       SnackBar(
+                        //         content: Text(
+                        //             "This account already logged in a device"),
+                        //         backgroundColor: Colors.red,
+                        //       ),
+                        //     );
+                        //   } else {
                         if (signUPProvider.phoneController.text.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -149,6 +189,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           signUPProvider.verifyPhoneNumber(
                               signUPProvider.phoneController.text, context);
                         }
+                        //}
+                        //}
                       },
                       child: signUPProvider.loading
                           ? Container(

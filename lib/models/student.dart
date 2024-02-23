@@ -10,6 +10,7 @@ class Student {
   final String studentClass;
   final String payment;
   final String date;
+  final String deviceID;
 
   Student({
     required this.userID,
@@ -23,6 +24,7 @@ class Student {
     required this.batch,
     required this.studentClass,
     required this.payment,
+    required this.deviceID,
   });
 
   factory Student.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class Student {
       studentClass: json['Student_Class'].toString(),
       payment: json['Payment'].toString(),
       date: json['Registed_Date'],
+      deviceID: json['Device_ID'].toString(),
     );
   }
 
@@ -53,6 +56,7 @@ class Student {
       'Batch': batch,
       'Student_Class': studentClass,
       'Payment': payment,
+      'Device_ID': deviceID,
       'Registed_Date': DateTime.now().toString(),
     };
   }

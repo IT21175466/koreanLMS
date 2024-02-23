@@ -11,7 +11,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       builder: (BuildContext context,
           BottomNavBarProvider bottomNavigationProvider, Widget? child) {
         return Container(
-          height: Platform.isIOS ? 92 : 60,
+          height: Platform.isIOS ? 92 : 70,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(

@@ -35,8 +35,8 @@ class _LoadingSplashState extends State<LoadingSplash> {
           children: [
             Spacer(),
             SizedBox(
-              height: 80,
-              width: 80,
+              height: 150,
+              width: 150,
               child: Image.asset('assets/images/gPhotosLogo.png'),
             ),
             SizedBox(

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:koreanlms/constants/app_colors.dart';
 
-class QuizCard extends StatefulWidget {
-  const QuizCard({super.key});
+// ignore: must_be_immutable
+class QuizCard extends StatelessWidget {
+  String title;
+  FontWeight fontWeight;
+  Color color;
+  QuizCard({
+    super.key,
+    required this.title,
+    required this.color,
+    required this.fontWeight,
+  });
 
-  @override
-  State<QuizCard> createState() => _QuizCardState();
-}
-
-class _QuizCardState extends State<QuizCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,38 +22,40 @@ class _QuizCardState extends State<QuizCard> {
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
           color: Colors.grey,
+          width: 0.5,
         ),
+        color: color,
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.document_scanner,
-            size: 35,
+          SizedBox(
+            height: 40,
+            child: Image.asset('assets/images/quiz.png'),
           ),
           SizedBox(
-            width: 20,
+            width: 10,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Spacer(),
               Text(
-                'Language Basics',
+                '$title',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600,
+                  fontWeight: fontWeight,
                   fontSize: 16,
                 ),
               ),
-              Text(
-                '30 min',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  color: AppColors.grayColor,
-                ),
-              ),
+              // Text(
+              //   "${widget.quizAmount} Questions",
+              //   style: TextStyle(
+              //     fontFamily: 'Poppins',
+              //     fontWeight: FontWeight.w600,
+              //     fontSize: 14,
+              //     color: AppColors.grayColor,
+              //   ),
+              // ),
               Spacer(),
             ],
           ),

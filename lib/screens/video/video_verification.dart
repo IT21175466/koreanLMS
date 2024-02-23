@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/screens/video/play_video.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:pinput/pinput.dart';
 
 class VideoVerificationScreen extends StatefulWidget {
+  final String userID;
   final String msgCode;
   final String link;
   final String title;
@@ -17,6 +19,7 @@ class VideoVerificationScreen extends StatefulWidget {
     required this.title,
     required this.teacher,
     required this.zoomLink,
+    required this.userID,
   });
 
   @override
@@ -26,6 +29,19 @@ class VideoVerificationScreen extends StatefulWidget {
 
 class _VideoVerificationScreenState extends State<VideoVerificationScreen> {
   final TextEditingController otpController = TextEditingController();
+
+  @override
+  void initState() {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [
+        SystemUiOverlay.top,
+        SystemUiOverlay.bottom,
+      ],
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -123,6 +139,7 @@ class _VideoVerificationScreenState extends State<VideoVerificationScreen> {
                           title: widget.title,
                           teacher: widget.teacher,
                           zoomLink: widget.zoomLink,
+                          userID: widget.userID,
                         ),
                       ),
                     );

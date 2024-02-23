@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 
 class QuizHistoryCard extends StatefulWidget {
-  const QuizHistoryCard({super.key});
+  final String id;
+  final String title;
+  final String marks;
+  final String didDate;
+  const QuizHistoryCard(
+      {super.key,
+      required this.title,
+      required this.marks,
+      required this.didDate,
+      required this.id});
 
   @override
   State<QuizHistoryCard> createState() => _QuizHistoryCardState();
@@ -35,7 +44,7 @@ class _QuizHistoryCardState extends State<QuizHistoryCard> {
             children: [
               Spacer(),
               Text(
-                'Language Basics',
+                widget.title,
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w600,
@@ -43,11 +52,11 @@ class _QuizHistoryCardState extends State<QuizHistoryCard> {
                 ),
               ),
               Text(
-                '30 min',
+                widget.didDate,
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 10,
                   color: AppColors.grayColor,
                 ),
               ),
@@ -56,7 +65,7 @@ class _QuizHistoryCardState extends State<QuizHistoryCard> {
           ),
           Spacer(),
           Text(
-            '80%',
+            '${widget.marks}%',
             style: TextStyle(
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w600,

@@ -1,18 +1,24 @@
 import 'dart:io';
 import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
+import 'package:koreanlms/global/variables.dart';
 import 'package:koreanlms/models/video.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/login_provider.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
 import 'package:koreanlms/screens/video/video_verification.dart';
-import 'package:koreanlms/widgets/search_textfiled.dart';
+import 'package:koreanlms/widgets/play_video_sample.dart';
 import 'package:koreanlms/widgets/single_video_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -22,7 +28,7 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  final TextEditingController sampleController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   String? studentID = '';
 
@@ -34,10 +40,20 @@ class _HomeTabState extends State<HomeTab> {
   bool isLoading = false;
   bool isSucess = false;
 
+  DatabaseReference databaseReference =
+      FirebaseDatabase.instance.ref('watched_videos');
+
   @override
   void initState() {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [
+        SystemUiOverlay.top,
+      ],
+    );
     super.initState();
     getStudentID();
+
     final appDataProvider =
         Provider.of<AppDataProvider>(context, listen: false);
     appDataProvider.isLoading = true;
@@ -45,6 +61,29 @@ class _HomeTabState extends State<HomeTab> {
 
     videoProvider = Provider.of<VideoProvider>(context, listen: false);
     quizProvider = Provider.of<QuizProvider>(context, listen: false);
+    // final notificationProvider =
+    //     Provider.of<NotificationProvider>(context, listen: false);
+    // notificationProvider.listnToNotifications();
+    listnToOngoings();
+  }
+
+  searchVideo(String query) {
+    final suggestions = videoProvider.videos.where((video) {
+      final title = video.title.toLowerCase();
+      final input = query.toLowerCase();
+
+      return title.contains(input);
+    }).toList();
+
+    if (query.isEmpty) {
+      setState(() {
+        videoProvider.getVideos();
+      });
+    } else {
+      setState(() {
+        videoProvider.videos = suggestions;
+      });
+    }
   }
 
   getStudentID() async {
@@ -52,6 +91,7 @@ class _HomeTabState extends State<HomeTab> {
 
     setState(() {
       studentID = prefs.getString('userID');
+      globleStudentID = prefs.getString('userID');
     });
 
     videoProvider.checkUserInBatch(studentID!);
@@ -62,6 +102,42 @@ class _HomeTabState extends State<HomeTab> {
     Random random = Random();
     int code = random.nextInt(900000) + 100000;
     return code.toString();
+  }
+
+  void listnToOngoings() {
+    databaseReference.onValue.listen((event) {
+      DataSnapshot dataSnapshot = event.snapshot;
+      Map<dynamic, dynamic>? values = dataSnapshot.value as Map?;
+
+      if (values != null) {
+        values.forEach((key, videoHistoryData) {
+          if (key == studentID) {
+            databaseReference.onValue.listen((event2) {
+              DataSnapshot dataSnapshot2 = event2.snapshot.child(key);
+              Map<dynamic, dynamic>? values2 = dataSnapshot2.value as Map?;
+
+              if (values2 != null) {
+                values2.forEach((key2, videoHistoryData2) {
+                  print('Key: $key2');
+
+                  if (videoProvider.watchedVideos
+                      .contains(videoHistoryData2['paper_name'].toString())) {
+                    print('This record available in the array list');
+                  } else {
+                    setState(() {
+                      videoProvider.watchedVideos
+                          .add(videoHistoryData2['paper_name'].toString());
+                    });
+                  }
+                });
+              }
+            });
+          }
+
+          print('Key: $key');
+        });
+      } else {}
+    });
   }
 
   Future<void> sendVerificationCode({
@@ -140,6 +216,13 @@ class _HomeTabState extends State<HomeTab> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [
+        SystemUiOverlay.top,
+      ],
+    );
+
     return Stack(
       children: [
         Padding(
@@ -189,8 +272,34 @@ class _HomeTabState extends State<HomeTab> {
                         ],
                       ),
                       Spacer(),
-                      SearchTextField(
-                          controller: sampleController, labelText: "Search"),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        margin: const EdgeInsets.symmetric(vertical: 7),
+                        height: 45,
+                        child: TextField(
+                          controller: searchController,
+                          onChanged: searchVideo,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: const BorderSide(
+                                color: AppColors.grayColor,
+                                width: 0.5,
+                              ),
+                            ),
+                            prefixIcon: Icon(Icons.search),
+                            labelText: "Search",
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -198,32 +307,206 @@ class _HomeTabState extends State<HomeTab> {
                   width: screenWidth,
                   height: screenHeight / 6 * 5 -
                       (AppBar().preferredSize.height +
-                          (Platform.isIOS ? 92 : 60)),
+                          (Platform.isIOS ? 92 : 70)),
                   //padding: EdgeInsets.symmetric(horizontal: 10),
                   child: videoProvider.noBatch
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                      ?
+                      // Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.center,
+                      //     children: [
+                      Column(
                           children: [
-                            Spacer(),
-                            SizedBox(
-                              height: 150,
-                              width: 150,
-                              child: Image.asset('assets/images/admin.png'),
+                            Expanded(
+                              child: StreamBuilder(
+                                stream: FirebaseFirestore.instance
+                                    .collection('InitialVideo')
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Connection Error!',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    Center(
+                                      child: Text(
+                                        'Loading.....',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  if (snapshot.hasData) {
+                                    var docs = snapshot.data!.docs;
+                                    return ListView.builder(
+                                        itemCount: docs.length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              if (docs[index]['Accept']) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PlayVideoSampleScreen(
+                                                      link: docs[index]['link'],
+                                                      title: docs[index]
+                                                          ['Title'],
+                                                      teacher: docs[index]
+                                                          ['Teacher'],
+                                                    ),
+                                                  ),
+                                                );
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Make payment and try again!',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: VideoCard(
+                                              title: docs[index]['Title'],
+                                              teacher: docs[index]['Teacher'],
+                                              isAccepted: docs[index]['Accept'],
+                                              isWatched: false,
+                                            ),
+                                          );
+                                        });
+                                  }
+                                  return Text(
+                                    'No Videos',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                             SizedBox(
-                              height: 30,
+                              height: 10,
                             ),
                             Text(
-                              'Please Contact Admin',
+                              'Please Contact Admin for Access',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w500,
-                                fontSize: 20,
+                                fontSize: 18,
                               ),
                             ),
-                            Spacer(),
+                            GestureDetector(
+                              onTap: () {
+                                launchUrl(
+                                  Uri.parse(
+                                      'https://dreamkoreanacademy.com/contact/'),
+                                );
+                              },
+                              child: Text(
+                                'Tap to contact ',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
                           ],
                         )
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) =>
+                      //             PlayVideoSampleScreen(
+                      //           link: link,
+                      //           title: title,
+                      //           teacher: teacher,
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      //   child: VideoCard(
+                      //     isAccepted: true,
+                      //     isWatched: false,
+                      //     title: 'title',
+                      //     teacher: 'teacher',
+                      //   ),
+                      // ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //       SnackBar(
+                      //         content: Text(
+                      //           'Make payment and try again!',
+                      //           style: TextStyle(
+                      //             fontFamily: 'Poppins',
+                      //             fontWeight: FontWeight.w500,
+                      //             color: Colors.white,
+                      //           ),
+                      //         ),
+                      //         backgroundColor: Colors.green,
+                      //       ),
+                      //     );
+                      //   },
+                      //   child: VideoCard(
+                      //     isAccepted: false,
+                      //     isWatched: false,
+                      //     title: 'Language Basics',
+                      //     teacher: 'Mr. Dilan',
+                      //   ),
+                      // ),
+
+                      // SizedBox(
+                      //   height: 150,
+                      //   width: 150,
+                      //   child: Image.asset('assets/images/admin.png'),
+                      // ),
+                      // SizedBox(
+                      //   height: 30,
+                      // ),
+                      // Text(
+                      //   'Please Contact Admin for Access',
+                      //   style: TextStyle(
+                      //     fontFamily: 'Poppins',
+                      //     fontWeight: FontWeight.w500,
+                      //     fontSize: 16,
+                      //   ),
+                      // ),
+                      //   ],
+                      //)
                       : videoProvider.paymentDone
                           ? ListView.builder(
                               itemCount: videoProvider.videos.length,
@@ -252,6 +535,7 @@ class _HomeTabState extends State<HomeTab> {
                                               title: video.title,
                                               teacher: video.teacher,
                                               zoomLink: video.zoomLink,
+                                              userID: studentID!,
                                             ),
                                           ),
                                         );
@@ -278,7 +562,11 @@ class _HomeTabState extends State<HomeTab> {
                                             video.paymentTerm
                                         ? true
                                         : false,
-                                    isWatched: false,
+                                    isWatched: videoProvider.watchedVideos
+                                            .contains(videoProvider
+                                                .videos[index].title)
+                                        ? true
+                                        : false,
                                     teacher: video.teacher,
                                     title: video.title,
                                   ),

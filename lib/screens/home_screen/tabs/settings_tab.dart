@@ -58,7 +58,7 @@ class _SettingsTabState extends State<SettingsTab> {
             Container(
               height: screenHeight -
                   (AppBar().preferredSize.height * 2) -
-                  (Platform.isIOS ? 92 : 60),
+                  (Platform.isIOS ? 92 : 70),
               width: screenWidth,
               child: SingleChildScrollView(
                 child: Column(
@@ -113,7 +113,7 @@ class _SettingsTabState extends State<SettingsTab> {
                         prefs.setBool('logedIn', false);
 
                         Navigator.pushNamedAndRemoveUntil(
-                            context, '/login', (route) => false);
+                            context, '/loginsplash', (route) => false);
                       },
                       child: CustomButton(
                         text: 'Logout',

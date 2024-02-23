@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class NotificationCard extends StatefulWidget {
-  const NotificationCard({super.key});
+  final String msg;
+  const NotificationCard({super.key, required this.msg});
 
   @override
   State<NotificationCard> createState() => _NotificationCardState();
@@ -30,12 +31,14 @@ class _NotificationCardState extends State<NotificationCard> {
           SizedBox(
             width: 20,
           ),
-          Text(
-            'You added to 2023 batch.',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
+          Expanded(
+            child: Text(
+              widget.msg,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w400,
+                fontSize: 15,
+              ),
             ),
           ),
         ],

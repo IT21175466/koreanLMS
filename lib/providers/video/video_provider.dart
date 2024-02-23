@@ -15,6 +15,8 @@ class VideoProvider extends ChangeNotifier {
 
   //List<String> videoDocumentIDs = [];
 
+  List<String> watchedVideos = [];
+
   List<Video> videos = [];
   List<Video> lockedVideos = [];
 
@@ -72,6 +74,9 @@ class VideoProvider extends ChangeNotifier {
           .doc(sClass)
           .collection("Videos")
           .get();
+
+      videos.clear();
+      lockedVideos.clear();
 
       for (QueryDocumentSnapshot videoDoc in videoQuerySnapshot.docs) {
         String title = videoDoc['Title'];

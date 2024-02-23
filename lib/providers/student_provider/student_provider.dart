@@ -17,6 +17,7 @@ class StudentProvider extends ChangeNotifier {
   String? studentClass = '...';
   String? payment = '...';
   String? registedDate = '...';
+  String? deviceID = '...';
 
   getStudentID() async {
     final prefs = await SharedPreferences.getInstance();
@@ -44,12 +45,51 @@ class StudentProvider extends ChangeNotifier {
       studentClass = studentDoc.get('Student_Class');
       payment = studentDoc.get('Payment');
       registedDate = studentDoc.get('Registed_Date');
+      deviceID = studentDoc.get('Device_ID');
 
       notifyListeners();
     } catch (e) {
       print(e);
     } finally {
       isLoading = false;
+    }
+  }
+
+  getDeviceData(BuildContext context) async {
+    try {
+      await getStudentID();
+
+      final DocumentSnapshot<Map<String, dynamic>> studentDoc =
+          await FirebaseFirestore.instance
+              .collection("Students")
+              .doc(studentID)
+              .get();
+
+      // final DocumentSnapshot studentDoc = await FirebaseFirestore.instance
+      //     .collection("Students")
+      //     .doc(studentID)
+      //     .get();
+
+      // deviceID = studentDoc.get('Device_ID');
+
+      if (studentDoc.exists) {
+        Map<String, dynamic>? data = studentDoc.data();
+        if (data != null && data.containsKey('Device_ID')) {
+          deviceID = data['Device_ID'];
+          notifyListeners();
+        } else {
+          deviceID = 'not';
+          notifyListeners();
+        }
+      } else {
+        print('Document does not exist');
+        deviceID = 'not';
+        notifyListeners();
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 }

@@ -4,13 +4,15 @@ class CustomOutlineButton extends StatelessWidget {
   final String text;
   final double height;
   final double width;
-  final Color backgroundColor;
+  final Color borderColor;
+  final Color textColor;
   const CustomOutlineButton({
     super.key,
     required this.text,
     required this.height,
     required this.width,
-    required this.backgroundColor,
+    required this.borderColor,
+    required this.textColor,
   });
 
   @override
@@ -19,18 +21,10 @@ class CustomOutlineButton extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: backgroundColor,
         border: Border.all(
-          color: Colors.grey,
+          color: borderColor,
         ),
         borderRadius: BorderRadius.circular(25),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            blurRadius: 3,
-            offset: Offset(0, 3),
-          ),
-        ],
       ),
       child: Center(
         child: Text(
@@ -39,6 +33,7 @@ class CustomOutlineButton extends StatelessWidget {
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w500,
             fontSize: 17,
+            color: textColor,
           ),
         ),
       ),
