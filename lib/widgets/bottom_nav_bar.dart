@@ -13,16 +13,19 @@ class CustomBottomNavigationBar extends StatelessWidget {
         return Container(
           height: Platform.isIOS ? 92 : 70,
           decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: Offset(0, 3),
-              ),
-            ],
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 29, 48, 84),
+                Color.fromARGB(255, 35, 81, 165),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
+              stops: [0.0, 0.8],
+              tileMode: TileMode.clamp,
+            ),
           ),
           child: BottomNavigationBar(
+            backgroundColor: Colors.transparent,
             currentIndex: bottomNavigationProvider.currentIndex,
             onTap: (index) {
               bottomNavigationProvider.setIndex(index);
@@ -30,25 +33,25 @@ class CustomBottomNavigationBar extends StatelessWidget {
             items: [
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.home_outlined,
+                  Icons.home,
                 ),
                 label: "Home",
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.question_answer_outlined,
+                  Icons.question_answer,
                 ),
                 label: "Quizes",
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.notifications_none_outlined,
+                  Icons.notifications,
                 ),
                 label: "Notifications",
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.settings_outlined,
+                  Icons.settings,
                 ),
                 label: "Settings",
               ),
@@ -63,11 +66,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
             unselectedLabelStyle: TextStyle(
               fontFamily: 'Poppins',
             ),
-            selectedItemColor: Colors.green,
-            unselectedItemColor: Colors.grey,
+            selectedItemColor: Colors.grey,
+            unselectedItemColor: Colors.white,
             elevation: 20.0,
             selectedIconTheme: IconThemeData(
-              color: Colors.green,
+              color: Colors.grey,
             ),
           ),
         );
