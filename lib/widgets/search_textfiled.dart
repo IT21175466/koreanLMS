@@ -18,10 +18,10 @@ class SearchTextField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(25.0),
+        borderRadius: BorderRadius.circular(10.0),
       ),
       margin: const EdgeInsets.symmetric(vertical: 7),
-      height: 45,
+      height: 55,
       child: TextField(
         controller: controller,
         obscureText: isPassword,

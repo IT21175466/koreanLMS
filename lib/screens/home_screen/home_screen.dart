@@ -36,8 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
           height: screenHeight,
           width: screenWidth,
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 241, 240, 240),
-            //borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
             image: DecorationImage(
               opacity: 0.5,
               image: NetworkImage(

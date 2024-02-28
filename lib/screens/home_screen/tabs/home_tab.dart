@@ -251,6 +251,7 @@ class _HomeTabState extends State<HomeTab> {
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w700,
                                   fontSize: 22,
+                                  color: Colors.black,
                                 ),
                               ),
                               Text(
@@ -268,14 +269,15 @@ class _HomeTabState extends State<HomeTab> {
                           Icon(
                             Icons.person,
                             size: 30,
+                            color: Colors.black,
                           ),
                         ],
                       ),
                       Spacer(),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(25.0),
+                          color: const Color.fromARGB(255, 60, 58, 58),
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
                         margin: const EdgeInsets.symmetric(vertical: 7),
                         height: 45,
@@ -284,17 +286,24 @@ class _HomeTabState extends State<HomeTab> {
                           onChanged: searchVideo,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
+                              borderRadius: BorderRadius.circular(10.0),
                               borderSide: const BorderSide(
-                                color: AppColors.grayColor,
+                                color: const Color.fromARGB(255, 60, 58, 58),
                                 width: 0.5,
                               ),
                             ),
-                            prefixIcon: Icon(Icons.search),
-                            labelText: "Search",
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: Colors.white,
+                            ),
+                            hintText: "Search",
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                            ),
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 10),
                           ),
@@ -420,6 +429,7 @@ class _HomeTabState extends State<HomeTab> {
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,
+                                color: Colors.black,
                               ),
                             ),
                             GestureDetector(

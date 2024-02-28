@@ -19,7 +19,7 @@ class _UserInfoCardState extends State<UserInfoCard> {
       width: screenWidth,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: Colors.grey,
           width: 0.5,
