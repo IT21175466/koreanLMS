@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:koreanlms/constants/primary_colors.dart';
 import 'package:koreanlms/firebase_options.dart';
 import 'package:koreanlms/providers/authentication/login_provider.dart';
@@ -24,6 +27,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   await FirebaseApi().initNotifications();
 
   // final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -33,6 +37,11 @@ void main() async {
   final loginStatus = prefs.getBool('logedIn') ?? false;
 
   runApp(MyApp(loginStatus: loginStatus));
+  WidgetsBinding.instance.addPostFrameCallback((timestamp) async {
+    if (Platform.isAndroid) {
+      await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    }
+  });
 }
 
 class MyApp extends StatelessWidget {
