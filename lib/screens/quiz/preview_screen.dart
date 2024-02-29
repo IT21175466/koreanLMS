@@ -75,27 +75,33 @@ class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
                 ),
               ),
               GestureDetector(
-                onTap: () async {
-                  String formattedDate =
-                      await DateFormat.yMMMMd().format(DateTime.now());
+                onTap: () {
+                  try {
+                    String formattedDate =
+                        DateFormat.yMMMMd().format(DateTime.now());
 
-                  quizProvider.isLoading = true;
-                  HistoryQuiz historyQuiz = HistoryQuiz(
-                    studentID: widget.sID,
-                    quizName: widget.name,
-                    marks: widget.marks,
-                    date: formattedDate,
-                  );
-                  await quizProvider.addQuizToFirebase(
-                      historyQuiz, context, widget.sID);
+                    quizProvider.isLoading = true;
+                    HistoryQuiz historyQuiz = HistoryQuiz(
+                      studentID: widget.sID,
+                      quizName: widget.name,
+                      marks: widget.marks,
+                      date: formattedDate,
+                    );
+                    quizProvider.addQuizToFirebase(
+                        historyQuiz, context, widget.sID);
 
-                  await databaseReference
-                      .child(widget.sID)
-                      .child(generateRandomId())
-                      .set({
-                    "studentID": widget.sID,
-                    "paper_name": widget.name,
-                  });
+                    databaseReference
+                        .child(widget.sID)
+                        .child(generateRandomId())
+                        .set({
+                      "studentID": widget.sID,
+                      "paper_name": widget.name,
+                    });
+                  } catch (e) {
+                    print(e);
+                  } finally {
+                    quizProvider.isLoading = false;
+                  }
                 },
                 child: CustomButton(
                   text: 'Done',
