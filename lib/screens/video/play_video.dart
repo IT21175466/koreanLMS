@@ -54,7 +54,7 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
             ),
           ),
           content: Container(
-            height: 150,
+            height: 200,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -111,7 +111,7 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
             ),
           ),
           content: Container(
-            height: 150,
+            height: 200,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

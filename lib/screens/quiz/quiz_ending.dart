@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/models/history_quiz.dart';
@@ -31,6 +32,13 @@ class _QuizEndState extends State<QuizEnd> {
   void initState() {
     super.initState();
     getUserID();
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.immersiveSticky,
+      overlays: [
+        SystemUiOverlay.top,
+        SystemUiOverlay.bottom,
+      ],
+    );
     final quizProvider = Provider.of<QuizProvider>(context, listen: false);
 
     print(quizProvider.answers);
