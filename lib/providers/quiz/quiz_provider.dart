@@ -520,7 +520,7 @@ class QuizProvider extends ChangeNotifier {
         quizzes.add(quiz);
         notifyListeners();
       }
-
+      print(quizzes);
       notifyListeners();
     } catch (e) {
       print(e);
