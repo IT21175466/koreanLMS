@@ -45,12 +45,6 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: [
-        SystemUiOverlay.top,
-      ],
-    );
     super.initState();
     getStudentID();
 
@@ -215,13 +209,6 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: [
-        SystemUiOverlay.top,
-      ],
-    );
 
     return Stack(
       children: [
@@ -568,8 +555,8 @@ class _HomeTabState extends State<HomeTab> {
                                     }
                                   },
                                   child: VideoCard(
-                                    isAccepted: videoProvider.payment ==
-                                            video.paymentTerm
+                                    isAccepted: videoProvider.payment
+                                            .contains(video.paymentTerm)
                                         ? true
                                         : false,
                                     isWatched: videoProvider.watchedVideos

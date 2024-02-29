@@ -169,7 +169,7 @@ class QuizProvider extends ChangeNotifier {
   }
 
   Future<void> getQuizzes(String quizName) async {
-    getUserID();
+    await getUserID();
     try {
       final QuerySnapshot quizQuerySnapshot = await FirebaseFirestore.instance
           .collection("Batches")

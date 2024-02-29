@@ -35,6 +35,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
         SystemUiOverlay.top,
       ],
     );
+    quizProvider = Provider.of<QuizProvider>(context, listen: false);
     super.initState();
   }
 
