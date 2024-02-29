@@ -34,6 +34,20 @@ class OTPProvider extends ChangeNotifier {
           notifyListeners();
         },
       );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-verification-code') {
+        print(
+            'Invalid verification code. Please check and enter the correct verification code again.');
+      } else {
+        print('Error: ${e.message}');
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.message}'),
+        ),
+      );
+      loading = false;
+      notifyListeners();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

@@ -4,6 +4,7 @@ import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/screens/video/play_video.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:pinput/pinput.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoVerificationScreen extends StatefulWidget {
   final String userID;
@@ -135,7 +136,7 @@ class _VideoVerificationScreenState extends State<VideoVerificationScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => PlayVideoScreen(
-                          link: widget.link,
+                          link: '${YoutubePlayer.convertUrlToId(widget.link)}',
                           title: widget.title,
                           teacher: widget.teacher,
                           zoomLink: widget.zoomLink,

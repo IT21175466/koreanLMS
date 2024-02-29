@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayVideoSampleScreen extends StatefulWidget {
@@ -39,25 +38,22 @@ class _PlayVideoSampleScreenState extends State<PlayVideoSampleScreen> {
             ),
           ),
           content: Container(
-            height: 100,
+            height: 150,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Spacer(),
-                SizedBox(
-                  height: 50,
-                  child: SingleChildScrollView(
-                    child: Text(
-                      "${widget.teacher} ",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                Text(
+                  "${widget.teacher} ",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
+                ),
+                Expanded(
                   child: Text(
                     "${widget.title}",
                     style: TextStyle(
@@ -99,25 +95,22 @@ class _PlayVideoSampleScreenState extends State<PlayVideoSampleScreen> {
             ),
           ),
           content: Container(
-            height: 80,
+            height: 150,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Spacer(),
-                SizedBox(
-                  height: 50,
-                  child: SingleChildScrollView(
-                    child: Text(
-                      "${widget.teacher} ",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                Text(
+                  "${widget.teacher} ",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
+                ),
+                Expanded(
                   child: Text(
                     "${widget.title}",
                     style: TextStyle(
@@ -153,21 +146,16 @@ class _PlayVideoSampleScreenState extends State<PlayVideoSampleScreen> {
   void initState() {
     super.initState();
 
-    disableScreenRecord();
-
-    final videoID = YoutubePlayer.convertUrlToId(widget.link);
+    // final videoID = YoutubePlayer.convertUrlToId(
+    //     'https://www.youtube.com/live/2YA-C56EVVA');
 
     _controller = YoutubePlayerController(
-      initialVideoId: videoID!,
+      initialVideoId: widget.link,
       flags: YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
       ),
     );
-  }
-
-  Future<void> disableScreenRecord() async {
-    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
 
   @override
@@ -203,14 +191,17 @@ class _PlayVideoSampleScreenState extends State<PlayVideoSampleScreen> {
             ),
             title: Row(
               children: [
+                Spacer(),
                 Text(
-                  "Video",
+                  "Video Player",
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     color: Colors.white,
+                    fontSize: 20,
                   ),
                 ),
+                Spacer(),
                 IconButton(
                   onPressed: () {
                     videoInfoAlertDialog();
@@ -221,7 +212,6 @@ class _PlayVideoSampleScreenState extends State<PlayVideoSampleScreen> {
                     size: 20,
                   ),
                 ),
-                Spacer(),
               ],
             ),
             backgroundColor: Colors.green,

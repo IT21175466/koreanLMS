@@ -19,6 +19,7 @@ import 'package:koreanlms/widgets/single_video_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -139,7 +140,7 @@ class _HomeTabState extends State<HomeTab> {
     String? code,
   }) async {
     String Url =
-        'http://send.ozonedesk.com/api/v2/send.php?user_id=105281&api_key=evj05adndinxxahxh&sender_id=ozoneDEMO&to=${phone}&message=Your video verification code is ${code}';
+        'http://send.ozonedesk.com/api/v2/send.php?user_id=105488&api_key=a50wpa6dx7wyzsq07&sender_id=DreamKorea&to=${phone}&message=Your video verification code is ${code}';
 
     try {
       setState(() {
@@ -360,7 +361,8 @@ class _HomeTabState extends State<HomeTab> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         PlayVideoSampleScreen(
-                                                      link: docs[index]['link'],
+                                                      link:
+                                                          '${YoutubePlayer.convertUrlToId(docs[index]['link'])}',
                                                       title: docs[index]
                                                           ['Title'],
                                                       teacher: docs[index]

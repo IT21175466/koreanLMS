@@ -29,6 +29,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   @override
   void initState() {
     //disableScreenRecord();
+
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.immersiveSticky,
       overlays: [

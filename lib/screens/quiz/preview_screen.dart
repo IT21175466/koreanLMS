@@ -75,9 +75,9 @@ class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   String formattedDate =
-                      DateFormat.yMMMMd().format(DateTime.now());
+                      await DateFormat.yMMMMd().format(DateTime.now());
 
                   quizProvider.isLoading = true;
                   HistoryQuiz historyQuiz = HistoryQuiz(
@@ -86,10 +86,10 @@ class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
                     marks: widget.marks,
                     date: formattedDate,
                   );
-                  quizProvider.addQuizToFirebase(
+                  await quizProvider.addQuizToFirebase(
                       historyQuiz, context, widget.sID);
 
-                  databaseReference
+                  await databaseReference
                       .child(widget.sID)
                       .child(generateRandomId())
                       .set({

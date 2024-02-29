@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -55,25 +54,22 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
             ),
           ),
           content: Container(
-            height: 100,
+            height: 150,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Spacer(),
-                SizedBox(
-                  height: 50,
-                  child: SingleChildScrollView(
-                    child: Text(
-                      "${widget.teacher} ",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                Text(
+                  "${widget.teacher} ",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
+                ),
+                Expanded(
                   child: Text(
                     "${widget.title}",
                     style: TextStyle(
@@ -115,25 +111,22 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
             ),
           ),
           content: Container(
-            height: 80,
+            height: 150,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Spacer(),
-                SizedBox(
-                  height: 50,
-                  child: SingleChildScrollView(
-                    child: Text(
-                      "${widget.teacher} ",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                Text(
+                  "${widget.teacher} ",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
+                ),
+                Expanded(
                   child: Text(
                     "${widget.title}",
                     style: TextStyle(
@@ -169,12 +162,8 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
   void initState() {
     super.initState();
 
-    disableScreenRecord();
-
-    final videoID = YoutubePlayer.convertUrlToId(widget.link);
-
     _controller = YoutubePlayerController(
-      initialVideoId: videoID!,
+      initialVideoId: widget.link,
       flags: YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
@@ -184,10 +173,6 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
     Future.delayed(Duration(seconds: 5), () {
       setToHistory();
     });
-  }
-
-  Future<void> disableScreenRecord() async {
-    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
 
   setToHistory() async {
@@ -231,11 +216,12 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
             title: Row(
               children: [
                 Text(
-                  "Video",
+                  "Video Player",
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     color: Colors.white,
+                    fontSize: 20,
                   ),
                 ),
                 IconButton(
