@@ -31,13 +31,14 @@ class _LoadingSplashState extends State<LoadingSplash> {
       body: Container(
         height: screenHeight,
         width: screenWidth,
+        color: const Color.fromARGB(255, 247, 247, 247),
         child: Column(
           children: [
             Spacer(),
             SizedBox(
-              height: 150,
-              width: 150,
-              child: Image.asset('assets/images/gPhotosLogo.png'),
+              height: 180,
+              width: 180,
+              child: Image.asset('assets/images/icon.png'),
             ),
             SizedBox(
               height: 20,
