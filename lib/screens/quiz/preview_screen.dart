@@ -32,7 +32,7 @@ class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.immersiveSticky,
+      SystemUiMode.manual,
       overlays: [
         SystemUiOverlay.top,
         SystemUiOverlay.bottom,

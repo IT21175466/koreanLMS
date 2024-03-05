@@ -33,7 +33,7 @@ class _QuizEndState extends State<QuizEnd> {
     super.initState();
     getUserID();
     SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.immersiveSticky,
+      SystemUiMode.manual,
       overlays: [
         SystemUiOverlay.top,
         SystemUiOverlay.bottom,
