@@ -31,17 +31,17 @@ class VideoVerificationScreen extends StatefulWidget {
 class _VideoVerificationScreenState extends State<VideoVerificationScreen> {
   final TextEditingController otpController = TextEditingController();
 
-  @override
-  void initState() {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: [
-        SystemUiOverlay.top,
-        SystemUiOverlay.bottom,
-      ],
-    );
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   SystemChrome.setEnabledSystemUIMode(
+  //     SystemUiMode.manual,
+  //     overlays: [
+  //       SystemUiOverlay.top,
+  //       SystemUiOverlay.bottom,
+  //     ],
+  //   );
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

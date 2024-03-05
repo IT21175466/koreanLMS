@@ -42,12 +42,14 @@ class _LoginSplashState extends State<LoginSplash> {
             SizedBox(
               height: 10,
             ),
-            Text(
-              'Dream Korean Academy',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-                fontSize: 24,
+            FittedBox(
+              child: Text(
+                'Dream Korean Academy',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24,
+                ),
               ),
             ),
             Spacer(),

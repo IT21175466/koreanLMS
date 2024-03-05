@@ -60,6 +60,7 @@ class _HomeTabState extends State<HomeTab> {
     //     Provider.of<NotificationProvider>(context, listen: false);
     // notificationProvider.listnToNotifications();
     listnToOngoings();
+
   }
 
   searchVideo(String query) {
@@ -208,6 +209,9 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -254,11 +258,11 @@ class _HomeTabState extends State<HomeTab> {
                             ],
                           ),
                           Spacer(),
-                          Icon(
-                            Icons.person,
-                            size: 30,
-                            color: Colors.black,
-                          ),
+                          // Icon(
+                          //   Icons.person,
+                          //   size: 30,
+                          //   color: Colors.black,
+                          // ),
                         ],
                       ),
                       Spacer(),
