@@ -60,7 +60,6 @@ class _HomeTabState extends State<HomeTab> {
     //     Provider.of<NotificationProvider>(context, listen: false);
     // notificationProvider.listnToNotifications();
     listnToOngoings();
-
   }
 
   searchVideo(String query) {
@@ -209,9 +208,6 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -517,8 +513,8 @@ class _HomeTabState extends State<HomeTab> {
                                 Video video = videoProvider.videos[index];
                                 return GestureDetector(
                                   onTap: () async {
-                                    if (videoProvider.payment ==
-                                        video.paymentTerm) {
+                                    if (videoProvider.payment
+                                        .contains(video.paymentTerm)) {
                                       String verificationCode =
                                           await generateRandomCode();
 
