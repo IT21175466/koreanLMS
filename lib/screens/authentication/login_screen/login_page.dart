@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -24,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     getDeviceID();
+    generateRandomCode();
     final appDataProvider =
         Provider.of<AppDataProvider>(context, listen: false);
     appDataProvider.isLoading = true;
@@ -32,6 +34,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void getDeviceID() async {
     deviceId = await _getId();
+  }
+
+  int code = 0;
+
+  generateRandomCode() {
+    Random random = Random();
+    setState(() {
+      code = random.nextInt(900000) + 100000;
+    });
   }
 
   Future<String?> _getId() async {
@@ -186,8 +197,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         } else {
                           signUPProvider.loading = true;
-                          signUPProvider.verifyPhoneNumber(
-                              signUPProvider.phoneController.text, context);
+                          // signUPProvider.verifyPhoneNumber(
+                          //     signUPProvider.phoneController.text, context);
+                          signUPProvider.getVerificationCode(context,
+                              signUPProvider.phoneController.text, code);
                         }
                         //}
                         //}

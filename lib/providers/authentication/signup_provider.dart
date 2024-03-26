@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:koreanlms/models/student.dart';
 import 'package:koreanlms/screens/authentication/otp_screen/otp_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class SignUPProvider extends ChangeNotifier {
   final db = FirebaseFirestore.instance;
@@ -17,6 +17,7 @@ class SignUPProvider extends ChangeNotifier {
   final countryPicker = const FlCountryCodePicker();
   CountryCode? countryCode;
   bool loading = false;
+  bool isSucess = false;
 
   Future<void> selectBirthDay(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -40,43 +41,119 @@ class SignUPProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  verifyPhoneNumber(String phone, BuildContext context) async {
+  Future<void> getVerificationCode(
+      BuildContext context, String? phone, int? code) async {
+    String Url =
+        'http://send.ozonedesk.com/api/v2/send.php?user_id=105488&api_key=a50wpa6dx7wyzsq07&sender_id=DreamKorea&to=${phone}&message=Your verification code is ${code}';
+
     try {
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {},
-        verificationFailed: (FirebaseAuthException ex) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(ex.message.toString()),
-            ),
-          );
-          print(ex.message.toString());
-          loading = false;
-          notifyListeners();
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => OTPScreen(
-                mobileNumber: (countryCode?.dialCode ?? '') +
-                    (' ') +
-                    phoneController.text,
-                verificationID: verificationId,
+      loading = true;
+      notifyListeners();
+      var response = await http.get(
+        Uri.parse(Url),
+      );
+      if (response.statusCode == 200) {
+        loading = false;
+        isSucess = true;
+        notifyListeners();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Verification Code Sent',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
               ),
             ),
-          );
-          loading = false;
-          notifyListeners();
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {},
-        phoneNumber: countryCode!.dialCode + phone,
-      );
-      notifyListeners();
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OTPScreen(
+              mobileNumber:
+                  (countryCode?.dialCode ?? '') + (' ') + phoneController.text,
+              verificationID: code!,
+            ),
+          ),
+        );
+      } else {
+        loading = false;
+        notifyListeners();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Please try again later!',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     } catch (e) {
-      print(e.toString());
+      loading = false;
+      notifyListeners();
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            e.toString(),
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
+
+  // verifyPhoneNumber(String phone, BuildContext context) async {
+  //   try {
+  //     await FirebaseAuth.instance.verifyPhoneNumber(
+  //       verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {},
+  //       verificationFailed: (FirebaseAuthException ex) {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(
+  //             content: Text(ex.message.toString()),
+  //           ),
+  //         );
+  //         print(ex.message.toString());
+  //         loading = false;
+  //         notifyListeners();
+  //       },
+  //       codeSent: (String verificationId, int? resendToken) {
+  //         Navigator.push(
+  //           context,
+  //           MaterialPageRoute(
+  //             builder: (context) => OTPScreen(
+  //               mobileNumber: (countryCode?.dialCode ?? '') +
+  //                   (' ') +
+  //                   phoneController.text,
+  //               verificationID: verificationId,
+  //             ),
+  //           ),
+  //         );
+  //         loading = false;
+  //         notifyListeners();
+  //       },
+  //       codeAutoRetrievalTimeout: (String verificationId) {},
+  //       phoneNumber: countryCode!.dialCode + phone,
+  //     );
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 
   addStudentToFirebase(
       Student student, BuildContext context, String uID) async {
