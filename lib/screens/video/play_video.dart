@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -187,11 +185,10 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
     // double screenWidth = MediaQuery.of(context).size.width;
     // double screenHeight = MediaQuery.of(context).size.height;
 
-
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: YoutubePlayerBuilder(
-        onExitFullScreen: (){
+        onExitFullScreen: () {
           SystemChrome.setEnabledSystemUIMode(
             SystemUiMode.manual,
             overlays: [
@@ -278,7 +275,7 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                 height: 10,
               ),
               Padding(
-                padding:  EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(10.0),
                 child: Row(
                   children: [
                     SizedBox(
