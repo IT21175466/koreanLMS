@@ -270,6 +270,7 @@ class _HomeTabState extends State<HomeTab> {
                         margin: const EdgeInsets.symmetric(vertical: 7),
                         height: 45,
                         child: TextField(
+                          style: TextStyle(color: Colors.white),
                           controller: searchController,
                           onChanged: searchVideo,
                           decoration: InputDecoration(
