@@ -13,7 +13,7 @@ import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/login_provider.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
-import 'package:koreanlms/screens/video/video_verification.dart';
+import 'package:koreanlms/screens/video/play_video.dart';
 import 'package:koreanlms/widgets/play_video_sample.dart';
 import 'package:koreanlms/widgets/single_video_card.dart';
 import 'package:provider/provider.dart';
@@ -516,30 +516,29 @@ class _HomeTabState extends State<HomeTab> {
                                   onTap: () async {
                                     if (videoProvider.payment
                                         .contains(video.paymentTerm)) {
-                                      String verificationCode =
-                                          await generateRandomCode();
+                                      // String verificationCode =
+                                      //     await generateRandomCode();
 
-                                      await sendVerificationCode(
-                                        phone: loginProvider.phoneNumber,
-                                        code: verificationCode,
-                                      );
+                                      // await sendVerificationCode(
+                                      //   phone: loginProvider.phoneNumber,
+                                      //   code: verificationCode,
+                                      // );
 
-                                      if (isSucess = true) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                VideoVerificationScreen(
-                                              msgCode: verificationCode,
-                                              link: video.link,
-                                              title: video.title,
-                                              teacher: video.teacher,
-                                              zoomLink: video.zoomLink,
-                                              userID: studentID!,
-                                            ),
+                                      //if (isSucess = true) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PlayVideoScreen(
+                                            link:
+                                                '${YoutubePlayer.convertUrlToId(video.link)}',
+                                            title: video.title,
+                                            teacher: video.teacher,
+                                            zoomLink: video.zoomLink,
+                                            userID: studentID!,
                                           ),
-                                        );
-                                      }
+                                        ),
+                                      );
+                                      //}
                                     } else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
