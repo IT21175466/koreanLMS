@@ -25,12 +25,13 @@ class _OTPScreenState extends State<OTPScreen> {
   final TextEditingController otpController = TextEditingController();
 
   String uuid = '';
-  String? stdID = '';
+  String? stdID;
 
   @override
   void initState() {
     super.initState();
     _generateNewUuid();
+    getStudentID();
   }
 
   void _generateNewUuid() {
@@ -128,7 +129,6 @@ class _OTPScreenState extends State<OTPScreen> {
               ),
               GestureDetector(
                 onTap: () async {
-                  await getStudentID();
                   if (otpController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -139,7 +139,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     if (otpController.text ==
                         widget.verificationID.toString()) {
                       try {
-                        if (stdID == '') {
+                        if (stdID == null) {
                           await setUserID(uuid);
                           final prefs = await SharedPreferences.getInstance();
                           prefs.setBool('logedIn', true);
