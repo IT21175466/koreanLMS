@@ -25,6 +25,7 @@ class _OTPScreenState extends State<OTPScreen> {
   final TextEditingController otpController = TextEditingController();
 
   String uuid = '';
+  String? stdID = '';
 
   @override
   void initState() {
@@ -35,6 +36,14 @@ class _OTPScreenState extends State<OTPScreen> {
   void _generateNewUuid() {
     setState(() {
       uuid = Uuid().v4();
+    });
+  }
+
+  getStudentID() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      stdID = prefs.getString('userID');
     });
   }
 
@@ -119,6 +128,7 @@ class _OTPScreenState extends State<OTPScreen> {
               ),
               GestureDetector(
                 onTap: () async {
+                  await getStudentID();
                   if (otpController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -129,21 +139,33 @@ class _OTPScreenState extends State<OTPScreen> {
                     if (otpController.text ==
                         widget.verificationID.toString()) {
                       try {
-                        setUserID(uuid);
+                        if (stdID == '') {
+                          await setUserID(uuid);
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.setBool('logedIn', true);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoadingSplash(
+                                id: uuid,
+                              ),
+                            ),
+                          );
+                        } else {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoadingSplash(
+                                id: stdID!,
+                              ),
+                            ),
+                          );
+                        }
 
                         final prefs = await SharedPreferences.getInstance();
                         prefs.setBool('logedIn', true);
                       } catch (e) {
                         print(e);
-                      } finally {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoadingSplash(
-                              id: uuid,
-                            ),
-                          ),
-                        );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
