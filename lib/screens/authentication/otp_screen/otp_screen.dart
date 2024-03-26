@@ -21,17 +21,17 @@ class OTPScreen extends StatefulWidget {
 class _OTPScreenState extends State<OTPScreen> {
   final TextEditingController otpController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: [
-        SystemUiOverlay.top,
-        SystemUiOverlay.bottom,
-      ],
-    );
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   SystemChrome.setEnabledSystemUIMode(
+  //     SystemUiMode.manual,
+  //     overlays: [
+  //       SystemUiOverlay.top,
+  //       SystemUiOverlay.bottom,
+  //     ],
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +142,7 @@ class _OTPScreenState extends State<OTPScreen> {
               SizedBox(
                 height: 70,
                 width: 70,
-                child: Image.asset('assets/images/gPhotosLogo.png'),
+                child: Image.asset('assets/images/icon.png'),
               ),
               SizedBox(
                 height: Platform.isIOS ? 60 : 30,

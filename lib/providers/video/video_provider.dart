@@ -93,7 +93,7 @@ class VideoProvider extends ChangeNotifier {
           zoomLink: zoomLink,
         );
 
-        if (payment == paymentTerm) {
+        if (payment.contains(paymentTerm)) {
           videos.add(video);
         } else {
           lockedVideos.add(video);

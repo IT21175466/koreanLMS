@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:koreanlms/models/history_quiz.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
@@ -26,6 +27,18 @@ class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
   String generateRandomId() {
     var uuid = Uuid();
     return uuid.v4();
+  }
+
+  @override
+  void initState() {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [
+        SystemUiOverlay.top,
+        SystemUiOverlay.bottom,
+      ],
+    );
+    super.initState();
   }
 
   @override
@@ -76,26 +89,32 @@ class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  String formattedDate =
-                      DateFormat.yMMMMd().format(DateTime.now());
+                  try {
+                    String formattedDate =
+                        DateFormat.yMMMMd().format(DateTime.now());
 
-                  quizProvider.isLoading = true;
-                  HistoryQuiz historyQuiz = HistoryQuiz(
-                    studentID: widget.sID,
-                    quizName: widget.name,
-                    marks: widget.marks,
-                    date: formattedDate,
-                  );
-                  quizProvider.addQuizToFirebase(
-                      historyQuiz, context, widget.sID);
+                    quizProvider.isLoading = true;
+                    HistoryQuiz historyQuiz = HistoryQuiz(
+                      studentID: widget.sID,
+                      quizName: widget.name,
+                      marks: widget.marks,
+                      date: formattedDate,
+                    );
+                    quizProvider.addQuizToFirebase(
+                        historyQuiz, context, widget.sID);
 
-                  databaseReference
-                      .child(widget.sID)
-                      .child(generateRandomId())
-                      .set({
-                    "studentID": widget.sID,
-                    "paper_name": widget.name,
-                  });
+                    databaseReference
+                        .child(widget.sID)
+                        .child(generateRandomId())
+                        .set({
+                      "studentID": widget.sID,
+                      "paper_name": widget.name,
+                    });
+                  } catch (e) {
+                    print(e);
+                  } finally {
+                    quizProvider.isLoading = false;
+                  }
                 },
                 child: CustomButton(
                   text: 'Done',

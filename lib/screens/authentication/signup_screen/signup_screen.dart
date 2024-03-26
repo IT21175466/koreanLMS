@@ -135,7 +135,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                     SizedBox(
                       height: 55,
                       width: 55,
-                      child: Image.asset('assets/images/gPhotosLogo.png'),
+                      child: Image.asset('assets/images/icon.png'),
                     ),
                   ],
                 ),

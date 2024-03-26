@@ -39,12 +39,14 @@ class _InitialSplashState extends State<InitialSplash> {
             SizedBox(
               height: 10,
             ),
-            Text(
-              'Dream Korean Academy',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-                fontSize: 24,
+            FittedBox(
+              child: Text(
+                'Dream Korean Academy',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24,
+                ),
               ),
             ),
             Spacer(),

@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/models/history_quiz.dart';
@@ -31,6 +32,13 @@ class _QuizEndState extends State<QuizEnd> {
   void initState() {
     super.initState();
     getUserID();
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [
+        SystemUiOverlay.top,
+        SystemUiOverlay.bottom,
+      ],
+    );
     final quizProvider = Provider.of<QuizProvider>(context, listen: false);
 
     print(quizProvider.answers);
@@ -294,26 +302,32 @@ class _QuizEndState extends State<QuizEnd> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        String formattedDate =
-                            DateFormat.yMMMMd().format(DateTime.now());
+                        try {
+                          String formattedDate =
+                              DateFormat.yMMMMd().format(DateTime.now());
 
-                        quizProvider.isLoading = true;
-                        HistoryQuiz historyQuiz = HistoryQuiz(
-                          studentID: userID!,
-                          quizName: widget.quizName,
-                          marks: marks.toString(),
-                          date: formattedDate,
-                        );
-                        quizProvider.addQuizToFirebase(
-                            historyQuiz, context, userID!);
+                          quizProvider.isLoading = true;
+                          HistoryQuiz historyQuiz = HistoryQuiz(
+                            studentID: userID!,
+                            quizName: widget.quizName,
+                            marks: marks.toString(),
+                            date: formattedDate,
+                          );
+                          quizProvider.addQuizToFirebase(
+                              historyQuiz, context, userID!);
 
-                        databaseReference
-                            .child(userID!)
-                            .child(generateRandomId())
-                            .set({
-                          "studentID": userID,
-                          "paper_name": widget.quizName,
-                        });
+                          databaseReference
+                              .child(userID!)
+                              .child(generateRandomId())
+                              .set({
+                            "studentID": userID,
+                            "paper_name": widget.quizName,
+                          });
+                        } catch (e) {
+                          print(e);
+                        } finally {
+                          quizProvider.isLoading = false;
+                        }
                       },
                       child: quizProvider.isLoading
                           ? Center(

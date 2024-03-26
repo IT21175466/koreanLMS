@@ -19,17 +19,6 @@ class _NotificationTabState extends State<NotificationTab> {
       FirebaseDatabase.instance.ref('notifications');
 
   @override
-  void initState() {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.immersiveSticky,
-      overlays: [
-        SystemUiOverlay.top,
-      ],
-    );
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;

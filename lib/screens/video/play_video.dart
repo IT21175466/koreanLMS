@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -41,140 +40,130 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
     return uuid.v4();
   }
 
-  void videoInfoAlertDialog() {
-    if (Platform.isIOS) {
-      showCupertinoDialog(
-        context: context,
-        builder: (ctx) => CupertinoAlertDialog(
-          title: Text(
-            "Video Details",
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w600,
-              fontSize: 20,
-            ),
-          ),
-          content: Container(
-            height: 100,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Spacer(),
-                SizedBox(
-                  height: 50,
-                  child: SingleChildScrollView(
-                    child: Text(
-                      "${widget.teacher} ",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                  child: Text(
-                    "${widget.title}",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                Spacer(),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-              child: const Text(
-                "OK",
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text(
-            "Video Details",
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w600,
-              fontSize: 20,
-            ),
-          ),
-          content: Container(
-            height: 80,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Spacer(),
-                SizedBox(
-                  height: 50,
-                  child: SingleChildScrollView(
-                    child: Text(
-                      "${widget.teacher} ",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                  child: Text(
-                    "${widget.title}",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                Spacer(),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-              child: const Text(
-                "OK",
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-  }
+  // void videoInfoAlertDialog() {
+  //   if (Platform.isIOS) {
+  //     showCupertinoDialog(
+  //       context: context,
+  //       builder: (ctx) => CupertinoAlertDialog(
+  //         title: Text(
+  //           "Video Details",
+  //           style: TextStyle(
+  //             fontFamily: 'Poppins',
+  //             fontWeight: FontWeight.w600,
+  //             fontSize: 20,
+  //           ),
+  //         ),
+  //         content: Container(
+  //           height: 200,
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Spacer(),
+  //               Text(
+  //                 "${widget.teacher} ",
+  //                 style: TextStyle(
+  //                   fontFamily: 'Poppins',
+  //                   fontWeight: FontWeight.w500,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 15,
+  //               ),
+  //               Expanded(
+  //                 child: Text(
+  //                   "${widget.title}",
+  //                   style: TextStyle(
+  //                     fontFamily: 'Poppins',
+  //                     fontWeight: FontWeight.w500,
+  //                   ),
+  //                 ),
+  //               ),
+  //               Spacer(),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(ctx).pop();
+  //             },
+  //             child: const Text(
+  //               "OK",
+  //               style: TextStyle(
+  //                 fontFamily: 'Poppins',
+  //                 color: Colors.black,
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   } else {
+  //     showDialog(
+  //       context: context,
+  //       builder: (ctx) => AlertDialog(
+  //         title: Text(
+  //           "Video Details",
+  //           style: TextStyle(
+  //             fontFamily: 'Poppins',
+  //             fontWeight: FontWeight.w600,
+  //             fontSize: 20,
+  //           ),
+  //         ),
+  //         content: Container(
+  //           height: 200,
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Spacer(),
+  //               Text(
+  //                 "${widget.teacher} ",
+  //                 style: TextStyle(
+  //                   fontFamily: 'Poppins',
+  //                   fontWeight: FontWeight.w500,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 15,
+  //               ),
+  //               Expanded(
+  //                 child: Text(
+  //                   "${widget.title}",
+  //                   style: TextStyle(
+  //                     fontFamily: 'Poppins',
+  //                     fontWeight: FontWeight.w500,
+  //                   ),
+  //                 ),
+  //               ),
+  //               Spacer(),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(ctx).pop();
+  //             },
+  //             child: const Text(
+  //               "OK",
+  //               style: TextStyle(
+  //                 fontFamily: 'Poppins',
+  //                 color: Colors.black,
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
 
-    disableScreenRecord();
-
-    final videoID = YoutubePlayer.convertUrlToId(widget.link);
-
     _controller = YoutubePlayerController(
-      initialVideoId: videoID!,
+      initialVideoId: widget.link,
       flags: YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
@@ -184,10 +173,6 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
     Future.delayed(Duration(seconds: 5), () {
       setToHistory();
     });
-  }
-
-  Future<void> disableScreenRecord() async {
-    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
 
   setToHistory() async {
@@ -202,17 +187,19 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
     // double screenWidth = MediaQuery.of(context).size.width;
     // double screenHeight = MediaQuery.of(context).size.height;
 
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: [
-        SystemUiOverlay.top,
-        SystemUiOverlay.bottom,
-      ],
-    );
 
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: YoutubePlayerBuilder(
+        onExitFullScreen: (){
+          SystemChrome.setEnabledSystemUIMode(
+            SystemUiMode.manual,
+            overlays: [
+              SystemUiOverlay.top,
+              SystemUiOverlay.bottom,
+            ],
+          );
+        },
         player: YoutubePlayer(
           controller: _controller,
           showVideoProgressIndicator: true,
@@ -231,23 +218,24 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
             title: Row(
               children: [
                 Text(
-                  "Video",
+                  "Video Player",
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
+                    fontSize: 19,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    videoInfoAlertDialog();
-                  },
-                  icon: Icon(
-                    Icons.info,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ),
+                // IconButton(
+                //   onPressed: () {
+                //     videoInfoAlertDialog();
+                //   },
+                //   icon: Icon(
+                //     Icons.info,
+                //     color: Colors.white,
+                //     size: 20,
+                //   ),
+                // ),
                 Spacer(),
                 widget.zoomLink.isNotEmpty
                     ? GestureDetector(
@@ -283,7 +271,54 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
             automaticallyImplyLeading: false,
             centerTitle: true,
           ),
-          body: Center(child: player),
+          body: Column(
+            children: [
+              player,
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding:  EdgeInsets.all(10.0),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      height: 55,
+                      width: 55,
+                      child: Image.asset('assets/images/icon.png'),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.teacher,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            widget.title,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
           //isFullScreen
           // ? Container(
           //     height: screenHeight,

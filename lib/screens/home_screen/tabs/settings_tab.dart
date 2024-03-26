@@ -66,10 +66,16 @@ class _SettingsTabState extends State<SettingsTab> {
                   children: [
                     Align(
                       alignment: Alignment.topCenter,
-                      child: SizedBox(
+                      child: Container(
                         height: 100,
                         width: 100,
-                        child: Image.asset('assets/images/addProfilePic.png'),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        child: Center(
+                          child: Image.asset('assets/images/user.png'),
+                        ),
                       ),
                     ),
                     SizedBox(
