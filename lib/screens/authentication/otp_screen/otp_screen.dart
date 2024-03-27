@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/providers/authentication/otp_provider.dart';
+import 'package:koreanlms/screens/splash_screen/loading_splash.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class OTPScreen extends StatefulWidget {
   final String mobileNumber;
-  final String verificationID;
+  final int verificationID;
   const OTPScreen(
       {super.key, required this.mobileNumber, required this.verificationID});
 
@@ -21,17 +24,34 @@ class OTPScreen extends StatefulWidget {
 class _OTPScreenState extends State<OTPScreen> {
   final TextEditingController otpController = TextEditingController();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   SystemChrome.setEnabledSystemUIMode(
-  //     SystemUiMode.manual,
-  //     overlays: [
-  //       SystemUiOverlay.top,
-  //       SystemUiOverlay.bottom,
-  //     ],
-  //   );
-  // }
+  String uuid = '';
+  String? stdID;
+
+  @override
+  void initState() {
+    super.initState();
+    _generateNewUuid();
+    getStudentID();
+  }
+
+  void _generateNewUuid() {
+    setState(() {
+      uuid = Uuid().v4();
+    });
+  }
+
+  getStudentID() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      stdID = prefs.getString('userID');
+    });
+  }
+
+  Future<void> setUserID(String uID) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('userID', uID);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +128,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 height: 40,
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   if (otpController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -116,9 +136,52 @@ class _OTPScreenState extends State<OTPScreen> {
                       ),
                     );
                   } else {
-                    otpProvider.loading = true;
-                    otpProvider.getOTPCode(
-                        widget.verificationID, otpController.text, context);
+                    if (otpController.text ==
+                        widget.verificationID.toString()) {
+                      try {
+                        if (stdID == null) {
+                          await setUserID(uuid);
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.setBool('logedIn', true);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoadingSplash(
+                                id: uuid,
+                              ),
+                            ),
+                          );
+                        } else {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoadingSplash(
+                                id: stdID!,
+                              ),
+                            ),
+                          );
+                        }
+
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.setBool('logedIn', true);
+                      } catch (e) {
+                        print(e);
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Verification Failed!',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   }
                 },
                 child: otpProvider.loading
