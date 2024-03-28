@@ -11,6 +11,7 @@ import 'package:koreanlms/widgets/phone_textfiled.dart';
 import 'package:koreanlms/widgets/textfiled_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class SignUPScreen extends StatefulWidget {
   const SignUPScreen({super.key});
@@ -28,20 +29,19 @@ class _SignUPScreenState extends State<SignUPScreen> {
 
   String? userID = '';
 
-  getUserID() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userID = prefs.getString('userID');
-    });
-  }
-
   String? deviceId;
 
   @override
   void initState() {
     super.initState();
-    getUserID();
+    generateNewUuid();
     getDeviceID();
+  }
+
+  generateNewUuid() {
+    setState(() {
+      userID = Uuid().v4();
+    });
   }
 
   void getDeviceID() async {
@@ -58,6 +58,11 @@ class _SignUPScreenState extends State<SignUPScreen> {
       return androidDeviceInfo.id;
     }
     return null;
+  }
+
+  Future<void> setUserID(String uID) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('userID', uID);
   }
 
   @override
@@ -256,6 +261,8 @@ class _SignUPScreenState extends State<SignUPScreen> {
                         } else {
                           // userProvider.userID =
                           //     userProvider.generateRandomId().toString();
+
+                          await setUserID(userID!);
 
                           String phoneNo =
                               "${signUPProvider.countryCode?.dialCode}" +

@@ -75,7 +75,7 @@ class SignUPProvider extends ChangeNotifier {
           MaterialPageRoute(
             builder: (context) => OTPScreen(
               mobileNumber:
-                  (countryCode?.dialCode ?? '') + (' ') + phoneController.text,
+                  (countryCode?.dialCode ?? '') + phoneController.text,
               verificationID: code!,
             ),
           ),
