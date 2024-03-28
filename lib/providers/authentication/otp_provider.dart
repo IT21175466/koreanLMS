@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -5,6 +6,36 @@ class OTPProvider extends ChangeNotifier {
   bool loading = false;
 
   String userId = '';
+
+  checkPhoneNumberIsSignUp(BuildContext context, String phone) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      QuerySnapshot querySnapshot = await firestore
+          .collection("Students")
+          .where("PhoneNumber", isEqualTo: phone)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        print("User document exists");
+
+        print(querySnapshot.docs[0]['UserID']);
+
+        await setUserID(querySnapshot.docs[0]['UserID']);
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setBool('logedIn', true);
+
+        Navigator.pushReplacementNamed(context, '/home');
+        notifyListeners();
+      } else {
+        print("No document exists with the provided phone number");
+        Navigator.pushReplacementNamed(context, '/signup');
+        notifyListeners();
+      }
+    } catch (error) {
+      print("Error checking document: $error");
+    }
+  }
 
   // getOTPCode(String vID, String otp, BuildContext context) async {
   //   try {

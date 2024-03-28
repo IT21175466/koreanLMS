@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/providers/authentication/otp_provider.dart';
-import 'package:koreanlms/screens/splash_screen/loading_splash.dart';
+import 'package:koreanlms/screens/splash_screen/phone_check_splash.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 
 class OTPScreen extends StatefulWidget {
   final String mobileNumber;
@@ -25,19 +24,12 @@ class _OTPScreenState extends State<OTPScreen> {
   final TextEditingController otpController = TextEditingController();
 
   String uuid = '';
-  String? stdID;
+  String? stdID = '';
 
   @override
   void initState() {
     super.initState();
-    _generateNewUuid();
     getStudentID();
-  }
-
-  void _generateNewUuid() {
-    setState(() {
-      uuid = Uuid().v4();
-    });
   }
 
   getStudentID() async {
@@ -139,31 +131,13 @@ class _OTPScreenState extends State<OTPScreen> {
                     if (otpController.text ==
                         widget.verificationID.toString()) {
                       try {
-                        if (stdID == null) {
-                          await setUserID(uuid);
-                          final prefs = await SharedPreferences.getInstance();
-                          prefs.setBool('logedIn', true);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoadingSplash(
-                                id: uuid,
-                              ),
-                            ),
-                          );
-                        } else {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoadingSplash(
-                                id: stdID!,
-                              ),
-                            ),
-                          );
-                        }
-
-                        final prefs = await SharedPreferences.getInstance();
-                        prefs.setBool('logedIn', true);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                PhoneCheckSplash(phone: widget.mobileNumber),
+                          ),
+                        );
                       } catch (e) {
                         print(e);
                       }
