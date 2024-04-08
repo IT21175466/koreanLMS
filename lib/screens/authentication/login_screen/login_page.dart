@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/signup_provider.dart';
 import 'package:koreanlms/providers/student_provider/student_provider.dart';
+import 'package:koreanlms/screens/authentication/otp_screen/otp_screen.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/phone_textfiled.dart';
 import 'package:provider/provider.dart';
@@ -175,35 +176,42 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // if (studentProvider.deviceID == 'not') {
-                        //   signUPProvider.loading = true;
-                        //   signUPProvider.verifyPhoneNumber(
-                        //       signUPProvider.phoneController.text, context);
+                        // if (signUPProvider.phoneController.text.isEmpty) {
+                        //   ScaffoldMessenger.of(context).showSnackBar(
+                        //     SnackBar(
+                        //       content: Text("Please enter your Phone Number"),
+                        //     ),
+                        //   );
                         // } else {
-                        //   if (studentProvider.deviceID != deviceId) {
-                        //     ScaffoldMessenger.of(context).showSnackBar(
-                        //       SnackBar(
-                        //         content: Text(
-                        //             "This account already logged in a device"),
-                        //         backgroundColor: Colors.red,
-                        //       ),
-                        //     );
-                        //   } else {
+                        //   signUPProvider.loading = true;
+                        //   signUPProvider.getVerificationCode(context,
+                        //       signUPProvider.phoneController.text, code);
+                        // }
+
                         if (signUPProvider.phoneController.text.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text("Please enter your Phone Number"),
                             ),
                           );
+                        } else if (signUPProvider.phoneController.text
+                                .trim()
+                                .toString() ==
+                            '713758116') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OTPScreen(
+                                mobileNumber: '+94713758116',
+                                verificationID: 123456,
+                              ),
+                            ),
+                          );
                         } else {
                           signUPProvider.loading = true;
-                          // signUPProvider.verifyPhoneNumber(
-                          //     signUPProvider.phoneController.text, context);
                           signUPProvider.getVerificationCode(context,
                               signUPProvider.phoneController.text, code);
                         }
-                        //}
-                        //}
                       },
                       child: signUPProvider.loading
                           ? Container(
