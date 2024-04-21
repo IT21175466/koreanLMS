@@ -8,17 +8,14 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/global/variables.dart';
-import 'package:koreanlms/models/video.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/login_provider.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
-import 'package:koreanlms/screens/video/play_video.dart';
 import 'package:koreanlms/widgets/play_video_sample.dart';
 import 'package:koreanlms/widgets/single_video_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class HomeTab extends StatefulWidget {
@@ -225,7 +222,7 @@ class _HomeTabState extends State<HomeTab> {
                 ),
                 Container(
                   width: screenWidth,
-                  height: screenHeight / 6,
+                  height: screenHeight / 4,
                   child: Column(
                     children: [
                       Row(
@@ -239,7 +236,7 @@ class _HomeTabState extends State<HomeTab> {
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w700,
                                   fontSize: 22,
-                                  color: Colors.black,
+                                  color: AppColors.accentColor,
                                 ),
                               ),
                               Text(
@@ -248,7 +245,7 @@ class _HomeTabState extends State<HomeTab> {
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
-                                  color: AppColors.grayColor,
+                                  color: AppColors.textGaryColor,
                                 ),
                               ),
                             ],
@@ -261,16 +258,20 @@ class _HomeTabState extends State<HomeTab> {
                           // ),
                         ],
                       ),
-                      Spacer(),
+                      SizedBox(
+                        height: 15,
+                      ),
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 60, 58, 58),
+                          color: const Color.fromARGB(255, 236, 236, 236),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         margin: const EdgeInsets.symmetric(vertical: 7),
-                        height: 45,
+                        height: 50,
                         child: TextField(
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: AppColors.textGaryColor,
+                          ),
                           controller: searchController,
                           onChanged: searchVideo,
                           decoration: InputDecoration(
@@ -279,315 +280,235 @@ class _HomeTabState extends State<HomeTab> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(
-                                color: const Color.fromARGB(255, 60, 58, 58),
-                                width: 0.5,
-                              ),
+                              borderSide: BorderSide.none,
                             ),
                             prefixIcon: Icon(
                               Icons.search,
-                              color: Colors.white,
+                              color: AppColors.textGaryColor,
                             ),
                             hintText: "Search",
                             hintStyle: TextStyle(
                               fontFamily: 'Poppins',
-                              color: Colors.white,
+                              color: AppColors.textGaryColor,
+                              fontWeight: FontWeight.w400,
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 10),
                           ),
                         ),
-                      )
+                      ),
+                      Spacer(),
+                      Container(
+                        height: 50,
+                        width: screenWidth,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 135,
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: AppColors.orangeColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '2024',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.accentColor,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: AppColors.accentColor,
+                                      size: 15,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 50,
+                                width: 135,
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: AppColors.orangeColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '2023',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.accentColor,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: AppColors.accentColor,
+                                      size: 15,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 50,
+                                width: 135,
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: AppColors.orangeColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '2022',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.accentColor,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: AppColors.accentColor,
+                                      size: 15,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Spacer(),
                     ],
                   ),
                 ),
                 Container(
                   width: screenWidth,
-                  height: screenHeight / 6 * 5 -
+                  height: screenHeight / 4 * 3 -
                       (AppBar().preferredSize.height +
                           (Platform.isIOS ? 92 : 70)),
-                  //padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: videoProvider.noBatch
-                      ?
-                      // Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.center,
-                      //     children: [
-                      Column(
-                          children: [
-                            Expanded(
-                              child: StreamBuilder(
-                                stream: FirebaseFirestore.instance
-                                    .collection('InitialVideo')
-                                    .snapshots(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Connection Error!',
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    Center(
-                                      child: Text(
-                                        'Loading.....',
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    );
-                                  }
-
-                                  if (snapshot.hasData) {
-                                    var docs = snapshot.data!.docs;
-                                    return ListView.builder(
-                                        itemCount: docs.length,
-                                        itemBuilder: (context, index) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              if (docs[index]['Accept']) {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        PlayVideoSampleScreen(
-                                                      link:
-                                                          '${YoutubePlayer.convertUrlToId(docs[index]['link'])}',
-                                                      title: docs[index]
-                                                          ['Title'],
-                                                      teacher: docs[index]
-                                                          ['Teacher'],
-                                                    ),
-                                                  ),
-                                                );
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      'Make payment and try again!',
-                                                      style: TextStyle(
-                                                        fontFamily: 'Poppins',
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                    backgroundColor:
-                                                        Colors.green,
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                            child: VideoCard(
-                                              title: docs[index]['Title'],
-                                              teacher: docs[index]['Teacher'],
-                                              isAccepted: docs[index]['Accept'],
-                                              isWatched: false,
-                                            ),
-                                          );
-                                        });
-                                  }
-                                  return Text(
-                                    'No Videos',
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('InitialVideo')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Connection Error!',
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
                                     ),
-                                  );
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Please Contact Admin for Access',
+                                  ),
+                                ),
+                              );
+                            }
+
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              Center(
+                                child: Text(
+                                  'Loading.....',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              );
+                            }
+
+                            if (snapshot.hasData) {
+                              var docs = snapshot.data!.docs;
+                              return ListView.builder(
+                                  itemCount: docs.length,
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (docs[index]['Accept']) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PlayVideoSampleScreen(
+                                                link:
+                                                    '${YoutubePlayer.convertUrlToId(docs[index]['link'])}',
+                                                title: docs[index]['Title'],
+                                                teacher: docs[index]['Teacher'],
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Make payment and try again!',
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              backgroundColor: Colors.green,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: VideoCard(
+                                        title: docs[index]['Title'],
+                                        teacher: docs[index]['Teacher'],
+                                        isAccepted: docs[index]['Accept'],
+                                        isWatched: false,
+                                      ),
+                                    );
+                                  });
+                            }
+                            return Text(
+                              'No Videos',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                launchUrl(
-                                  Uri.parse(
-                                      'https://dreamkoreanacademy.com/contact/'),
-                                );
-                              },
-                              child: Text(
-                                'Tap to contact ',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15,
-                                  color: Colors.blue,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        )
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) =>
-                      //             PlayVideoSampleScreen(
-                      //           link: link,
-                      //           title: title,
-                      //           teacher: teacher,
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
-                      //   child: VideoCard(
-                      //     isAccepted: true,
-                      //     isWatched: false,
-                      //     title: 'title',
-                      //     teacher: 'teacher',
-                      //   ),
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     ScaffoldMessenger.of(context).showSnackBar(
-                      //       SnackBar(
-                      //         content: Text(
-                      //           'Make payment and try again!',
-                      //           style: TextStyle(
-                      //             fontFamily: 'Poppins',
-                      //             fontWeight: FontWeight.w500,
-                      //             color: Colors.white,
-                      //           ),
-                      //         ),
-                      //         backgroundColor: Colors.green,
-                      //       ),
-                      //     );
-                      //   },
-                      //   child: VideoCard(
-                      //     isAccepted: false,
-                      //     isWatched: false,
-                      //     title: 'Language Basics',
-                      //     teacher: 'Mr. Dilan',
-                      //   ),
-                      // ),
-
-                      // SizedBox(
-                      //   height: 150,
-                      //   width: 150,
-                      //   child: Image.asset('assets/images/admin.png'),
-                      // ),
-                      // SizedBox(
-                      //   height: 30,
-                      // ),
-                      // Text(
-                      //   'Please Contact Admin for Access',
-                      //   style: TextStyle(
-                      //     fontFamily: 'Poppins',
-                      //     fontWeight: FontWeight.w500,
-                      //     fontSize: 16,
-                      //   ),
-                      // ),
-                      //   ],
-                      //)
-                      : videoProvider.paymentDone
-                          ? ListView.builder(
-                              itemCount: videoProvider.videos.length,
-                              itemBuilder: (context, index) {
-                                Video video = videoProvider.videos[index];
-                                return GestureDetector(
-                                  onTap: () async {
-                                    if (videoProvider.payment
-                                        .contains(video.paymentTerm)) {
-                                      // String verificationCode =
-                                      //     await generateRandomCode();
-
-                                      // await sendVerificationCode(
-                                      //   phone: loginProvider.phoneNumber,
-                                      //   code: verificationCode,
-                                      // );
-
-                                      //if (isSucess = true) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => PlayVideoScreen(
-                                            link:
-                                                '${YoutubePlayer.convertUrlToId(video.link)}',
-                                            title: video.title,
-                                            teacher: video.teacher,
-                                            zoomLink: video.zoomLink,
-                                            userID: studentID!,
-                                          ),
-                                        ),
-                                      );
-                                      //}
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Make payment and try again!',
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          backgroundColor: Colors.green,
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  child: VideoCard(
-                                    isAccepted: videoProvider.payment
-                                            .contains(video.paymentTerm)
-                                        ? true
-                                        : false,
-                                    isWatched: videoProvider.watchedVideos
-                                            .contains(videoProvider
-                                                .videos[index].title)
-                                        ? true
-                                        : false,
-                                    teacher: video.teacher,
-                                    title: video.title,
-                                  ),
-                                );
-                              },
-                            )
-                          : Column(
-                              children: [
-                                VideoCard(
-                                  isAccepted: false,
-                                  isWatched: false,
-                                  title: 'Language Basics',
-                                  teacher: 'Mr.Frenando',
-                                ),
-                                VideoCard(
-                                  isAccepted: false,
-                                  isWatched: false,
-                                  title: 'Language Basics II',
-                                  teacher: 'Mr.Frenando',
-                                ),
-                              ],
-                            ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

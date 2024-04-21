@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:koreanlms/constants/app_colors.dart';
 
 // ignore: must_be_immutable
 class VideoCard extends StatelessWidget {
@@ -23,10 +24,11 @@ class VideoCard extends StatelessWidget {
       //height: 230,
       margin: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 40, 49, 54),
-        // border: Border.all(
-        //   color: Colors.grey,
-        // ),
+        color: Colors.white,
+        border: Border.all(
+          color: AppColors.accentColor,
+          width: 0.5,
+        ),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
@@ -37,7 +39,7 @@ class VideoCard extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage('assets/images/card.png'),
+                image: AssetImage('assets/images/cardSample.JPG'),
               ),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15),
@@ -76,12 +78,12 @@ class VideoCard extends StatelessWidget {
                                   children: [
                                     Spacer(),
                                     Icon(
-                                      Icons.pending,
+                                      Icons.play_circle_fill,
                                       size: 15,
                                       color: Colors.white,
                                     ),
                                     SizedBox(
-                                      width: 5,
+                                      width: 10,
                                     ),
                                     Text(
                                       'To Watch',
@@ -131,19 +133,9 @@ class VideoCard extends StatelessWidget {
                               ),
                         Spacer(),
                         Center(
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            child: Center(
-                              child: Icon(
-                                Icons.play_arrow,
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
+                          child: SizedBox(
+                              height: 50,
+                              child: Image.asset('assets/images/youtube.png')),
                         ),
                         Spacer(),
                       ],
@@ -232,7 +224,7 @@ class VideoCard extends StatelessWidget {
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
-                          color: Colors.white,
+                          color: AppColors.accentColor,
                         ),
                       ),
                       Text(

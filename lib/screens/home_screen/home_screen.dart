@@ -37,13 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
           width: screenWidth,
           decoration: BoxDecoration(
             color: Colors.white,
-            image: DecorationImage(
-              opacity: 0.5,
-              image: NetworkImage(
-                '${appDataProvider.appBackgroudImage}',
-              ),
-              fit: BoxFit.cover,
-            ),
+            // image: DecorationImage(
+            //   opacity: 0.5,
+            //   image: NetworkImage(
+            //     '${appDataProvider.appBackgroudImage}',
+            //   ),
+            //   fit: BoxFit.cover,
+            // ),
           ),
           child: Consumer(
             builder: (BuildContext context,

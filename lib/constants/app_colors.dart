@@ -10,4 +10,9 @@ class AppColors {
   static const Color buttonColor = Color.fromARGB(225, 225, 225, 0);
 
   static const Color lightGrayColor = Color.fromARGB(255, 229, 229, 229);
+
+  //New Color
+  static const Color accentColor = Color.fromARGB(255, 68, 48, 111);
+  static const Color textGaryColor = Color.fromARGB(255, 143, 143, 143);
+  static const Color orangeColor = Color.fromARGB(255, 255, 145, 14);
 }

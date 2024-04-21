@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/providers/home/bottomnavbar_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,19 +14,15 @@ class CustomBottomNavigationBar extends StatelessWidget {
         return Container(
           height: Platform.isIOS ? 92 : 70,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 29, 48, 84),
-                Color.fromARGB(255, 35, 81, 165),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.topRight,
-              stops: [0.0, 0.8],
-              tileMode: TileMode.clamp,
+            color: Colors.white,
+            border: Border.symmetric(
+              horizontal: BorderSide(
+                color: AppColors.textGaryColor,
+                width: 0.3,
+              ),
             ),
           ),
           child: BottomNavigationBar(
-            backgroundColor: Colors.transparent,
             currentIndex: bottomNavigationProvider.currentIndex,
             onTap: (index) {
               bottomNavigationProvider.setIndex(index);
@@ -66,11 +63,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
             unselectedLabelStyle: TextStyle(
               fontFamily: 'Poppins',
             ),
-            selectedItemColor: Colors.grey,
-            unselectedItemColor: Colors.white,
+            selectedItemColor: AppColors.orangeColor,
+            unselectedItemColor: AppColors.accentColor,
             elevation: 20.0,
             selectedIconTheme: IconThemeData(
-              color: Colors.grey,
+              color: AppColors.orangeColor,
             ),
           ),
         );
