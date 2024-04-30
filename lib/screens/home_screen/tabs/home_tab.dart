@@ -404,25 +404,40 @@ class _HomeTabState extends State<HomeTab> {
                                         );
                                       },
                                       child: Container(
+                                        width: screenWidth,
                                         margin: EdgeInsets.only(bottom: 15),
-                                        child: YoutubePlayer(
-                                          controller: YoutubePlayerController(
-                                            initialVideoId:
-                                                '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
-                                            flags: YoutubePlayerFlags(
-                                              autoPlay: false,
-                                              mute: false,
+                                        child: Stack(
+                                          children: [
+                                            YoutubePlayer(
+                                              controller:
+                                                  YoutubePlayerController(
+                                                initialVideoId:
+                                                    '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                                flags: YoutubePlayerFlags(
+                                                  hideControls: true,
+                                                  autoPlay: false,
+                                                  mute: false,
+                                                ),
+                                              ),
+                                              showVideoProgressIndicator: true,
                                             ),
-                                          ),
-                                          showVideoProgressIndicator: true,
+                                            Positioned(
+                                              top: 0,
+                                              bottom: 0,
+                                              left: 0,
+                                              right: 0,
+                                              child: Center(
+                                                child: SizedBox(
+                                                  height: 70,
+                                                  child: Image.asset(
+                                                    'assets/images/youtube.png',
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      // VideoCard(
-                                      //   title: docs[index]['Video_Title'],
-                                      //   teacher: docs[index]['Teachers_Name'],
-                                      //   isAccepted: true,
-                                      //   isWatched: false,
-                                      // ),
                                     );
                                   });
                             }

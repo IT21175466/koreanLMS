@@ -150,16 +150,37 @@ class _ClassPageState extends State<ClassPage> {
                                       children: [
                                         SizedBox(
                                           width: screenWidth / 3,
-                                          child: YoutubePlayer(
-                                            controller: YoutubePlayerController(
-                                              initialVideoId:
-                                                  '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
-                                              flags: YoutubePlayerFlags(
-                                                autoPlay: false,
-                                                mute: false,
+                                          child: Stack(
+                                            children: [
+                                              YoutubePlayer(
+                                                controller:
+                                                    YoutubePlayerController(
+                                                  initialVideoId:
+                                                      '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                                  flags: YoutubePlayerFlags(
+                                                    hideControls: true,
+                                                    autoPlay: false,
+                                                    mute: false,
+                                                  ),
+                                                ),
+                                                showVideoProgressIndicator:
+                                                    true,
                                               ),
-                                            ),
-                                            showVideoProgressIndicator: true,
+                                              Positioned(
+                                                top: 0,
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                child: Center(
+                                                  child: SizedBox(
+                                                    height: 40,
+                                                    child: Image.asset(
+                                                      'assets/images/youtube.png',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         SizedBox(
