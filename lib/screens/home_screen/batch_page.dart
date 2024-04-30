@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/providers/student_provider/student_provider.dart';
+import 'package:koreanlms/screens/home_screen/class_page.dart';
 import 'package:provider/provider.dart';
 
 class BatchPage extends StatefulWidget {
@@ -117,19 +118,19 @@ class _BatchPageState extends State<BatchPage> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) =>
-                                //         PlayVideoSampleScreen(
-                                //       link:
-                                //           '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
-                                //       title: docs[index]['Video_Title'],
-                                //       teacher: docs[index]
-                                //           ['Teachers_Name'],
-                                //     ),
-                                //   ),
-                                // );
+                                if (studentProvider.myClasses
+                                    .contains(docs[index]['Class_ID'])) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ClassPage(
+                                        batchName: widget.batchName,
+                                        className: docs[index]['Class_Name'],
+                                        classID: docs[index]['Class_ID'],
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
                               child: Container(
                                 height: 60,
