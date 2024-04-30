@@ -12,6 +12,7 @@ import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/login_provider.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
+import 'package:koreanlms/widgets/batch_tile.dart';
 import 'package:koreanlms/widgets/play_video_sample.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,6 +50,7 @@ class _HomeTabState extends State<HomeTab> {
         Provider.of<AppDataProvider>(context, listen: false);
     appDataProvider.isLoading = true;
     appDataProvider.getImageData();
+    appDataProvider.fetchBatches();
     appDataProvider.getbatchData();
 
     videoProvider = Provider.of<VideoProvider>(context, listen: false);
@@ -212,9 +214,12 @@ class _HomeTabState extends State<HomeTab> {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Consumer2(
-            builder: (BuildContext context, VideoProvider videoProvider,
-                    LoginProvider loginProvider, Widget? child) =>
+          child: Consumer3(
+            builder: (BuildContext context,
+                    VideoProvider videoProvider,
+                    AppDataProvider appDataProvider,
+                    LoginProvider loginProvider,
+                    Widget? child) =>
                 Column(
               children: [
                 SizedBox(
@@ -301,108 +306,18 @@ class _HomeTabState extends State<HomeTab> {
                       Container(
                         height: 50,
                         width: screenWidth,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 50,
-                                width: 135,
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    color: AppColors.orangeColor,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      '2024',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.accentColor,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: AppColors.accentColor,
-                                      size: 15,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                height: 50,
-                                width: 135,
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    color: AppColors.orangeColor,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      '2023',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.accentColor,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: AppColors.accentColor,
-                                      size: 15,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                height: 50,
-                                width: 135,
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    color: AppColors.orangeColor,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      '2022',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.accentColor,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: AppColors.accentColor,
-                                      size: 15,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: appDataProvider.batches.length,
+                            itemBuilder: (context, index) {
+                              return BatchTile(
+                                batchName: appDataProvider.batches[index],
+                                isLock: appDataProvider.initialBatch ==
+                                        appDataProvider.batches[index]
+                                    ? false
+                                    : true,
+                              );
+                            }),
                       ),
                       Spacer(),
                     ],

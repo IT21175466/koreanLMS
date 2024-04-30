@@ -15,6 +15,7 @@ class AppDataProvider extends ChangeNotifier {
   String? studentID = '';
 
   final images = [];
+  List<String> batches = [];
 
   bool isLoading = false;
 
@@ -32,6 +33,33 @@ class AppDataProvider extends ChangeNotifier {
     } finally {
       isLoading = false;
 
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchBatches() async {
+    // Access Firestore instance
+    //loading = true;
+    //notifyListeners();
+    try {
+      // Get the collection reference
+      batches.clear();
+      CollectionReference newBatchesCollection =
+          FirebaseFirestore.instance.collection('New_Batches');
+
+      // Query the collection
+      QuerySnapshot querySnapshot = await newBatchesCollection.get();
+
+      // Extract document IDs
+      List<String> ids = querySnapshot.docs.map((doc) => doc.id).toList();
+
+      // Update the state with document IDs
+      batches = ids;
+      notifyListeners();
+    } catch (e) {
+      print('Error: $e');
+    } finally {
+      //loading = false;
       notifyListeners();
     }
   }
