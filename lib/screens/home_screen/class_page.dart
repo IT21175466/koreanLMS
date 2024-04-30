@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/providers/student_provider/student_provider.dart';
+import 'package:koreanlms/screens/home_screen/term_page.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -273,17 +274,19 @@ class _ClassPageState extends State<ClassPage> {
                                 return GestureDetector(
                                   onTap: () {
                                     if (studentProvider.myTerms
-                                        .contains(docs[index]['Class_ID'])) {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => ClassPage(
-                                      //       batchName: widget.batchName,
-                                      //       className: docs[index]['Class_Name'],
-                                      //       classID: docs[index]['Class_ID'],
-                                      //     ),
-                                      //   ),
-                                      // );
+                                        .contains(docs[index]['Term_ID'])) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => TermPage(
+                                            batchName: widget.batchName,
+                                            className: widget.className,
+                                            classID: widget.classID,
+                                            termID: docs[index]['Term_ID'],
+                                            termName: docs[index]['Term_Name'],
+                                          ),
+                                        ),
+                                      );
                                     }
                                   },
                                   child: Container(
