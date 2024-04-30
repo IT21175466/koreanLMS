@@ -12,6 +12,7 @@ import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/login_provider.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
+import 'package:koreanlms/screens/home_screen/batch_page.dart';
 import 'package:koreanlms/widgets/batch_tile.dart';
 import 'package:koreanlms/widgets/play_video_sample.dart';
 import 'package:provider/provider.dart';
@@ -310,12 +311,28 @@ class _HomeTabState extends State<HomeTab> {
                             scrollDirection: Axis.horizontal,
                             itemCount: appDataProvider.batches.length,
                             itemBuilder: (context, index) {
-                              return BatchTile(
-                                batchName: appDataProvider.batches[index],
-                                isLock: appDataProvider.initialBatch ==
-                                        appDataProvider.batches[index]
-                                    ? false
-                                    : true,
+                              return GestureDetector(
+                                onTap: () {
+                                  if (appDataProvider.initialBatch ==
+                                      appDataProvider.batches[index]) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => BatchPage(
+                                          batchName:
+                                              appDataProvider.batches[index],
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: BatchTile(
+                                  batchName: appDataProvider.batches[index],
+                                  isLock: appDataProvider.initialBatch ==
+                                          appDataProvider.batches[index]
+                                      ? false
+                                      : true,
+                                ),
                               );
                             }),
                       ),
@@ -386,21 +403,18 @@ class _HomeTabState extends State<HomeTab> {
                                           ),
                                         );
                                       },
-                                      child: Hero(
-                                        tag: 'thumg',
-                                        child: Container(
-                                          margin: EdgeInsets.only(bottom: 15),
-                                          child: YoutubePlayer(
-                                            controller: YoutubePlayerController(
-                                              initialVideoId:
-                                                  '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
-                                              flags: YoutubePlayerFlags(
-                                                autoPlay: false,
-                                                mute: false,
-                                              ),
+                                      child: Container(
+                                        margin: EdgeInsets.only(bottom: 15),
+                                        child: YoutubePlayer(
+                                          controller: YoutubePlayerController(
+                                            initialVideoId:
+                                                '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                            flags: YoutubePlayerFlags(
+                                              autoPlay: false,
+                                              mute: false,
                                             ),
-                                            showVideoProgressIndicator: true,
                                           ),
+                                          showVideoProgressIndicator: true,
                                         ),
                                       ),
                                       // VideoCard(

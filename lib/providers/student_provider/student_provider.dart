@@ -13,11 +13,75 @@ class StudentProvider extends ChangeNotifier {
   String? nic = '...';
   String? phoneNum = '...';
   String? dateOfBirth = '...';
-  String? batch = '...';
-  String? studentClass = '...';
-  String? payment = '...';
   String? registedDate = '...';
   String? deviceID = '...';
+
+  List<String> myBatches = [];
+  List<String> myClasses = [];
+  List<String> myTerms = [];
+
+  Future<void> getStudentBaches() async {
+    await getStudentID();
+
+    try {
+      final documentSnapshot = await FirebaseFirestore.instance
+          .collection("New_Students")
+          .doc(studentID)
+          .get();
+
+      if (documentSnapshot.exists) {
+        final List<dynamic> batchData = documentSnapshot.data()!['Batches'];
+
+        // Clear existing data in completedLessons list
+        myBatches.clear();
+
+        // Iterate through lessonsData and add them to completedLessons
+        for (dynamic batchData in batchData) {
+          myBatches.add(batchData
+              .toString()); // Assuming lessonData is a String or can be converted to String
+          print(batchData.toString());
+        }
+
+        if (documentSnapshot.exists) {
+          final List<dynamic> classData = documentSnapshot.data()!['Classes'];
+
+          // Clear existing data in completedLessons list
+          myClasses.clear();
+
+          // Iterate through lessonsData and add them to completedLessons
+          for (dynamic classData in classData) {
+            myClasses.add(classData
+                .toString()); // Assuming lessonData is a String or can be converted to String
+            print(classData.toString());
+          }
+        }
+
+        if (documentSnapshot.exists) {
+          final List<dynamic> termData = documentSnapshot.data()!['Terms'];
+
+          // Clear existing data in completedLessons list
+          myTerms.clear();
+
+          // Iterate through lessonsData and add them to completedLessons
+          for (dynamic termData in termData) {
+            myTerms.add(termData
+                .toString()); // Assuming lessonData is a String or can be converted to String
+            print(termData.toString());
+          }
+        }
+
+        notifyListeners();
+        print('Fetched successfully.');
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
 
   getStudentID() async {
     final prefs = await SharedPreferences.getInstance();

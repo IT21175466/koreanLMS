@@ -172,13 +172,6 @@ class _SettingsTabState extends State<SettingsTab> {
                         detail: '${studentProvider.phoneNum}'),
 
                     UserInfoCard(
-                        hint: 'Batch', detail: '${studentProvider.batch}'),
-                    UserInfoCard(
-                        hint: 'Class',
-                        detail: '${studentProvider.studentClass}'),
-                    UserInfoCard(
-                        hint: 'Payment', detail: '${studentProvider.payment}'),
-                    UserInfoCard(
                         hint: 'Email', detail: '${studentProvider.email}'),
                     UserInfoCard(hint: 'NIC', detail: '${studentProvider.nic}'),
                     UserInfoCard(

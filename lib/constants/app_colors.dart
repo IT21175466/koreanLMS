@@ -10,6 +10,7 @@ class AppColors {
   static const Color buttonColor = Color.fromARGB(225, 225, 225, 0);
 
   static const Color lightGrayColor = Color.fromARGB(255, 229, 229, 229);
+  static const Color lowAccentColor = Color.fromARGB(225, 232, 241, 255);
 
   //New Color
   static const Color accentColor = Color.fromARGB(255, 68, 48, 111);
