@@ -10,6 +10,7 @@ class AppDataProvider extends ChangeNotifier {
   String? bannerImage1;
   String? bannerImage2;
   String? bannerImage3;
+  String? initialBatch;
 
   String? studentID = '';
 
@@ -25,6 +26,24 @@ class AppDataProvider extends ChangeNotifier {
           .get();
 
       appBackgroudImage = backImageDoc.get('background');
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading = false;
+
+      notifyListeners();
+    }
+  }
+
+  getbatchData() async {
+    try {
+      final DocumentSnapshot backImageDoc = await FirebaseFirestore.instance
+          .collection("New_Initial_Batch")
+          .doc('WINPZ183k6lktBaEhz4G')
+          .get();
+
+      initialBatch = backImageDoc.get('init_Batch');
       notifyListeners();
     } catch (e) {
       print(e);

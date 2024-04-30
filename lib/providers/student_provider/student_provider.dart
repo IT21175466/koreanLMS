@@ -41,9 +41,6 @@ class StudentProvider extends ChangeNotifier {
       nic = studentDoc.get('NIC');
       phoneNum = studentDoc.get('PhoneNumber');
       dateOfBirth = studentDoc.get('DateOfBirth');
-      batch = studentDoc.get('Batch');
-      studentClass = studentDoc.get('Student_Class');
-      payment = studentDoc.get('Payment');
       registedDate = studentDoc.get('Registed_Date');
       deviceID = studentDoc.get('Device_ID');
 

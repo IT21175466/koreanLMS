@@ -49,6 +49,7 @@ class _HomeTabState extends State<HomeTab> {
         Provider.of<AppDataProvider>(context, listen: false);
     appDataProvider.isLoading = true;
     appDataProvider.getImageData();
+    appDataProvider.getbatchData();
 
     videoProvider = Provider.of<VideoProvider>(context, listen: false);
     quizProvider = Provider.of<QuizProvider>(context, listen: false);
