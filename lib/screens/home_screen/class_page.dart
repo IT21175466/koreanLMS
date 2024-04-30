@@ -323,7 +323,7 @@ class _ClassPageState extends State<ClassPage> {
                                           ),
                                         ),
                                         Spacer(),
-                                        studentProvider.myClasses.contains(
+                                        studentProvider.myTerms.contains(
                                                 docs[index]['Term_ID'])
                                             ? Icon(
                                                 Icons.arrow_forward_ios,
@@ -344,7 +344,7 @@ class _ClassPageState extends State<ClassPage> {
                           'No Terms',
                           style: TextStyle(
                             fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w400,
                             fontSize: 16,
                           ),
                         );
