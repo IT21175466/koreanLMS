@@ -88,9 +88,6 @@ class _HomeTabState extends State<HomeTab> {
       studentID = prefs.getString('userID');
       globleStudentID = prefs.getString('userID');
     });
-
-    videoProvider.checkUserInBatch(studentID!);
-    quizProvider.checkUserInBatch(studentID!);
   }
 
   String generateRandomCode() {

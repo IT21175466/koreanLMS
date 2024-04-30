@@ -1,9 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:koreanlms/constants/app_colors.dart';
-import 'package:koreanlms/models/history_quiz.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/screens/quiz/preview_screen.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
@@ -303,18 +301,18 @@ class _QuizEndState extends State<QuizEnd> {
                     GestureDetector(
                       onTap: () {
                         try {
-                          String formattedDate =
-                              DateFormat.yMMMMd().format(DateTime.now());
+                          // String formattedDate =
+                          //     DateFormat.yMMMMd().format(DateTime.now());
 
-                          quizProvider.isLoading = true;
-                          HistoryQuiz historyQuiz = HistoryQuiz(
-                            studentID: userID!,
-                            quizName: widget.quizName,
-                            marks: marks.toString(),
-                            date: formattedDate,
-                          );
-                          quizProvider.addQuizToFirebase(
-                              historyQuiz, context, userID!);
+                          // quizProvider.isLoading = true;
+                          // HistoryQuiz historyQuiz = HistoryQuiz(
+                          //   studentID: userID!,
+                          //   quizName: widget.quizName,
+                          //   marks: marks.toString(),
+                          //   date: formattedDate,
+                          // );
+                          // quizProvider.addQuizToFirebase(
+                          //     historyQuiz, context, userID!);
 
                           databaseReference
                               .child(userID!)

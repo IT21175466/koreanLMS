@@ -1,8 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:koreanlms/models/history_quiz.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/screens/quiz/singleQuestion_preview.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
@@ -90,26 +88,26 @@ class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
               GestureDetector(
                 onTap: () {
                   try {
-                    String formattedDate =
-                        DateFormat.yMMMMd().format(DateTime.now());
+                    // String formattedDate =
+                    //     DateFormat.yMMMMd().format(DateTime.now());
 
-                    quizProvider.isLoading = true;
-                    HistoryQuiz historyQuiz = HistoryQuiz(
-                      studentID: widget.sID,
-                      quizName: widget.name,
-                      marks: widget.marks,
-                      date: formattedDate,
-                    );
-                    quizProvider.addQuizToFirebase(
-                        historyQuiz, context, widget.sID);
+                    // quizProvider.isLoading = true;
+                    // HistoryQuiz historyQuiz = HistoryQuiz(
+                    //   studentID: widget.sID,
+                    //   quizName: widget.name,
+                    //   marks: widget.marks,
+                    //   date: formattedDate,
+                    // );
+                    // quizProvider.addQuizToFirebase(
+                    //     historyQuiz, context, widget.sID);
 
-                    databaseReference
-                        .child(widget.sID)
-                        .child(generateRandomId())
-                        .set({
-                      "studentID": widget.sID,
-                      "paper_name": widget.name,
-                    });
+                    // databaseReference
+                    //     .child(widget.sID)
+                    //     .child(generateRandomId())
+                    //     .set({
+                    //   "studentID": widget.sID,
+                    //   "paper_name": widget.name,
+                    // });
                   } catch (e) {
                     print(e);
                   } finally {
