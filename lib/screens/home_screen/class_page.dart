@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/providers/student_provider/student_provider.dart';
 import 'package:koreanlms/screens/home_screen/term_page.dart';
+import 'package:koreanlms/widgets/play_video_sample.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -132,16 +133,18 @@ class _ClassPageState extends State<ClassPage> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => ClassPage(
-                                    //       batchName: widget.batchName,
-                                    //       className: docs[index]['Class_Name'],
-                                    //       classID: docs[index]['Class_ID'],
-                                    //     ),
-                                    //   ),
-                                    // );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            PlayVideoSampleScreen(
+                                          link:
+                                              '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                          title: docs[index]['Video_Title'],
+                                          teacher: docs[index]['Teachers_Name'],
+                                        ),
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(bottom: 15),
