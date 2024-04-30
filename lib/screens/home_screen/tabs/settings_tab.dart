@@ -21,6 +21,7 @@ class _SettingsTabState extends State<SettingsTab> {
         Provider.of<StudentProvider>(context, listen: false);
     studentProvider.isLoading = true;
     studentProvider.getStudentData(context);
+    studentProvider.getStudentBaches();
   }
 
   @override
@@ -170,6 +171,15 @@ class _SettingsTabState extends State<SettingsTab> {
                     UserInfoCard(
                         hint: 'Mobile Number',
                         detail: '${studentProvider.phoneNum}'),
+                    UserInfoCard(
+                        hint: 'Batches',
+                        detail: '${studentProvider.myBatches} '),
+
+                    UserInfoCard(
+                        hint: 'Classes',
+                        detail: '${studentProvider.myClasses} '),
+                    UserInfoCard(
+                        hint: 'Terms', detail: '${studentProvider.myTerms} '),
 
                     UserInfoCard(
                         hint: 'Email', detail: '${studentProvider.email}'),
