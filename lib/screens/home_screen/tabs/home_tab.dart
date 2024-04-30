@@ -13,7 +13,6 @@ import 'package:koreanlms/providers/authentication/login_provider.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
 import 'package:koreanlms/widgets/play_video_sample.dart';
-import 'package:koreanlms/widgets/single_video_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -56,7 +55,7 @@ class _HomeTabState extends State<HomeTab> {
     // final notificationProvider =
     //     Provider.of<NotificationProvider>(context, listen: false);
     // notificationProvider.listnToNotifications();
-    listnToOngoings();
+    //listnToOngoings();
   }
 
   searchVideo(String query) {
@@ -418,7 +417,7 @@ class _HomeTabState extends State<HomeTab> {
                       Expanded(
                         child: StreamBuilder(
                           stream: FirebaseFirestore.instance
-                              .collection('InitialVideo')
+                              .collection('New_Initial_Videos')
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
@@ -457,42 +456,43 @@ class _HomeTabState extends State<HomeTab> {
                                   itemBuilder: (context, index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        if (docs[index]['Accept']) {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PlayVideoSampleScreen(
-                                                link:
-                                                    '${YoutubePlayer.convertUrlToId(docs[index]['link'])}',
-                                                title: docs[index]['Title'],
-                                                teacher: docs[index]['Teacher'],
-                                              ),
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PlayVideoSampleScreen(
+                                              link:
+                                                  '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                              title: docs[index]['Video_Title'],
+                                              teacher: docs[index]
+                                                  ['Teachers_Name'],
                                             ),
-                                          );
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Make payment and try again!',
-                                                style: TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              backgroundColor: Colors.green,
-                                            ),
-                                          );
-                                        }
+                                          ),
+                                        );
                                       },
-                                      child: VideoCard(
-                                        title: docs[index]['Title'],
-                                        teacher: docs[index]['Teacher'],
-                                        isAccepted: docs[index]['Accept'],
-                                        isWatched: false,
+                                      child: Hero(
+                                        tag: 'thumg',
+                                        child: Container(
+                                          margin: EdgeInsets.only(bottom: 15),
+                                          child: YoutubePlayer(
+                                            controller: YoutubePlayerController(
+                                              initialVideoId:
+                                                  '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                              flags: YoutubePlayerFlags(
+                                                autoPlay: false,
+                                                mute: false,
+                                              ),
+                                            ),
+                                            showVideoProgressIndicator: true,
+                                          ),
+                                        ),
                                       ),
+                                      // VideoCard(
+                                      //   title: docs[index]['Video_Title'],
+                                      //   teacher: docs[index]['Teachers_Name'],
+                                      //   isAccepted: true,
+                                      //   isWatched: false,
+                                      // ),
                                     );
                                   });
                             }

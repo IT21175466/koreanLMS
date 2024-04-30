@@ -6,11 +6,11 @@ class Student {
   final String nic;
   final String phoneNum;
   final String dateOfBirth;
-  final String batch;
-  final String studentClass;
-  final String payment;
   final String date;
   final String deviceID;
+  final List<String> batches;
+  final List<String> classes;
+  final List<String> terms;
 
   Student({
     required this.userID,
@@ -21,10 +21,10 @@ class Student {
     required this.phoneNum,
     required this.date,
     required this.dateOfBirth,
-    required this.batch,
-    required this.studentClass,
-    required this.payment,
     required this.deviceID,
+    required this.batches,
+    required this.classes,
+    required this.terms,
   });
 
   factory Student.fromJson(Map<String, dynamic> json) {
@@ -36,11 +36,11 @@ class Student {
       nic: json['NIC'].toString(),
       phoneNum: json['PhoneNumber'].toString(),
       dateOfBirth: json['DateOfBirth'].toString(),
-      batch: json['Batch'].toString(),
-      studentClass: json['Student_Class'].toString(),
-      payment: json['Payment'].toString(),
       date: json['Registed_Date'],
       deviceID: json['Device_ID'].toString(),
+      batches: json['Batches'],
+      classes: json['Classes'],
+      terms: json['Terms'],
     );
   }
 
@@ -53,11 +53,11 @@ class Student {
       'NIC': nic,
       'PhoneNumber': phoneNum,
       'DateOfBirth': dateOfBirth,
-      'Batch': batch,
-      'Student_Class': studentClass,
-      'Payment': payment,
       'Device_ID': deviceID,
       'Registed_Date': DateTime.now().toString(),
+      'Batches': batches,
+      'Classes': classes,
+      'Terms': terms,
     };
   }
 }

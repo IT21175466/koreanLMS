@@ -159,7 +159,7 @@ class SignUPProvider extends ChangeNotifier {
       Student student, BuildContext context, String uID) async {
     try {
       db
-          .collection("Students")
+          .collection("New_Students")
           .doc(uID)
           .set(student.toJson())
           .then((value) async {

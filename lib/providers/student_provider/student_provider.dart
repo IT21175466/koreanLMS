@@ -31,7 +31,7 @@ class StudentProvider extends ChangeNotifier {
       await getStudentID();
 
       final DocumentSnapshot studentDoc = await FirebaseFirestore.instance
-          .collection("Students")
+          .collection("New_Students")
           .doc(studentID)
           .get();
 
@@ -61,7 +61,7 @@ class StudentProvider extends ChangeNotifier {
 
       final DocumentSnapshot<Map<String, dynamic>> studentDoc =
           await FirebaseFirestore.instance
-              .collection("Students")
+              .collection("New_Students")
               .doc(studentID)
               .get();
 

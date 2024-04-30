@@ -11,7 +11,7 @@ class LoginProvider extends ChangeNotifier {
 
       //Users
       DocumentReference documentRefUsers =
-          firestore.collection("Students").doc(userID);
+          firestore.collection("New_Students").doc(userID);
 
       DocumentSnapshot docSnapshotUsers = await documentRefUsers.get();
 
@@ -32,7 +32,7 @@ class LoginProvider extends ChangeNotifier {
   getUserName(String sID) async {
     try {
       final DocumentSnapshot studentDoc = await FirebaseFirestore.instance
-          .collection("Students")
+          .collection("New_Students")
           .doc(sID)
           .get();
 

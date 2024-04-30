@@ -164,179 +164,182 @@ class _PlayVideoSampleScreenState extends State<PlayVideoSampleScreen> {
 
     return AspectRatio(
       aspectRatio: 16 / 9,
-      child: YoutubePlayerBuilder(
-        onExitFullScreen: () {
-          SystemChrome.setEnabledSystemUIMode(
-            SystemUiMode.manual,
-            overlays: [
-              SystemUiOverlay.top,
-              SystemUiOverlay.bottom,
-            ],
-          );
-        },
-        player: YoutubePlayer(
-          controller: _controller,
-          showVideoProgressIndicator: true,
-        ),
-        builder: (context, player) => Scaffold(
-          appBar: AppBar(
-            leading: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-              ),
-            ),
-            title: Text(
-              "Video Player",
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontSize: 19,
-              ),
-            ),
-            backgroundColor: Colors.green,
-            automaticallyImplyLeading: false,
-            centerTitle: true,
+      child: Hero(
+        tag: 'thumg',
+        child: YoutubePlayerBuilder(
+          onExitFullScreen: () {
+            SystemChrome.setEnabledSystemUIMode(
+              SystemUiMode.manual,
+              overlays: [
+                SystemUiOverlay.top,
+                SystemUiOverlay.bottom,
+              ],
+            );
+          },
+          player: YoutubePlayer(
+            controller: _controller,
+            showVideoProgressIndicator: true,
           ),
-          body: Column(
-            children: [
-              player,
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      height: 55,
-                      width: 55,
-                      child: Image.asset('assets/images/icon.png'),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.teacher,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            widget.title,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+          builder: (context, player) => Scaffold(
+            appBar: AppBar(
+              leading: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
                 ),
               ),
-            ],
+              title: Text(
+                "Video Player",
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 19,
+                ),
+              ),
+              backgroundColor: Colors.green,
+              automaticallyImplyLeading: false,
+              centerTitle: true,
+            ),
+            body: Column(
+              children: [
+                player,
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: 55,
+                        width: 55,
+                        child: Image.asset('assets/images/icon.png'),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.teacher,
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              widget.title,
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            //isFullScreen
+            // ? Container(
+            //     height: screenHeight,
+            //     width: screenWidth,
+            //     color: Colors.black,
+            //     child: AspectRatio(
+            //       aspectRatio: 16 / 9,
+            //       child: YoutubePlayer(
+            //         controller: _controller,
+            //         showVideoProgressIndicator: true,
+            //       ),
+            //     ),
+            //   )
+            // :
+            // Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       AspectRatio(
+            //         aspectRatio: 16 / 9,
+            //         child: YoutubePlayer(
+            //           controller: _controller,
+            //           showVideoProgressIndicator: true,
+            //         ),
+            //       ),
+
+            //       // AspectRatio(
+            //       //   aspectRatio: 16 / 9,
+            //       //   child: VimeoPlayer(
+            //       //     videoId: widget.link,
+            //       //   ),
+            //       // ),
+
+            //       Container(
+            //         padding: EdgeInsets.all(15),
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text(
+            //               widget.title,
+            //               style: TextStyle(
+            //                 fontFamily: 'Poppins',
+            //                 fontWeight: FontWeight.w600,
+            //                 fontSize: 20,
+            //               ),
+            //             ),
+            //             Text(
+            //               widget.teacher,
+            //               style: TextStyle(
+            //                 fontFamily: 'Poppins',
+            //                 fontWeight: FontWeight.w600,
+            //                 fontSize: 16,
+            //                 color: Colors.grey,
+            //               ),
+            //             ),
+            //             SizedBox(
+            //               height: 15,
+            //             ),
+            //             widget.zoomLink.isNotEmpty
+            //                 ? GestureDetector(
+            //                     onTap: () {
+            //                       // Navigator.push(
+            //                       //   context,
+            //                       //   MaterialPageRoute(
+            //                       //     builder: (context) => ZoomWebview(),
+            //                       //   ),
+            //                       // );
+            //                       print(widget.zoomLink);
+            //                       setState(() {
+            //                         launchUrl(
+            //                           Uri.parse(widget.zoomLink),
+            //                           mode: LaunchMode.inAppWebView,
+            //                         );
+            //                       });
+            //                     },
+            //                     child: CustomButton(
+            //                       text: 'Zoom Video',
+            //                       height: 50,
+            //                       width: screenWidth / 2,
+            //                       backgroundColor: Colors.green,
+            //                     ),
+            //                   )
+            //                 : SizedBox(),
+            //           ],
+            //         ),
+            //       ),
+            //     ],
+            //   ),
           ),
-          //isFullScreen
-          // ? Container(
-          //     height: screenHeight,
-          //     width: screenWidth,
-          //     color: Colors.black,
-          //     child: AspectRatio(
-          //       aspectRatio: 16 / 9,
-          //       child: YoutubePlayer(
-          //         controller: _controller,
-          //         showVideoProgressIndicator: true,
-          //       ),
-          //     ),
-          //   )
-          // :
-          // Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-          //       AspectRatio(
-          //         aspectRatio: 16 / 9,
-          //         child: YoutubePlayer(
-          //           controller: _controller,
-          //           showVideoProgressIndicator: true,
-          //         ),
-          //       ),
-
-          //       // AspectRatio(
-          //       //   aspectRatio: 16 / 9,
-          //       //   child: VimeoPlayer(
-          //       //     videoId: widget.link,
-          //       //   ),
-          //       // ),
-
-          //       Container(
-          //         padding: EdgeInsets.all(15),
-          //         child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             Text(
-          //               widget.title,
-          //               style: TextStyle(
-          //                 fontFamily: 'Poppins',
-          //                 fontWeight: FontWeight.w600,
-          //                 fontSize: 20,
-          //               ),
-          //             ),
-          //             Text(
-          //               widget.teacher,
-          //               style: TextStyle(
-          //                 fontFamily: 'Poppins',
-          //                 fontWeight: FontWeight.w600,
-          //                 fontSize: 16,
-          //                 color: Colors.grey,
-          //               ),
-          //             ),
-          //             SizedBox(
-          //               height: 15,
-          //             ),
-          //             widget.zoomLink.isNotEmpty
-          //                 ? GestureDetector(
-          //                     onTap: () {
-          //                       // Navigator.push(
-          //                       //   context,
-          //                       //   MaterialPageRoute(
-          //                       //     builder: (context) => ZoomWebview(),
-          //                       //   ),
-          //                       // );
-          //                       print(widget.zoomLink);
-          //                       setState(() {
-          //                         launchUrl(
-          //                           Uri.parse(widget.zoomLink),
-          //                           mode: LaunchMode.inAppWebView,
-          //                         );
-          //                       });
-          //                     },
-          //                     child: CustomButton(
-          //                       text: 'Zoom Video',
-          //                       height: 50,
-          //                       width: screenWidth / 2,
-          //                       backgroundColor: Colors.green,
-          //                     ),
-          //                   )
-          //                 : SizedBox(),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
         ),
       ),
     );

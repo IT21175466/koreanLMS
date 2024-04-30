@@ -280,10 +280,10 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                 .format(DateTime.now())
                                 .toString(),
                             dateOfBirth: signUPProvider.brithdayController.text,
-                            batch: 'no_batch',
-                            studentClass: 'no_class',
-                            payment: 'not_yet',
                             deviceID: deviceId!,
+                            batches: [],
+                            classes: [],
+                            terms: [],
                           );
                           // User(
                           //   userID: userID!,
