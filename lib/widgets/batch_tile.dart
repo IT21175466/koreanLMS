@@ -40,7 +40,7 @@ class _BatchTileState extends State<BatchTile> {
           widget.isLock
               ? Icon(
                   Icons.lock,
-                  color: AppColors.accentColor,
+                  color: Colors.white,
                   size: 20,
                 )
               : Icon(
