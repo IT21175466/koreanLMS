@@ -76,9 +76,10 @@ class _ClassPageState extends State<ClassPage> {
         builder: (BuildContext context, StudentProvider studentProvider,
                 Widget? child) =>
             Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: screenHeight / 2,
+              height: screenHeight / 3 * 2 - AppBar().preferredSize.height,
               width: screenWidth,
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               child: studentProvider.isLoading
@@ -91,7 +92,7 @@ class _ClassPageState extends State<ClassPage> {
                           .doc(widget.batchName)
                           .collection("Classes")
                           .doc(widget.classID)
-                          .collection("Terms")
+                          .collection("Videos")
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.hasError) {
@@ -130,57 +131,59 @@ class _ClassPageState extends State<ClassPage> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    if (studentProvider.myTerms
-                                        .contains(docs[index]['Class_ID'])) {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => ClassPage(
-                                      //       batchName: widget.batchName,
-                                      //       className: docs[index]['Class_Name'],
-                                      //       classID: docs[index]['Class_ID'],
-                                      //     ),
-                                      //   ),
-                                      // );
-                                    }
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => ClassPage(
+                                    //       batchName: widget.batchName,
+                                    //       className: docs[index]['Class_Name'],
+                                    //       classID: docs[index]['Class_ID'],
+                                    //     ),
+                                    //   ),
+                                    // );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(bottom: 15),
                                     width: screenWidth,
                                     child: Row(
                                       children: [
-                                        YoutubePlayer(
-                                          controller: YoutubePlayerController(
-                                            initialVideoId:
-                                                '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
-                                            flags: YoutubePlayerFlags(
-                                              autoPlay: false,
-                                              mute: false,
+                                        SizedBox(
+                                          width: screenWidth / 3,
+                                          child: YoutubePlayer(
+                                            controller: YoutubePlayerController(
+                                              initialVideoId:
+                                                  '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                              flags: YoutubePlayerFlags(
+                                                autoPlay: false,
+                                                mute: false,
+                                              ),
                                             ),
+                                            showVideoProgressIndicator: true,
                                           ),
-                                          showVideoProgressIndicator: true,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
                                         ),
                                         Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               docs[index]['Video_Title'],
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 16,
+                                                fontSize: 18,
                                                 color: AppColors.accentColor,
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
                                             ),
                                             Text(
                                               docs[index]['Teachers_Name'],
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16,
-                                                color: AppColors.accentColor,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 14,
+                                                color: AppColors.textGaryColor,
                                               ),
                                             ),
                                           ],
@@ -202,8 +205,22 @@ class _ClassPageState extends State<ClassPage> {
                       },
                     ),
             ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: SizedBox(
+                height: 20,
+                child: Text(
+                  'Explore Terms',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
             Container(
-              height: screenHeight / 2,
+              height: screenHeight / 3 * 1 - AppBar().preferredSize.height - 20,
               width: screenWidth,
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               child: studentProvider.isLoading
