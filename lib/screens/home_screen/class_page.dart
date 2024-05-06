@@ -171,7 +171,7 @@ class _ClassPageState extends State<ClassPage> {
                                     child: Row(
                                       children: [
                                         SizedBox(
-                                          width: screenWidth / 3,
+                                          width: screenWidth / 4,
                                           child: Stack(
                                             children: [
                                               YoutubePlayer(
@@ -237,29 +237,33 @@ class _ClassPageState extends State<ClassPage> {
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              docs[index]['Video_Title'],
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 18,
-                                                color: AppColors.accentColor,
+                                        SizedBox(
+                                          width: screenWidth / 4 * 3 - 40,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                docs[index]['Video_Title'],
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 15,
+                                                  color: AppColors.accentColor,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              docs[index]['Teachers_Name'],
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14,
-                                                color: AppColors.textGaryColor,
+                                              Text(
+                                                docs[index]['Teachers_Name'],
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 11,
+                                                  color:
+                                                      AppColors.textGaryColor,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
