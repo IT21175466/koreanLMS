@@ -11,6 +11,7 @@ import 'package:koreanlms/global/variables.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/login_provider.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
+import 'package:koreanlms/providers/student_provider/student_provider.dart';
 import 'package:koreanlms/providers/video/video_provider.dart';
 import 'package:koreanlms/screens/home_screen/batch_page.dart';
 import 'package:koreanlms/widgets/batch_tile.dart';
@@ -54,7 +55,10 @@ class _HomeTabState extends State<HomeTab> {
     appDataProvider.fetchBatches();
     appDataProvider.getbatchData();
 
-    videoProvider = Provider.of<VideoProvider>(context, listen: false);
+    final studentProvider =
+        Provider.of<StudentProvider>(context, listen: false);
+    studentProvider.getStudentBaches();
+
     quizProvider = Provider.of<QuizProvider>(context, listen: false);
     // final notificationProvider =
     //     Provider.of<NotificationProvider>(context, listen: false);
@@ -212,11 +216,12 @@ class _HomeTabState extends State<HomeTab> {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Consumer3(
+          child: Consumer4(
             builder: (BuildContext context,
                     VideoProvider videoProvider,
                     AppDataProvider appDataProvider,
                     LoginProvider loginProvider,
+                    StudentProvider studentProvider,
                     Widget? child) =>
                 Column(
               children: [
@@ -310,8 +315,8 @@ class _HomeTabState extends State<HomeTab> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  if (appDataProvider.initialBatch ==
-                                      appDataProvider.batches[index]) {
+                                  if (studentProvider.myBatches.contains(
+                                      appDataProvider.batches[index])) {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -325,8 +330,8 @@ class _HomeTabState extends State<HomeTab> {
                                 },
                                 child: BatchTile(
                                   batchName: appDataProvider.batches[index],
-                                  isLock: appDataProvider.initialBatch ==
-                                          appDataProvider.batches[index]
+                                  isLock: studentProvider.myBatches.contains(
+                                          appDataProvider.batches[index])
                                       ? false
                                       : true,
                                 ),
