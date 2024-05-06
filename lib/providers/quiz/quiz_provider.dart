@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:koreanlms/models/answer.dart';
+import 'package:koreanlms/models/history_quiz.dart';
 import 'package:koreanlms/models/paper.dart';
 import 'package:koreanlms/models/quiz.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizProvider extends ChangeNotifier {
   final db = FirebaseFirestore.instance;
@@ -22,6 +24,8 @@ class QuizProvider extends ChangeNotifier {
 
   List<String> selectedAnswers = [];
 
+  String? studentID = '';
+
   bool isSelected = false;
 
   String coorectAnswer = '';
@@ -31,121 +35,12 @@ class QuizProvider extends ChangeNotifier {
 
   bool timerDone = false;
 
-  // List<String> didPapers = [];
+  getStudentID() async {
+    final prefs = await SharedPreferences.getInstance();
 
-  // addQuizToFirebase(
-  //     HistoryQuiz historyQuiz, BuildContext context, String uID) async {
-  //   try {
-  //     db
-  //         .collection("HistoryQuizzes")
-  //         .doc(uID)
-  //         .collection("Quizzes")
-  //         .doc()
-  //         .set(historyQuiz.toJson())
-  //         .then((value) async {
-  //       Navigator.pop(context);
-  //       notifyListeners();
-  //     });
-  //     notifyListeners();
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(e.toString()),
-  //       ),
-  //     );
-  //     notifyListeners();
-  //   } finally {
-  //     answers = [];
-  //     quizzes = [];
-  //     isSelected = false;
-  //     selectedAnswers = [];
-  //     coorectAnswer = '';
-  //     selectedAnswer = '';
-  //     loading = false;
-  //     notifyListeners();
-  //   }
-  // }
-
-  // checkUserInBatch(String sID) async {
-  //   try {
-  //     final DocumentSnapshot studentDoc = await FirebaseFirestore.instance
-  //         .collection("Students")
-  //         .doc(sID)
-  //         .get();
-
-  //     //Get All Data
-  //     batch = studentDoc.get('Batch');
-  //     sClass = studentDoc.get('Student_Class');
-  //     payment = studentDoc.get('Payment');
-
-  //     print(batch);
-  //     print(sClass);
-  //     print(payment);
-
-  //     //Check Batch
-  //     if (batch == 'no_batch' || sClass == 'no_class') {
-  //       noBatch = true;
-  //       notifyListeners();
-  //     } else {
-  //       noBatch = false;
-  //       notifyListeners();
-
-  //       //Check Payment
-  //       if (payment == 'not_yet') {
-  //         paymentDone = false;
-  //         print('Not yet payment');
-  //         notifyListeners();
-  //       } else {
-  //         //getQuizzes();
-  //         getPapers();
-  //         paymentDone = true;
-  //         notifyListeners();
-  //       }
-  //     }
-  //     isLoading = false;
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print(e);
-  //   } finally {
-  //     // isLoading = false;
-  //     // notifyListeners();
-  //   }
-  // }
-
-  // Future<void> getPapers() async {
-  //   FirebaseFirestore.instance
-  //       .collection("Batches")
-  //       .doc(batch)
-  //       .collection("Classes")
-  //       .doc(sClass)
-  //       .collection("Papers")
-  //       .get()
-  //       .then((QuerySnapshot querySnapshot) {
-  //     if (querySnapshot.docs.isEmpty) {
-  //       noPapers = true;
-  //       notifyListeners();
-  //     } else {
-  //       noPapers = false;
-  //       querySnapshot.docs.forEach((DocumentSnapshot documentSnapshot) {
-  //         String documentId = documentSnapshot.id;
-  //         Paper paper = Paper(
-  //           paperName: documentId,
-  //         );
-  //         papers.add(paper);
-  //         notifyListeners();
-  //       });
-  //     }
-  //   });
-  // }
-
-  // String? userID = '';
-
-  // getUserID() async {
-  //   final prefs = await SharedPreferences.getInstance();
-
-  //   userID = prefs.getString('userID');
-  //   notifyListeners();
-  // }
+    studentID = prefs.getString('userID');
+    notifyListeners();
+  }
 
   Future<void> getQuizzes(
       String paName, String aBatch, String aClass, String aTerm) async {
@@ -322,5 +217,18 @@ class QuizProvider extends ChangeNotifier {
     } finally {
       loading = false;
     }
+  }
+
+  void addQuizToFirebase(
+      HistoryQuiz historyQuiz, BuildContext context, String s) async {
+    await getStudentID();
+
+    await FirebaseFirestore.instance
+        .collection("New_History")
+        .doc(studentID)
+        .collection("Papers")
+        .doc()
+        .set(historyQuiz.toJson())
+        .then((value) => {loading = false});
   }
 }

@@ -1,7 +1,8 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:koreanlms/constants/app_colors.dart';
+import 'package:koreanlms/models/history_quiz.dart';
 import 'package:koreanlms/providers/quiz/quiz_provider.dart';
 import 'package:koreanlms/screens/quiz/preview_screen.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
@@ -22,9 +23,6 @@ class _QuizEndState extends State<QuizEnd> {
   int correctAnswerAmount = 0;
   int wrongAnswerAmount = 0;
   int notGivenAnswerAmount = 0;
-
-  DatabaseReference databaseReference =
-      FirebaseDatabase.instance.ref('did_papers');
 
   @override
   void initState() {
@@ -276,7 +274,7 @@ class _QuizEndState extends State<QuizEnd> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => QuizPreviewScreen(
@@ -301,30 +299,25 @@ class _QuizEndState extends State<QuizEnd> {
                     GestureDetector(
                       onTap: () {
                         try {
-                          // String formattedDate =
-                          //     DateFormat.yMMMMd().format(DateTime.now());
+                          quizProvider.isLoading = true;
 
-                          // quizProvider.isLoading = true;
-                          // HistoryQuiz historyQuiz = HistoryQuiz(
-                          //   studentID: userID!,
-                          //   quizName: widget.quizName,
-                          //   marks: marks.toString(),
-                          //   date: formattedDate,
-                          // );
-                          // quizProvider.addQuizToFirebase(
-                          //     historyQuiz, context, userID!);
+                          String formattedDate =
+                              DateFormat.yMMMMd().format(DateTime.now());
 
-                          databaseReference
-                              .child(userID!)
-                              .child(generateRandomId())
-                              .set({
-                            "studentID": userID,
-                            "paper_name": widget.quizName,
-                          });
+                          HistoryQuiz historyQuiz = HistoryQuiz(
+                            studentID: userID!,
+                            quizName: widget.quizName,
+                            marks: marks.toString(),
+                            date: formattedDate,
+                          );
+
+                          quizProvider.addQuizToFirebase(
+                              historyQuiz, context, userID!);
                         } catch (e) {
                           print(e);
                         } finally {
-                          quizProvider.isLoading = false;
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/home', (route) => false);
                         }
                       },
                       child: quizProvider.isLoading

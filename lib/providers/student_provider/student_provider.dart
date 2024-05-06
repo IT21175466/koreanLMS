@@ -90,6 +90,20 @@ class StudentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  getStudentIDToHistory() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      studentID = prefs.getString('userID');
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
   getStudentData(BuildContext context) async {
     try {
       await getStudentID();

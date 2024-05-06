@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:koreanlms/constants/app_colors.dart';
-import 'package:koreanlms/screens/home_screen/tabs/quiz_tab/history_section.dart';
-import 'package:koreanlms/screens/home_screen/tabs/quiz_tab/quiz_section.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:koreanlms/providers/student_provider/student_provider.dart';
+import 'package:koreanlms/widgets/quiz_history_card.dart';
+import 'package:provider/provider.dart';
 
 class QuizTab extends StatefulWidget {
   const QuizTab({super.key});
@@ -12,90 +12,102 @@ class QuizTab extends StatefulWidget {
 }
 
 class _QuizTabState extends State<QuizTab> {
-  String? studentID = '';
-
   @override
   void initState() {
     super.initState();
-    getStudentID();
-  }
-
-  getStudentID() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      studentID = prefs.getString('userID');
-    });
+    final studentProvider =
+        Provider.of<StudentProvider>(context, listen: false);
+    studentProvider.isLoading = true;
+    studentProvider.getStudentIDToHistory();
   }
 
   @override
   Widget build(BuildContext context) {
-    //double screenWidth = MediaQuery.of(context).size.width;
-    // double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(
-            'Quizzes',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w700,
-              fontSize: 22,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Quiz History',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w700,
+            fontSize: 22,
           ),
-          centerTitle: false,
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                height: 45,
-                decoration: BoxDecoration(
-                  color: AppColors.lightGrayColor,
-                  borderRadius: BorderRadius.circular(25),
+      ),
+      body: Consumer(
+        builder: (BuildContext context, StudentProvider studentProvider,
+                Widget? child) =>
+            Container(
+          height: screenHeight,
+          width: screenWidth,
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: studentProvider.isLoading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('New_History')
+                      .doc(studentProvider.studentID)
+                      .collection("Papers")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Connection Error!',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      Center(
+                        child: Text(
+                          'Loading.....',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                      );
+                    }
+                    //docs[index]['Class_Name']
+
+                    if (snapshot.hasData) {
+                      var docs = snapshot.data!.docs;
+                      return ListView.builder(
+                          itemCount: docs.length,
+                          itemBuilder: (context, index) {
+                            return QuizHistoryCard(
+                              title: docs[index]['QuizName'],
+                              marks: docs[index]['Marks'],
+                              didDate: docs[index]['Date'],
+                              id: docs[index]['StudentID'],
+                            );
+                          });
+                    }
+                    return Text(
+                      'No Classes',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    );
+                  },
                 ),
-                child: TabBar(
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicator: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  labelStyle: const TextStyle(
-                    fontFamily: 'Poppins',
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  tabs: const [
-                    Tab(
-                      text: "Quizzes",
-                    ),
-                    Tab(
-                      text: "History",
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    QuizSection(),
-                    HistorySection(
-                      sID: studentID!,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
