@@ -66,18 +66,24 @@ class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
                       answer3: quizProvider.quizzes[index].answer3,
                       answer4: quizProvider.quizzes[index].answer4,
                       answer5: quizProvider.quizzes[index].answer5,
-                      questionVideo: quizProvider.quizzes[index].questionVideo,
+                      questionVideo:
+                          quizProvider.quizzes[index].questionVideoLink,
                       questionImage: quizProvider.quizzes[index].questionImage,
                       answer1Image: quizProvider.quizzes[index].answer1Image,
                       answer2Image: quizProvider.quizzes[index].answer2Image,
                       answer3Image: quizProvider.quizzes[index].answer3Image,
                       answer4Image: quizProvider.quizzes[index].answer4Image,
                       answer5Image: quizProvider.quizzes[index].answer5Image,
-                      answer1Video: quizProvider.quizzes[index].answer1Video,
-                      answer2Video: quizProvider.quizzes[index].answer2Video,
-                      answer3Video: quizProvider.quizzes[index].answer3Video,
-                      answer4Video: quizProvider.quizzes[index].answer4Video,
-                      answer5Video: quizProvider.quizzes[index].answer5Video,
+                      answer1Video:
+                          quizProvider.quizzes[index].answer1VideoLink,
+                      answer2Video:
+                          quizProvider.quizzes[index].answer2VideoLink,
+                      answer3Video:
+                          quizProvider.quizzes[index].answer3VideoLink,
+                      answer4Video:
+                          quizProvider.quizzes[index].answer4VideoLink,
+                      answer5Video:
+                          quizProvider.quizzes[index].answer5VideoLink,
                       correctAnswer: quizProvider.quizzes[index].correctAnswer,
                       indexOfQuiz: quizProvider.quizzes[index].toString(),
                       userSelected: userSelectedAnser,
