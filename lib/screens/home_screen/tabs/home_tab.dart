@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/global/variables.dart';
 import 'package:koreanlms/providers/app_data/app_data_provider.dart';
@@ -432,6 +433,35 @@ class _HomeTabState extends State<HomeTab> {
                                                 ),
                                               ),
                                             ),
+                                            DateTime.parse(DateFormat.yMd()
+                                                        .format(DateTime.now()))
+                                                    .isBefore(DateTime.parse(
+                                                        docs[index]
+                                                            ['Expire_Date']))
+                                                ? SizedBox()
+                                                : Positioned(
+                                                    top: 0,
+                                                    bottom: 0,
+                                                    left: 0,
+                                                    right: 0,
+                                                    child: Container(
+                                                      color: Colors.black
+                                                          .withOpacity(0.7),
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Video Expired!',
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 18,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
                                           ],
                                         ),
                                       ),
