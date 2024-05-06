@@ -195,7 +195,7 @@ class _ClassPageState extends State<ClassPage> {
                                                 right: 0,
                                                 child: Center(
                                                   child: SizedBox(
-                                                    height: 40,
+                                                    height: 30,
                                                     child: Image.asset(
                                                       'assets/images/youtube.png',
                                                     ),
