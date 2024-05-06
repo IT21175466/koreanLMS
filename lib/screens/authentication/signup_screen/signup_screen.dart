@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:koreanlms/constants/app_colors.dart';
 import 'package:koreanlms/models/student.dart';
+import 'package:koreanlms/providers/app_data/app_data_provider.dart';
 import 'package:koreanlms/providers/authentication/signup_provider.dart';
 import 'package:koreanlms/widgets/button_widget.dart';
 import 'package:koreanlms/widgets/phone_textfiled.dart';
@@ -36,6 +37,9 @@ class _SignUPScreenState extends State<SignUPScreen> {
     super.initState();
     generateNewUuid();
     getDeviceID();
+    final appDataProvider =
+        Provider.of<AppDataProvider>(context, listen: false);
+    appDataProvider.getbatchData();
   }
 
   generateNewUuid() {
@@ -71,20 +75,6 @@ class _SignUPScreenState extends State<SignUPScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   title: Text(
-      //     'Sign UP',
-      //     style: TextStyle(
-      //       fontFamily: 'Poppins',
-      //       fontWeight: FontWeight.w600,
-      //       color: Colors.black,
-      //       fontSize: 28,
-      //     ),
-      //   ),
-      //   centerTitle: false,
-      //   backgroundColor: Colors.transparent,
-      // ),
       body: Column(
         children: [
           Container(
@@ -152,9 +142,9 @@ class _SignUPScreenState extends State<SignUPScreen> {
             width: screenWidth,
             height: screenHeight / 5 * 4,
             child: SingleChildScrollView(
-              child: Consumer(
-                builder: (BuildContext context, SignUPProvider signUPProvider,
-                        Widget? child) =>
+              child: Consumer2(
+                builder: (BuildContext context, AppDataProvider appDataProvider,
+                        SignUPProvider signUPProvider, Widget? child) =>
                     Column(
                   children: [
                     // Padding(
@@ -246,7 +236,8 @@ class _SignUPScreenState extends State<SignUPScreen> {
                             nicController.text.isEmpty ||
                             phoneController.text.isEmpty ||
                             signUPProvider.brithdayController.text.isEmpty ||
-                            signUPProvider.countryCode?.name == null) {
+                            signUPProvider.countryCode?.name == null ||
+                            appDataProvider.initialBatch == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               backgroundColor: Colors.red,
@@ -283,7 +274,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                             deviceID: deviceId!,
                             batches: [],
                             classes: [],
-                            terms: [],
+                            terms: ['${appDataProvider.initialBatch}'],
                           );
                           // User(
                           //   userID: userID!,
