@@ -134,17 +134,35 @@ class _TermPageState extends State<TermPage> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PlayVideoSampleScreen(
-                                      link:
-                                          '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
-                                      title: docs[index]['Video_Title'],
-                                      teacher: docs[index]['Teachers_Name'],
+                                if (DateTime.now().isBefore(DateTime.parse(
+                                    docs[index]['Expire_Date']))) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PlayVideoSampleScreen(
+                                        link:
+                                            '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                        title: docs[index]['Video_Title'],
+                                        teacher: docs[index]['Teachers_Name'],
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'This video has expired!',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  );
+                                }
                               },
                               child: Container(
                                 margin: EdgeInsets.only(bottom: 15),
@@ -152,38 +170,64 @@ class _TermPageState extends State<TermPage> {
                                 child: Row(
                                   children: [
                                     SizedBox(
-                                        width: screenWidth / 3,
-                                        child: Stack(
-                                          children: [
-                                            YoutubePlayer(
-                                              controller:
-                                                  YoutubePlayerController(
-                                                initialVideoId:
-                                                    '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
-                                                flags: YoutubePlayerFlags(
-                                                  hideControls: true,
-                                                  autoPlay: false,
-                                                  mute: false,
+                                      width: screenWidth / 3,
+                                      child: Stack(
+                                        children: [
+                                          YoutubePlayer(
+                                            controller: YoutubePlayerController(
+                                              initialVideoId:
+                                                  '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                              flags: YoutubePlayerFlags(
+                                                hideControls: true,
+                                                autoPlay: false,
+                                                mute: false,
+                                              ),
+                                            ),
+                                            showVideoProgressIndicator: true,
+                                          ),
+                                          Positioned(
+                                            top: 0,
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            child: Center(
+                                              child: SizedBox(
+                                                height: 40,
+                                                child: Image.asset(
+                                                  'assets/images/youtube.png',
                                                 ),
                                               ),
-                                              showVideoProgressIndicator: true,
                                             ),
-                                            Positioned(
-                                              top: 0,
-                                              bottom: 0,
-                                              left: 0,
-                                              right: 0,
-                                              child: Center(
-                                                child: SizedBox(
-                                                  height: 40,
-                                                  child: Image.asset(
-                                                    'assets/images/youtube.png',
+                                          ),
+                                          DateTime.now().isBefore(
+                                                  DateTime.parse(docs[index]
+                                                      ['Expire_Date']))
+                                              ? SizedBox()
+                                              : Positioned(
+                                                  top: 0,
+                                                  bottom: 0,
+                                                  left: 0,
+                                                  right: 0,
+                                                  child: Container(
+                                                    color: Colors.black
+                                                        .withOpacity(0.7),
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Video Expired!',
+                                                        style: TextStyle(
+                                                          fontFamily: 'Poppins',
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 18,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ),
-                                          ],
-                                        )),
+                                        ],
+                                      ),
+                                    ),
                                     SizedBox(
                                       width: 10,
                                     ),
