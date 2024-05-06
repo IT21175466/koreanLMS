@@ -272,20 +272,10 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                 .toString(),
                             dateOfBirth: signUPProvider.brithdayController.text,
                             deviceID: deviceId!,
-                            batches: [],
+                            batches: ['${appDataProvider.initialBatch}'],
                             classes: [],
-                            terms: ['${appDataProvider.initialBatch}'],
+                            terms: [],
                           );
-                          // User(
-                          //   userID: userID!,
-                          //   firstName: firstNameController.text,
-                          //   lastName: lastNameController.text,
-                          //   email: emailController.text,
-                          //   province: provinceController.text,
-                          //   district: districtController.text,
-                          //   phoneNum: phoneNo,
-                          //   date: DateTime.now(),
-                          // );
 
                           signUPProvider.addStudentToFirebase(
                               addStudent, context, userID!);
