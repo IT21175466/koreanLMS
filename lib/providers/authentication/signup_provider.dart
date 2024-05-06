@@ -117,44 +117,6 @@ class SignUPProvider extends ChangeNotifier {
     }
   }
 
-  // verifyPhoneNumber(String phone, BuildContext context) async {
-  //   try {
-  //     await FirebaseAuth.instance.verifyPhoneNumber(
-  //       verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {},
-  //       verificationFailed: (FirebaseAuthException ex) {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(
-  //             content: Text(ex.message.toString()),
-  //           ),
-  //         );
-  //         print(ex.message.toString());
-  //         loading = false;
-  //         notifyListeners();
-  //       },
-  //       codeSent: (String verificationId, int? resendToken) {
-  //         Navigator.push(
-  //           context,
-  //           MaterialPageRoute(
-  //             builder: (context) => OTPScreen(
-  //               mobileNumber: (countryCode?.dialCode ?? '') +
-  //                   (' ') +
-  //                   phoneController.text,
-  //               verificationID: verificationId,
-  //             ),
-  //           ),
-  //         );
-  //         loading = false;
-  //         notifyListeners();
-  //       },
-  //       codeAutoRetrievalTimeout: (String verificationId) {},
-  //       phoneNumber: countryCode!.dialCode + phone,
-  //     );
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
-
   addStudentToFirebase(
       Student student, BuildContext context, String uID) async {
     try {
