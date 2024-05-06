@@ -386,19 +386,39 @@ class _HomeTabState extends State<HomeTab> {
                                   itemBuilder: (context, index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                PlayVideoSampleScreen(
-                                              link:
-                                                  '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
-                                              title: docs[index]['Video_Title'],
-                                              teacher: docs[index]
-                                                  ['Teachers_Name'],
+                                        if (DateTime.now().isBefore(
+                                            DateTime.parse(
+                                                docs[index]['Expire_Date']))) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PlayVideoSampleScreen(
+                                                link:
+                                                    '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                                title: docs[index]
+                                                    ['Video_Title'],
+                                                teacher: docs[index]
+                                                    ['Teachers_Name'],
+                                              ),
                                             ),
-                                          ),
-                                        );
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'This video has expired!',
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              backgroundColor: Colors.green,
+                                            ),
+                                          );
+                                        }
                                       },
                                       child: Container(
                                         width: screenWidth,
