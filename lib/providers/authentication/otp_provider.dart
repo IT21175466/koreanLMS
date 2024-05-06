@@ -12,7 +12,7 @@ class OTPProvider extends ChangeNotifier {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
       QuerySnapshot querySnapshot = await firestore
-          .collection("Students")
+          .collection("New_Students")
           .where("PhoneNumber", isEqualTo: phone)
           .get();
 
