@@ -214,298 +214,317 @@ class _HomeTabState extends State<HomeTab> {
 
     return Stack(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Consumer4(
-            builder: (BuildContext context,
-                    VideoProvider videoProvider,
-                    AppDataProvider appDataProvider,
-                    LoginProvider loginProvider,
-                    StudentProvider studentProvider,
-                    Widget? child) =>
-                Column(
-              children: [
-                SizedBox(
-                  height: AppBar().preferredSize.height,
-                ),
-                Container(
-                  width: screenWidth,
-                  height: screenHeight / 4,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Hi, ${loginProvider.userName}',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 22,
-                                  color: AppColors.accentColor,
-                                ),
-                              ),
-                              Text(
-                                'Unlock Your Learning Potential Today!',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  color: AppColors.textGaryColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          // Icon(
-                          //   Icons.person,
-                          //   size: 30,
-                          //   color: Colors.black,
-                          // ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 236, 236, 236),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        margin: const EdgeInsets.symmetric(vertical: 7),
-                        height: 50,
-                        child: TextField(
-                          style: TextStyle(
-                            color: AppColors.textGaryColor,
-                          ),
-                          controller: searchController,
-                          onChanged: searchVideo,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none,
-                            ),
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: AppColors.textGaryColor,
-                            ),
-                            hintText: "Search",
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: AppColors.textGaryColor,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      Container(
-                        height: 50,
-                        width: screenWidth,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: appDataProvider.batches.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  if (studentProvider.myBatches.contains(
-                                      appDataProvider.batches[index])) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => BatchPage(
-                                          batchName:
-                                              appDataProvider.batches[index],
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: BatchTile(
-                                  batchName: appDataProvider.batches[index],
-                                  isLock: studentProvider.myBatches.contains(
-                                          appDataProvider.batches[index])
-                                      ? false
-                                      : true,
-                                ),
-                              );
-                            }),
-                      ),
-                      Spacer(),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: screenWidth,
-                  height: screenHeight / 4 * 3 -
-                      (AppBar().preferredSize.height +
-                          (Platform.isIOS ? 92 : 70)),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('New_Initial_Videos')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Connection Error!',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              Center(
-                                child: Text(
-                                  'Loading.....',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              );
-                            }
-
-                            if (snapshot.hasData) {
-                              var docs = snapshot.data!.docs;
-                              return ListView.builder(
-                                  itemCount: docs.length,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        if (DateTime.now().isBefore(
-                                            DateTime.parse(
-                                                docs[index]['Expire_Date']))) {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PlayVideoSampleScreen(
-                                                link:
-                                                    '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
-                                                title: docs[index]
-                                                    ['Video_Title'],
-                                                teacher: docs[index]
-                                                    ['Teachers_Name'],
-                                              ),
-                                            ),
-                                          );
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'This video has expired!',
-                                                style: TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              backgroundColor: Colors.green,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      child: Container(
-                                        width: screenWidth,
-                                        margin: EdgeInsets.only(bottom: 15),
-                                        child: Stack(
-                                          children: [
-                                            YoutubePlayer(
-                                              controller:
-                                                  YoutubePlayerController(
-                                                initialVideoId:
-                                                    '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
-                                                flags: YoutubePlayerFlags(
-                                                  hideControls: true,
-                                                  autoPlay: false,
-                                                  mute: false,
-                                                ),
-                                              ),
-                                              showVideoProgressIndicator: true,
-                                            ),
-                                            Positioned(
-                                              top: 0,
-                                              bottom: 0,
-                                              left: 0,
-                                              right: 0,
-                                              child: Center(
-                                                child: SizedBox(
-                                                  height: 70,
-                                                  child: Image.asset(
-                                                    'assets/images/youtube.png',
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            DateTime.now().isBefore(
-                                                    DateTime.parse(docs[index]
-                                                        ['Expire_Date']))
-                                                ? SizedBox()
-                                                : Positioned(
-                                                    top: 0,
-                                                    bottom: 0,
-                                                    left: 0,
-                                                    right: 0,
-                                                    child: Container(
-                                                      color: Colors.black
-                                                          .withOpacity(0.7),
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Video Expired!',
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 18,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  });
-                            }
-                            return Text(
-                              'No Videos',
+        Consumer4(
+          builder: (BuildContext context,
+                  VideoProvider videoProvider,
+                  AppDataProvider appDataProvider,
+                  LoginProvider loginProvider,
+                  StudentProvider studentProvider,
+                  Widget? child) =>
+              Column(
+            children: [
+              SizedBox(
+                height: AppBar().preferredSize.height,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                width: screenWidth,
+                height: screenHeight / 4,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Hi, ${loginProvider.userName}',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 22,
+                                color: AppColors.accentColor,
                               ),
-                            );
-                          },
+                            ),
+                            Text(
+                              'Unlock Your Learning Potential Today!',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: AppColors.textGaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        // Icon(
+                        //   Icons.person,
+                        //   size: 30,
+                        //   color: Colors.black,
+                        // ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 236, 236, 236),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      height: 50,
+                      child: TextField(
+                        style: TextStyle(
+                          color: AppColors.textGaryColor,
+                        ),
+                        controller: searchController,
+                        onChanged: searchVideo,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: AppColors.textGaryColor,
+                          ),
+                          hintText: "Search",
+                          hintStyle: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: AppColors.textGaryColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Spacer(),
+                    Container(
+                      height: 50,
+                      width: screenWidth,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: appDataProvider.batches.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                if (studentProvider.myBatches
+                                    .contains(appDataProvider.batches[index])) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BatchPage(
+                                        batchName:
+                                            appDataProvider.batches[index],
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: BatchTile(
+                                batchName: appDataProvider.batches[index],
+                                isLock: studentProvider.myBatches.contains(
+                                        appDataProvider.batches[index])
+                                    ? false
+                                    : true,
+                              ),
+                            );
+                          }),
+                    ),
+                    Spacer(),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              Container(
+                width: screenWidth,
+                height: screenHeight / 4 * 3 -
+                    (AppBar().preferredSize.height +
+                        (Platform.isIOS ? 92 : 60)),
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('New_Initial_Videos')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Connection Error!',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      Center(
+                        child: Text(
+                          'Loading.....',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                      );
+                    }
+
+                    if (snapshot.hasData) {
+                      var docs = snapshot.data!.docs;
+                      return ListView.builder(
+                          itemCount: docs.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                if (DateTime.now().isBefore(DateTime.parse(
+                                    docs[index]['Expire_Date']))) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PlayVideoSampleScreen(
+                                        link:
+                                            '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                        title: docs[index]['Video_Title'],
+                                        teacher: docs[index]['Teachers_Name'],
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'This video has expired!',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                width: screenWidth,
+                                margin: EdgeInsets.only(bottom: 15),
+                                child: Stack(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        YoutubePlayer(
+                                          controller: YoutubePlayerController(
+                                            initialVideoId:
+                                                '${YoutubePlayer.convertUrlToId(docs[index]['Video_URL'])}',
+                                            flags: YoutubePlayerFlags(
+                                              hideControls: true,
+                                              autoPlay: false,
+                                              mute: false,
+                                            ),
+                                          ),
+                                          showVideoProgressIndicator: true,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 10, left: 10, right: 10),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                height: 40,
+                                                width: 40,
+                                                child: Image.asset(
+                                                    'assets/images/icon.png'),
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      docs[index]
+                                                          ['Video_Title'],
+                                                      style: TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      docs[index]
+                                                          ['Teachers_Name'],
+                                                      style: TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.grey,
+                                                        fontSize: 12,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    DateTime.now().isBefore(DateTime.parse(
+                                            docs[index]['Expire_Date']))
+                                        ? SizedBox()
+                                        : Positioned(
+                                            top: 0,
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            child: Container(
+                                              color:
+                                                  Colors.black.withOpacity(0.7),
+                                              child: Center(
+                                                child: Text(
+                                                  'Video Expired!',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
+                    }
+                    return Text(
+                      'No Videos',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
         isLoading

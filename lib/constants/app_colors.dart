@@ -17,4 +17,7 @@ class AppColors {
   static const Color accentColor = Color.fromARGB(255, 68, 48, 111);
   static const Color textGaryColor = Color.fromARGB(255, 143, 143, 143);
   static const Color orangeColor = Color.fromARGB(255, 255, 145, 14);
+
+  //Borderolor
+  static const Color borderColor = Color.fromARGB(255, 92, 152, 252);
 }

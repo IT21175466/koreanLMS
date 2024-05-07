@@ -22,6 +22,7 @@ class _BatchTileState extends State<BatchTile> {
         color: widget.isLock ? Colors.black.withOpacity(0.4) : Colors.white,
         border: Border.all(
           color: AppColors.orangeColor,
+          width: 0.3,
         ),
         borderRadius: BorderRadius.circular(10),
       ),
