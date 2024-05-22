@@ -28,20 +28,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await FirebaseApi().initNotifications();
-
-  // final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  // analytics.setAnalyticsCollectionEnabled(true);
-
   final prefs = await SharedPreferences.getInstance();
   final loginStatus = prefs.getBool('logedIn') ?? false;
 
   runApp(MyApp(loginStatus: loginStatus));
-  WidgetsBinding.instance.addPostFrameCallback((timestamp) async {
-    if (Platform.isAndroid) {
-      await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-    }
-  });
 }
 
 class MyApp extends StatelessWidget {
