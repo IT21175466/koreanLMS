@@ -59,7 +59,7 @@ class _HomeTabState extends State<HomeTab> {
     // final notificationProvider =
     //     Provider.of<NotificationProvider>(context, listen: false);
     // notificationProvider.listnToNotifications();
-    listnToOngoings();
+    //listnToOngoings();
   }
 
   searchVideo(String query) {
