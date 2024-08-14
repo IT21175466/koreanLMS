@@ -60,7 +60,6 @@ class _HomeTabState extends State<HomeTab> {
     //     Provider.of<NotificationProvider>(context, listen: false);
     // notificationProvider.listnToNotifications();
     listnToOngoings();
-    setState(() {});
   }
 
   searchVideo(String query) {
@@ -126,8 +125,6 @@ class _HomeTabState extends State<HomeTab> {
                     });
                   }
                 });
-              } else {
-                setState(() {});
               }
             });
           }

@@ -102,9 +102,11 @@ class VideoProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print(e);
+      print('Featch Error: ${e}');
+      notifyListeners();
     } finally {
       videos.addAll(lockedVideos);
+      notifyListeners();
     }
   }
 }
